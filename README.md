@@ -2,8 +2,6 @@
 
 Budget Data Package is an open technical specification for government budget and spending data. It is a lightweight and user-oriented specification, intended to eliminate the technical friction experienced by researchers and journalists working with existing financial data.
 
-This repository contains the current version of the Budget Data Package spec. 
-
 ## Getting started
 
 `specification.md` contains a full RFC-style specification for the Budget Data Package format.
