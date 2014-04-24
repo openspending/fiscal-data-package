@@ -201,7 +201,7 @@ In addition to the general required fields, aggregated expenditure data MUST inc
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | admin | string | The name of the government entity legally responsible for spending the budgeted amount. |
-| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
+
 | cofog | string; special | The COFOG functional classification for the budget item. |
 
 
@@ -212,6 +212,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | adminID | string | The internal code for the administrative entity. |
+| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
 | economic | string | Human-readable ame of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
 | economicID | string | The internal code identifier for the economic classification. |
 | financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
@@ -262,7 +263,6 @@ In addition to the general required fields, transactional expenditure data MUST 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | admin | string | The name of the government entity responsible for spending the amount. |
-| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the amount. |
 | supplier | string | The name of the recipient of the expenditure. |
 
 #### Recommended fields
@@ -272,6 +272,7 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | adminID | string | The internal code for the administrative entity. |
+| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the amount. |
 | budgetLineItem | string | The budget line item authorizing the expenditure. |
 | contractID | string | The contract ID associated with the transaction. |
 | cofog | string; special | The COFOG functional classification for the budget item. |
