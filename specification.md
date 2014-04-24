@@ -109,6 +109,9 @@ For each data file included in the package, its metadata object in the `resource
 | Attribute | Type | Description|
 | --------- | ---- | ---------- |
 | currency | string | the currency of items in the data; value is an ISO 4217 currency code |
+| dateLastUpdated | date | the date when the dataset was last updated |
+| datePublished | date | the date when the dataset was published |
+| fiscalYear | date | the fiscal year represented by the dataset |
 | granularity | string | the level of disaggregation in the data; value is one of `"aggregated"` or `"transactional"` |
 | standard | string | the version of the budget data package specification used by the budget data package |
 | status | string | the stage in the budget cycle represented by the data in the budget data package; value may be `"proposed"`, `"approved"`, `"adjusted"`, or `"executed"` |
@@ -160,7 +163,6 @@ All datasets, both expenditure or revenue, MUST include these fields:
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | amount | number | The amount of money associated with this budget item. |
-| date | date | The date on which the budgeted amount was fixed in this status. | 
 | id | string | A globally unique identifier for the budget item. |
 
 
@@ -201,7 +203,6 @@ In addition to the general required fields, aggregated expenditure data MUST inc
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | admin | string | The name of the government entity legally responsible for spending the budgeted amount. |
-
 | cofog | string; special | The COFOG functional classification for the budget item. |
 
 
@@ -263,6 +264,7 @@ In addition to the general required fields, transactional expenditure data MUST 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | admin | string | The name of the government entity responsible for spending the amount. |
+| date | date | The date on which the transaction took place. |
 | supplier | string | The name of the recipient of the expenditure. |
 
 #### Recommended fields
@@ -273,9 +275,14 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | ----- | ---- | ---------- |
 | adminID | string | The internal code for the administrative entity. |
 | adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the amount. |
+| amountAdjusted | number | The monetary amount allocated for expenditure for this transaction, after adjustments. |
+| amountBudgeted | number | The monetary amount initially budgeted for this transaction. |
 | budgetLineItem | string | The budget line item authorizing the expenditure. |
 | contractID | string | The contract ID associated with the transaction. |
 | cofog | string; special | The COFOG functional classification for the budget item. |
+| dateAdjusted | date | The date on which the amount budgeted for the transaction was adjusted to the allocated amount. |
+| dateBudgeted | date | The date on which the initial budget plan authorizing the transaction was made. |
+| dateReported | date | The date on which the transaction was reported to the publishing body. |
 | economic | string | Human-readable ame of the economic classification of the transaction (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
 | economicID | string | The internal code identifier for the economic classification. |
 | functional | string | Human-readable ame of the (non-COFOG) functional classification of the transaction (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
