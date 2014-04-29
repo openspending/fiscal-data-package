@@ -310,6 +310,7 @@ In addition to the general required fields, transactional revenue data MUST incl
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
+| date | date | The date on which the transaction took place. |
 | gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. |
 
 #### Recommended fields
