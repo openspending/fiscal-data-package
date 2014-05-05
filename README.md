@@ -6,9 +6,7 @@ Budget Data Package is an open technical specification for government budget and
 
 `specification.md` contains a full RFC-style specification for the Budget Data Package format.
 
-A shorter overview of the spec is available [as a Google doc](https://docs.google.com/document/d/16H75ZTtNBBVo6QEuM0YPiMch8UeF1nqASVJFwu-eDMM/edit?usp=sharing).
-
-`schema.json` contains a [JSON schema](http://json-schema.org/) for Budget Data Package metadata. *Note: this JSON schema only specifies the basic structure of the metadata descriptor. It does not check fine-grained properties like the required fields associated with different dataset types, and it does not specify the well-formedness of CSV datasets.*
+`schema.json` contains a [JSON schema](http://json-schema.org/) for Budget Data Package metadata. Note: this JSON schema only specifies the basic structure of the metadata descriptor. It does not check fine-grained properties like the required fields associated with different dataset types, and it does not specify the well-formedness of CSV datasets.
 
 ## Contributing
 
