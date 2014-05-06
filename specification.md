@@ -48,9 +48,7 @@ The metadata descriptor, `datapackage.json`, is a JSON object structured accordi
 
 Budget Data Package includes a standard set of fields which can be used to represent the most common attributes of budget items. This facilitates cross-dataset comparisons and makes the content of datasets easier to understand.
 
-Budget Data Package also requires budgets to include certain fields that have been found to be crucial for interpreting budgets. This includes a requirement that aggregated expenditure data include a *functional* classification (a categorization of the expenditure by socioeconomic purpose) and that aggregated revenue data include an *economic* classification (a clasification by the economic nature of the revenue collection).
-
-For those countries that make use of the United Nations Statistics Division's [Classification of the Functions of Government][cofog] (COFOG) or the International Monetary Fund's [Government Finance Statistics Manual 2001][gfsm2001] classification, use of those widely used classifications is strongly recommended.
+Budget Data Package also requires budgets to include certain fields that have been found to be crucial for interpreting budgets. This includes a requirement that aggregated expenditure data include a field for the United Nations' [Classification of the Functions of Government][cofog] (COFOG), a standard taxonomy for functional classifications, and that aggregated revenue data include the IMF's [Government Finance Statistics Manual 2001][gfsm2001] classification for revenues. Requiring the use of these widely used standards ensures that budget data is born interoperable. 
 
 [cofog]: http://data.okfn.org/data/cofog
 [gfsm2001]: http://www.imf.org/external/pubs/ft/gfs/manual/
@@ -139,11 +137,9 @@ Each data file is a valid CSV, following [RFC 4180][csv-rfc] conventions. Additi
 * include a header line as the first row of the file, containing the names of the corresponding fields
 * include the fields listed in the "Required fields" for all dataset categories
 * include the fields listed in the "Required fields" for the appropriate `datasetType` (see above, Metadata)
-* assign values to the "Special fields" conforming to the requirements given below in the **Special fields** section of the spec
+* assign values to the "Special fields" conforming to the requirements given below
 
-The dataset SHOULD use the fields listed in the "Recommended fields" section of this specification wherever the semantics of the data make it appropriate and the technical capacity to implement those fields is in place. The dataset MAY also use the fields listed in the "Optional fields" section of the specification, as appropriate.
-
-**Note**: certain recommended fields are able to satisfy the requirement for other fields. The `cofog` field, for example, satisfies the requirement for `functionalID`; if `cofog` is included, it is not necessary to also include `functionalID`. These relationships are noted *in italics* in the description of both fields.
+The dataset SHOULD use the fields listed in the "Recommended fields" section of this specification wherever the semantics of the budget data make it appropriate to do so.
 
 Additional fields not listed below MAY be included at the author's discretion. These additional fields MUST be described in the data resource's `schema` metadata.
 
@@ -187,7 +183,7 @@ The values of four fields (`adminOrgID`, `cofog`, `gfsmExpenditure`, and `gfsmRe
 Each field corresponds to a standard or codesheet for a dimension of classification:
 
 * `adminOrgID`, `purchaserOrgID`: the IATI [organization identifier][iati-org]
-* `cofog`: the UNSD [Classification of the Functions of Government][cofog]
+* `cofog`: the United Nations [Classification of the Functions of Government][cofog]
 * `gfsmExpense`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of expense (Table 6.1)
 * `gfsmRevenue`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of expense (Table 5.1)
 
@@ -207,7 +203,8 @@ In addition to the general required fields, aggregated expenditure data MUST inc
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | admin | string | The name of the government entity legally responsible for spending the budgeted amount. |
-| functionalID | string | The internal code identifier for the functional classification. ** *Not required if `cofog` included. If included, including `functional` is strongly recommended.* |
+| cofog | string; special | The COFOG functional classification for the budget item. |
+
 
 #### Recommended fields
 
@@ -216,30 +213,23 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | adminID | string | The internal code for the administrative entity. |
-| cofog | string; special | The COFOG functional classification for the budget item. *If included, `functionalID` is not required.* |
+| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
+| economic | string | Human-readable ame of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
 | economicID | string | The internal code identifier for the economic classification. |
-| functional | string | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. *Strongly recommended if `functionalID` is included.* |
+| financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
+| functional | string | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| functionalID | string | The internal code identifier for the functional classification. |
 | fund | string | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
+| geocode | string | Name of the geographical region targeted by the budget item.
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the budget item. |
 | program | string | Name of the government program underwriting the budget item. A program is a set of goal-oriented activities that has been reified by the government and made the responsibility of some ministry. |
 | programID | string | The internal code identifier for the government program. |
 | project | string | Name of the project underwriting the budget item. A project is an indivisible activity with a dedicated budget and fixed schedule. |
 | projectID | string | The internal code identifier for the project. |
-| type | string | Budgetary classification of item. Valid values: "personnel", "non-personnel recurrent", "capital", "other". |
-
-#### Optional fields
-
-Wherever appropriate, aggregated expenditure data MAY include the following fields:
-
-| Field | Type | Description|
-| ----- | ---- | ---------- |
-| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
-| economic | string | Human-readable ame of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
-| financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
-| geocode | string | Name of the geographical region targeted by the budget item.
 | purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
 | purchaserOrgID | string; special | The IATI organization identifier for the government entity acting as purchaser for the transaction. |
+| type | string | Budgetary classification of item. Valid values: "personnel", "non-personnel recurrent", "capital", "other". |
 
 
 ### Aggregated revenue data
@@ -252,21 +242,16 @@ In addition to the general required fields, aggregated revenue data MUST include
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| economicID | string | The internal code identifier for the economic classification. *Not required if `gfsmRevenue` is included. If included, including `economic` is strongly recommended.* |
+| gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. |
 
 #### Recommended fields
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| economic | string | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. *Strongly recommended if `economicID` is included.* |
+| economic | string | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
+| economicID | string | The internal code identifier for the economic classification. |
 | fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
-| gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. *If included, `economicID` is not required.* |
-
-#### Optional fields
-
-| Field | Type | Description|
-| ----- | ---- | ---------- |
 | geocode | string | Name of the geographical region targeted by the transaction. |
 
 ### Transactional expenditure data
@@ -289,32 +274,29 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | adminID | string | The internal code for the administrative entity. |
-| budgetLineItem | string | The budget line item authorizing the expenditure. *If this matches an item in a Budget Data Package aggregated expenditure dataset, that item's `id` should be included in this field.* |
-| contractID | string | The contract ID associated with the transaction. |
-| invoiceID | string | The invoice number given by the vendor or supplier. |
-| program | string | Name of the government program underwriting the transaction. A program is a set of goal-oriented activities that has been reified by the government and made the responsibility of some ministry. |
-| programID | string | The internal code identifier for the government program. |
-| project | string | Name of the project underwriting the transaction. A project is an indivisible activity with a dedicated budget and fixed schedule. |
-| projectID | string | The internal code identifier for the project. |
-| purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
-
-#### Optional fields
-
 | adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the amount. |
 | amountAdjusted | number | The monetary amount allocated for expenditure for this transaction, after adjustments. |
 | amountBudgeted | number | The monetary amount initially budgeted for this transaction. |
+| budgetLineItem | string | The budget line item authorizing the expenditure. |
+| contractID | string | The contract ID associated with the transaction. |
 | cofog | string; special | The COFOG functional classification for the budget item. |
 | dateAdjusted | date | The date on which the amount budgeted for the transaction was adjusted to the allocated amount. |
 | dateBudgeted | date | The date on which the initial budget plan authorizing the transaction was made. |
 | dateReported | date | The date on which the transaction was reported to the publishing body. |
 | economic | string | Human-readable ame of the economic classification of the transaction (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
 | economicID | string | The internal code identifier for the economic classification. |
+| functional | string | Human-readable ame of the (non-COFOG) functional classification of the transaction (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| functionalID | string | The internal code identifier for the functional classification. |
 | fund | string | The fund from which the transaction is be drawn. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
 | geocode | string | Name of the geographical region targeted by the transaction. |
-| functional | string | Human-readable ame of the (non-COFOG) functional classification of the transaction (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
-| functionalID | string | The internal code identifier for the functional classification. |
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the transaction. |
+| invoiceID | string | The invoice number given by the vendor or supplier. |
+| program | string | Name of the government program underwriting the transaction. A program is a set of goal-oriented activities that has been reified by the government and made the responsibility of some ministry. |
+| programID | string | The internal code identifier for the government program. |
+| project | string | Name of the project underwriting the transaction. A project is an indivisible activity with a dedicated budget and fixed schedule. |
+| projectID | string | The internal code identifier for the project. |
+| purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
 | purchaserOrgID | string; special | The IATI organization identifier for the government entity acting as purchaser for the transaction. |
 
 
@@ -329,19 +311,14 @@ In addition to the general required fields, transactional revenue data MUST incl
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | date | date | The date on which the transaction took place. |
-| economicID | string | The internal code identifier for the economic classification. *Not required if `gfsmRevenue` is included. If included, including `economic` is strongly recommended.* |
+| gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. |
 
 #### Recommended fields
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| economic | string | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. *Strongly recommended if `economicID` is included.* |
+| economic | string | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
+| economicID | string | The internal code identifier for the economic classification. |
 | fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
-| gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. *If included, `economicID` is not required.* |
-
-#### Optional fields
-
-| Field | Type | Description|
-| ----- | ---- | ---------- |
 | geocode | string | Name of the geographical region targeted by the transaction. |
