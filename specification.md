@@ -214,7 +214,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | ----- | ---- | ---------- |
 | adminID | string | The internal code for the administrative entity. |
 | adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
-| economic | string | Human-readable ame of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
+| economic | string | Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts. |
 | economicID | string | The internal code identifier for the economic classification. |
 | financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
 | functional | string | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
