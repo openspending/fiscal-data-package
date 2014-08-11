@@ -56,12 +56,12 @@ Budget Data Package also requires budgets to include certain fields that have be
 
 # Specification
 
-Budget Data Package is a [profile][profile] that extends the [Simple Data Format specification][sdf]. SDF is a generic data publication format that packages CSV tabular data with JSON metadata.
+Budget Data Package is a [profile][profile] that extends the [Tabular Data Package specification][tdp]. Tabular Data Package is a generic data publication format that packages CSV tabular data with JSON metadata.
 
 [profile]: http://www.rfc-editor.org/info/rfc6906
-[sdf]: http://dataprotocols.org/simple-data-format/
+[tdp]: http://dataprotocols.org/tabular-data-package/
 
-A budget data package is a valid Simple Data Format package, meaning that it MUST:
+A budget data package is a valid Tabular Data Package, meaning that it MUST:
 
 * contain a data package descriptor (`datapackage.json`)
 * provide the minimum package metadata required by the [Data Package specification][dp]
@@ -84,7 +84,7 @@ The remainder of the budget data package specification details the requirements 
 
 ## Metadata
 
-The required metadata descriptor file, `datapackage.json`, MUST meet the requirements of the [Simple Data Format specification][sdf]. In short, this requires that the top-level object include the following attributes:
+The required metadata descriptor file, `datapackage.json`, MUST meet the requirements of the [Tabular Data Package specification][tdp]. In short, this requires that the top-level object include the following attributes:
 
 | Attribute | Type | Description|
 | --------- | ---- | ---------- |
@@ -102,7 +102,7 @@ The budget metadata descriptor additionally SHOULD include the following attribu
 
 ### Budget-specific metadata
 
-Besides the generic requirements of the Simple Data Format, budget data packages have their own requirements.
+Besides the generic requirements of the Tabular Data Package, budget data packages have their own requirements.
 
 For each data file included in the package, its metadata object in the `resources` array MUST include the following attributes:
 
