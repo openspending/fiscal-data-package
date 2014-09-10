@@ -185,7 +185,7 @@ Each field corresponds to a standard or codesheet for a dimension of classificat
 * `adminOrgID`, `purchaserOrgID`: the IATI [organization identifier][iati-org]
 * `cofog`: the United Nations [Classification of the Functions of Government][cofog]
 * `gfsmExpense`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of expense (Table 6.1)
-* `gfsmRevenue`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of expense (Table 5.1)
+* `gfsmRevenue`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of revenue (Table 5.1)
 
 [iati-org]: http://iatistandard.org/getting-started/organisation-data/organisation-identifiers/
 
