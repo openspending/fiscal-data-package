@@ -1,6 +1,6 @@
-Budget Data Package is a lightweight and user-oriented format for budget data and associated metadata.
+Fiscal Data Package is a lightweight and user-oriented format for budget data and associated metadata.
 
-Budget data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
+Fiscal data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
 
 
 # Overview
@@ -9,7 +9,7 @@ Data on government budgets and spending is becoming available in unprecedented q
 
 If open budget data is to be useful to citizens, it must be easy to process, transparently structured, well documented, and rich enough in content to be meaningful and understandable.
 
-Budget Data Package is a format for budget data that ensures it meets these criteria. Budget data packages are:
+Fiscal Data Package is a format for budget data that ensures it meets these criteria. Fiscal data packages are:
 
 * made from lightweight and easily processed components (CSV data, JSON metadata)
 * structured according to a simple open standard
@@ -19,15 +19,15 @@ Budget Data Package is a format for budget data that ensures it meets these crit
 
 # Quick start
 
-Budget Data Package is an open specification for quantitative data generated during the planning and execution of budgets. This includes data on both expenditures and revenues, as well as both data aggregated by meaningful categories and highly granular data recording individual transactions.
+Fiscal Data Package is an open specification for quantitative data generated during the planning and execution of budgets. This includes data on both expenditures and revenues, as well as both data aggregated by meaningful categories and highly granular data recording individual transactions.
 
-Budget Data Package is an open specification for the *form* and *content* of budget data. By giving a common *form* to budget data, Budget Data Package frees data users from the artificial obstacles created by the lack of a standard structure. By clarifying the *content* of budget data and requiring that budgets include crucial information, Budget Data Package ensures that data releases are actually useful.
+Fiscal Data Package is an open specification for the *form* and *content* of budget data. By giving a common *form* to budget data, Fiscal Data Package frees data users from the artificial obstacles created by the lack of a standard structure. By clarifying the *content* of budget data and requiring that budgets include crucial information, Fiscal Data Package ensures that data releases are actually useful.
 
-## Budget data
+## Fiscal data
 
 A budget is a year-long process of planning, execution, and oversight of a government's expenditures and revenues. At multiple stages in the process, *quantitative data* is generated, data which specifies the sums of money spent or collected by the government. This data can represent either plans/projections or actual transactions.
 
-By recognizing the following distinctions between data types, Budget Data Package is expressive enough to cover the data generated at every stage:
+By recognizing the following distinctions between data types, Fiscal Data Package is expressive enough to cover the data generated at every stage:
 
 * Data can represent either *expenditures* or *revenues*.
 * Data can be either *aggregated* or *transactional*. An item of aggregated data represents a whole category of spending (e.g. spending on primary education). An item of transactional data represents a single transaction at some specific point in time.
@@ -46,9 +46,9 @@ The metadata descriptor, `datapackage.json`, is a JSON object structured accordi
 
 ## Content
 
-Budget Data Package includes a standard set of fields which can be used to represent the most common attributes of budget items. This facilitates cross-dataset comparisons and makes the content of datasets easier to understand.
+Fiscal Data Package includes a standard set of fields which can be used to represent the most common attributes of budget items. This facilitates cross-dataset comparisons and makes the content of datasets easier to understand.
 
-Budget Data Package also requires budgets to include certain fields that have been found to be crucial for interpreting budgets. This includes a requirement that aggregated expenditure data include a field for the United Nations' [Classification of the Functions of Government][cofog] (COFOG), a standard taxonomy for functional classifications, and that aggregated revenue data include the IMF's [Government Finance Statistics Manual 2001][gfsm2001] classification for revenues. Requiring the use of these widely used standards ensures that budget data is born interoperable. 
+Fiscal Data Package also requires budgets to include certain fields that have been found to be crucial for interpreting budgets. This includes a requirement that aggregated expenditure data include a field for the United Nations' [Classification of the Functions of Government][cofog] (COFOG), a standard taxonomy for functional classifications, and that aggregated revenue data include the IMF's [Government Finance Statistics Manual 2001][gfsm2001] classification for revenues. Requiring the use of these widely used standards ensures that budget data is born interoperable. 
 
 [cofog]: http://data.okfn.org/data/cofog
 [gfsm2001]: http://www.imf.org/external/pubs/ft/gfs/manual/
@@ -56,7 +56,7 @@ Budget Data Package also requires budgets to include certain fields that have be
 
 # Specification
 
-Budget Data Package is a [profile][profile] that extends the [Tabular Data Package specification][tdp]. Tabular Data Package is a generic data publication format that packages CSV tabular data with JSON metadata.
+Fiscal Data Package is a [profile][profile] that extends the [Tabular Data Package specification][tdp]. Tabular Data Package is a generic data publication format that packages CSV tabular data with JSON metadata.
 
 [profile]: http://www.rfc-editor.org/info/rfc6906
 [tdp]: http://dataprotocols.org/tabular-data-package/
@@ -128,7 +128,7 @@ The values of the two attributes `granularity` and `type` together determine the
 
 ## Data
 
-Budget data packages are required to include at least one data resource that describes budget data. This resource can consist of either expenditures or revenues, and it can be either aggregated or transactional. The category of the data resource is given by the combination of the `type` and `granularity` attributes of its `budgetDescription` metadata. Each category is associated with its own set of required and recommended fields.
+Fiscal data packages are required to include at least one data resource that describes budget data. This resource can consist of either expenditures or revenues, and it can be either aggregated or transactional. The category of the data resource is given by the combination of the `type` and `granularity` attributes of its `budgetDescription` metadata. Each category is associated with its own set of required and recommended fields.
 
 The required data file contains a set of budget data. Each row in the data file MUST describe a single category of expenditure or revenue (or, for transactional data, a single transaction either to or from a government entity) at a single stage of the budget process.
 
