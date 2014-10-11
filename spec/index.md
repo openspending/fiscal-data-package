@@ -1,3 +1,8 @@
+---
+layout: default
+title: Specification - Fiscal Data Package
+---
+
 Fiscal Data Package is a lightweight and user-oriented format for budget data and associated metadata.
 
 Fiscal data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
