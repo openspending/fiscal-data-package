@@ -198,16 +198,13 @@ The following fields SHOULD be included wherever possible:
 
 ### Special fields
 
-The values of four fields (`adminOrgID`, `cofog`, `gfsmExpenditure`, and `gfsmRevenue`) are required to follow a particular format.
+The values of three fields (`cofog`, `gfsmExpenditure`, and `gfsmRevenue`) are required to follow a particular format.
 
 Each field corresponds to a standard or codesheet for a dimension of classification:
 
-* `adminOrgID`, `purchaserOrgID`: the IATI [organization identifier][iati-org]
 * `cofog`: the United Nations [Classification of the Functions of Government][cofog]
 * `gfsmExpense`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of expense (Table 6.1)
 * `gfsmRevenue`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of revenue (Table 5.1)
-
-[iati-org]: http://iatistandard.org/getting-started/organisation-data/organisation-identifiers/
 
 The licit values for each field consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for `gfsmRevenue`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
@@ -232,7 +229,6 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | ----- | ---- | ---------- |
 | adminGeocode | string | Name of the geographical region where administrative entity is located. |
 | adminID | string | The internal code for the administrative entity. |
-| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
 | cofog | string; special | The COFOG functional classification for the budget item. |
 | economic | string | Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts. |
 | economicID | string | The internal code identifier for the economic classification. |
@@ -247,7 +243,6 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | project | string | Name of the project underwriting the budget item. A project is an indivisible activity with a dedicated budget and fixed schedule. |
 | projectID | string | The internal code identifier for the project. |
 | purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
-| purchaserOrgID | string; special | The IATI organization identifier for the government entity acting as purchaser for the transaction. |
 | recipientGeocode | string | Name of the geographical region targeted by the budget item. |
 | type | string | Budgetary classification of item. Valid values: "personnel", "non-personnel recurrent", "capital", "other". |
 
@@ -310,7 +305,6 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | ----- | ---- | ---------- |
 | adminGeocode | string | Name of the geographical region where administrative entity is located. |
 | adminID | string | The internal code for the administrative entity. |
-| adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the amount. |
 | amountAdjusted | number | The monetary amount allocated for expenditure for this transaction, after adjustments. |
 | amountBudgeted | number | The monetary amount initially budgeted for this transaction. |
 | budgetLineItem | string | The budget line item authorizing the expenditure. |
@@ -332,7 +326,6 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | project | string | Name of the project underwriting the transaction. A project is an indivisible activity with a dedicated budget and fixed schedule. |
 | projectID | string | The internal code identifier for the project. |
 | purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
-| purchaserOrgID | string; special | The IATI organization identifier for the government entity acting as purchaser for the transaction. |
 | recipientGeocode | string | Name of the geographical region targeted by the transaction. |
 
 #### Optional fields
