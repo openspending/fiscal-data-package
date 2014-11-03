@@ -37,7 +37,7 @@ Budget Data Package is an open specification for the *form* and *content* of bud
 
 ## Budget data
 
-A budget is a year-long process of planning, execution, and oversight of a government's expenditures and revenues. At multiple stages in the process, *quantitative data* is generated, data which specifies the sums of money spent or collected by the government. This data can represent either plans/projections or actual transactions.
+A budget is over a year-long process of planning, execution, and oversight of a government's expenditures and revenues. At multiple stages in the process, *quantitative data* is generated, data which specifies the sums of money spent or collected by the government. This data can represent either plans/projections or actual transactions.
 
 By recognizing the following distinctions between data types, Budget Data Package is expressive enough to cover the data generated at every stage:
 
