@@ -1,9 +1,21 @@
+# Budget Data Package 0.2.0 -- Draft
+
+## Abstract
+
 Budget Data Package is a lightweight and user-oriented format for budget data and associated metadata.
 
 Budget data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
 
+## Authors
 
-# Overview
+* Tryggvi Björgvinsson, Open Knowledge Foundation <tryggvi.bjorgvinsson@okfn.org>
+* Neil M. Ashton, Open Knowledge Foundation <neil.ashton@okfn.org>
+
+## Definitions
+
+* **Budget:** A term used to refer to both planned and actual revenues and expenditures. In that sense, a budget also refers to "spending" data.
+
+## Overview
 
 Data on government budgets and spending is becoming available in unprecedented quantities. The practice of publishing budget information as machine-readable and openly licensed data is spreading rapidly and will soon become standard.
 
@@ -322,3 +334,7 @@ In addition to the general required fields, transactional revenue data MUST incl
 | fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
 | geocode | string | Name of the geographical region targeted by the transaction. |
+
+## Acknowledgements
+
+Thanks to Vitor Baptista, Sarah Bird, Samidh Chakrabarti, Pierre Chrzanowski, Andrew Clarke, Velichka Dimitrova, Friedrich Lindenberg, James McKinney, Rufus Pollock, Paolo de Renzio, Martin Tisne and Paul Walsh.
