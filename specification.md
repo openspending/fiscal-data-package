@@ -129,7 +129,7 @@ For each data file included in the package, its metadata object in the `resource
 | Attribute | Type | Description|
 | --------- | ---- | ---------- |
 | currency | string | the currency of items in the data; value is an ISO 4217 currency code |
-| dateLastUpdated | date | the date when the dataset was last updated |
+| dateModified | date | the date when the dataset was last updated |
 | datePublished | date | the date when the dataset was published |
 | fiscalYear | date | the fiscal year represented by the dataset |
 | granularity | string | the level of disaggregation in the data; value is one of `"aggregated"` or `"transactional"` |
