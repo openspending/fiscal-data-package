@@ -223,8 +223,6 @@ In addition to the general required fields, aggregated expenditure data MUST inc
 | Field | Type | Description|
 | ----- | ---- | ---------- |
 | admin | string | The name of the government entity legally responsible for spending the budgeted amount. |
-| cofog | string; special | The COFOG functional classification for the budget item. |
-
 
 #### Recommended fields
 
@@ -234,6 +232,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | ----- | ---- | ---------- |
 | adminID | string | The internal code for the administrative entity. |
 | adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
+| cofog | string; special | The COFOG functional classification for the budget item. |
 | economic | string | Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts. |
 | economicID | string | The internal code identifier for the economic classification. |
 | financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
@@ -258,11 +257,7 @@ Aggregated revenue data (type `revenue`, granularity `aggregated`) describes pro
 
 #### Required fields
 
-In addition to the general required fields, aggregated revenue data MUST include the following field:
-
-| Field | Type | Description|
-| ----- | ---- | ---------- |
-| gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. |
+There are no required fields for aggregated revenue data.
 
 #### Recommended fields
 
@@ -273,6 +268,7 @@ In addition to the general required fields, aggregated revenue data MUST include
 | fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
 | geocode | string | Name of the geographical region targeted by the transaction. |
+| gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. |
 
 ### Transactional expenditure data
 
