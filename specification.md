@@ -230,6 +230,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
+| adminGeocode | string | Name of the geographical region where administrative entity is located. |
 | adminID | string | The internal code for the administrative entity. |
 | adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the budgeted amount. |
 | cofog | string; special | The COFOG functional classification for the budget item. |
@@ -240,7 +241,6 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | functionalID | string | The internal code identifier for the functional classification. |
 | fund | string | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
-| geocode | string | Name of the geographical region targeted by the budget item.
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the budget item. |
 | program | string | Name of the government program underwriting the budget item. A program is a set of goal-oriented activities that has been reified by the government and made the responsibility of some ministry. |
 | programID | string | The internal code identifier for the government program. |
@@ -248,8 +248,17 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | projectID | string | The internal code identifier for the project. |
 | purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
 | purchaserOrgID | string; special | The IATI organization identifier for the government entity acting as purchaser for the transaction. |
+| recipientGeocode | string | Name of the geographical region targeted by the budget item. |
 | type | string | Budgetary classification of item. Valid values: "personnel", "non-personnel recurrent", "capital", "other". |
 
+#### Optional fields
+
+| Field | Type | Description|
+| ----- | ---- | ---------- |
+| adminGeocodeID | string | The internal or local geocode id based for the geographical region where the administrative entity is based. |
+| adminGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region where the administrative entity is based. |
+| recipientGeocodeID | string | The internal or local geocode id based for the geographical region targeted by the budget item. |
+| recipientGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region targeted by the budget item. |
 
 ### Aggregated revenue data
 
@@ -267,8 +276,18 @@ There are no required fields for aggregated revenue data.
 | economicID | string | The internal code identifier for the economic classification. |
 | fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
-| geocode | string | Name of the geographical region targeted by the transaction. |
 | gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. |
+| recipientGeocode | string | Name of the geographical region targeted by the revenue item. |
+| sourceGeocode | string | Name of the geographical region from which the revenue item originates. |
+
+#### Optional fields
+
+| Field | Type | Description|
+| ----- | ---- | ---------- |
+| recipientGeocodeID | string | The internal or local geocode id based for the geographical region targeted by the revenue item. |
+| recipientGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region targeted by the revenue item. |
+| sourceGeocodeID | string | The internal or local geocode id based for the geographical region from which the revenue item originates. |
+| sourceGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region from which the revenue item originates. |
 
 ### Transactional expenditure data
 
@@ -289,6 +308,7 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
+| adminGeocode | string | Name of the geographical region where administrative entity is located. |
 | adminID | string | The internal code for the administrative entity. |
 | adminOrgID | string; special | The IATI organization identifier for the government entity legally responsible for spending the amount. |
 | amountAdjusted | number | The monetary amount allocated for expenditure for this transaction, after adjustments. |
@@ -305,7 +325,6 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | functionalID | string | The internal code identifier for the functional classification. |
 | fund | string | The fund from which the transaction is be drawn. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
-| geocode | string | Name of the geographical region targeted by the transaction. |
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the transaction. |
 | invoiceID | string | The invoice number given by the vendor or supplier. |
 | program | string | Name of the government program underwriting the transaction. A program is a set of goal-oriented activities that has been reified by the government and made the responsibility of some ministry. |
@@ -314,7 +333,16 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | projectID | string | The internal code identifier for the project. |
 | purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
 | purchaserOrgID | string; special | The IATI organization identifier for the government entity acting as purchaser for the transaction. |
+| recipientGeocode | string | Name of the geographical region targeted by the transaction. |
 
+#### Optional fields
+
+| Field | Type | Description|
+| ----- | ---- | ---------- |
+| adminGeocodeID | string | The internal or local geocode id based for the geographical region where the administrative entity is based. |
+| adminGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region where the administrative entity is based. |
+| recipientGeocodeID | string | The internal or local geocode id based for the geographical region targeted by the transaction. |
+| recipientGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region targeted by the transaction. |
 
 ### Transactional revenue data
 
@@ -337,7 +365,17 @@ In addition to the general required fields, transactional revenue data MUST incl
 | economicID | string | The internal code identifier for the economic classification. |
 | fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
-| geocode | string | Name of the geographical region targeted by the transaction. |
+| recipientGeocode | string | Name of the geographical region targeted by the revenue transaction. |
+| sourceGeocode | string | Name of the geographical region from which the revenue transaction originates. |
+
+#### Optional fields
+
+| Field | Type | Description|
+| ----- | ---- | ---------- |
+| recipientGeocodeID | string | The internal or local geocode id based for the geographical region targeted by the revenue transaction. |
+| recipientGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region targeted by the revenue transaction. |
+| sourceGeocodeID | string | The internal or local geocode id based for the geographical region from which the revenue transaction originates. |
+| sourceGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region from which the revenue transaction originates. |
 
 ## Acknowledgements
 
