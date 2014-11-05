@@ -131,7 +131,7 @@ For each data file included in the package, its metadata object in the `resource
 | currency | string | the currency of items in the data; value is an ISO 4217 currency code |
 | dateModified | date | the date when the dataset was last updated |
 | datePublished | date | the date when the dataset was published |
-| fiscalYear | date | the fiscal year represented by the dataset |
+| fiscalPeriod | string | the fiscal period of the dataset, represented in the ISO 8601 time interval convention, that is two ISO dates separated by a solidus (/), e.g. 1982-04-22/1983-04-21 |
 | granularity | string | the level of disaggregation in the data; value is one of `"aggregated"` or `"transactional"` |
 | standard | string | the version of the budget data package specification used by the budget data package |
 | status | string | the stage in the budget cycle represented by the data in the budget data package; value may be `"proposed"`, `"approved"`, `"adjusted"`, or `"executed"` |
