@@ -135,7 +135,7 @@ For each data file included in the package, its metadata object in the `resource
 | granularity | string | the level of disaggregation in the data; value is one of `"aggregated"` or `"transactional"` |
 | standard | string | the version of the budget data package specification used by the budget data package |
 | status | string | the stage in the budget cycle represented by the data in the budget data package; value may be `"proposed"`, `"approved"`, `"adjusted"`, or `"executed"` |
-| type | string | the type of data represented by the resource; value is one of `"expenditure"` or `"revenue"` |
+| financialStatement | string | the statement type of data represented by the resource; value is one of `"expenditure"` or `"revenue"` |
 
 Additionally, each metadata object SHOULD include, where relevant:
 
@@ -144,7 +144,7 @@ Additionally, each metadata object SHOULD include, where relevant:
 | location | string | the two-letter country code (ISO 3166-1 alpha-2) associated with the budget data package |
 
 
-The values of the two attributes `granularity` and `type` together determine the required and recommended fields associated with the data resource.
+The values of the two attributes `granularity` and `financialStatement` together determine the required and recommended fields associated with the data resource.
 
 ### Code sheets
 
@@ -154,7 +154,7 @@ It is recommended that all ID data fields (a data field which includes either a 
 
 ## Data
 
-Budget data packages are required to include at least one data resource that describes budget data. This resource can consist of either expenditures or revenues, and it can be either aggregated or transactional. The category of the data resource is given by the combination of the `type` and `granularity` attributes of its `budgetDescription` metadata. Each category is associated with its own set of required and recommended fields.
+Budget data packages are required to include at least one data resource that describes budget data. This resource can consist of either expenditures or revenues, and it can be either aggregated or transactional. The category of the data resource is given by the combination of the `financialStatement` and `granularity` attributes of its `budgetDescription` metadata. Each category is associated with its own set of required and recommended fields.
 
 The required data file contains a set of budget data. Each row in the data file MUST describe a single category of expenditure or revenue (or, for transactional data, a single transaction either to or from a government entity) at a single stage of the budget process.
 
@@ -217,7 +217,7 @@ The licit values for each field consist of the numerical codes from the appropri
 
 ### Aggregated expenditure data
 
-Aggregated expenditure data (type `expenditure`, granularity `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
+Aggregated expenditure data (financialStatement `expenditure`, granularity `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
 
 #### Required fields
 
@@ -263,7 +263,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 
 ### Aggregated revenue data
 
-Aggregated revenue data (type `revenue`, granularity `aggregated`) describes projected or actual government revenues, disaggregated to the *economic category* level.
+Aggregated revenue data (finacialStatement `revenue`, granularity `aggregated`) describes projected or actual government revenues, disaggregated to the *economic category* level.
 
 #### Required fields
 
@@ -292,7 +292,7 @@ There are no required fields for aggregated revenue data.
 
 ### Transactional expenditure data
 
-Transactional expenditure data (type `expenditure`, granularity `transactional`) describes government expenditures at the level of individual transactions, exchanges of funds taking place at a specific time between two entities. 
+Transactional expenditure data (financialStatement `expenditure`, granularity `transactional`) describes government expenditures at the level of individual transactions, exchanges of funds taking place at a specific time between two entities. 
 #### Required fields
 
 In addition to the general required fields, transactional expenditure data MUST include the following fields:
@@ -345,7 +345,7 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 
 ### Transactional revenue data
 
-Transactional revenue data (type `revenue`, granularity `transactional`) describes government revenues disaggregated to individual transactions.
+Transactional revenue data (financialStatement `revenue`, granularity `transactional`) describes government revenues disaggregated to individual transactions.
 
 #### Required fields
 
