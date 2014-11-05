@@ -146,6 +146,12 @@ Additionally, each metadata object SHOULD include, where relevant:
 
 The values of the two attributes `granularity` and `type` together determine the required and recommended fields associated with the data resource.
 
+### Code sheets
+
+Further information about specific data fields (described below) is provided in external data packages, referred to using [the native data package's foreign keys schema](http://dataprotocols.org/json-table-schema/#foreign-keys).
+
+It is recommended that all ID data fields (a data field which includes either a code or an id) have an associated code sheet, wrapped in a data package, with more detailed information about the ID data field. The code sheet data package should include [a schema](http://dataprotocols.org/json-table-schema/#schema).
+
 ## Data
 
 Budget data packages are required to include at least one data resource that describes budget data. This resource can consist of either expenditures or revenues, and it can be either aggregated or transactional. The category of the data resource is given by the combination of the `type` and `granularity` attributes of its `budgetDescription` metadata. Each category is associated with its own set of required and recommended fields.
