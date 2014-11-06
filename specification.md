@@ -108,7 +108,7 @@ The required metadata descriptor file, `datapackage.json`, MUST meet the require
 
 | Attribute | Type | Description|
 | --------- | ---- | ---------- |
-| name | string | a URL-compatible short name (or "slug") for the budget data package |
+| name | string | a URL-compatible short name (or "slug") for the budget data package. It may be used as an identifier and therefore SHOULD be unique in relation to any registry in which this package will be deposited (and preferably globally unique). |
 | resources | array | an array containing a resource metadata object for each data file included in the budget data package |
 
 Each object in `resources` must include a `schema` attribute, containing a [JSON Table Schema][jsontable] for the resource it describes. Each `schema` object MUST include a `primaryKey` attribute, the value of which MUST be `"id"`.
@@ -375,6 +375,20 @@ In addition to the general required fields, transactional revenue data MUST incl
 | recipientGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region targeted by the revenue transaction. |
 | sourceGeocodeID | string | The internal or local geocode id based for the geographical region from which the revenue transaction originates. |
 | sourceGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region from which the revenue transaction originates. |
+
+## Recommended publication flow
+
+Budget data package metadata is recorded for each resource file. This does make it possible to publish only a single budget data package for all budget data in the world. For practical reasons, publishers of budget data are encouraged to break budget data into logical budget data packages, each with a distinct and unique ``name``.
+
+* A budget data package should represent only one fiscal period.
+* A budget data package should represent only one granularity.
+* Different publication statuses for the same fiscal period, granularity and fiscal statement should be available in the same budget data package as different resources.
+* Different fiscal statements for the same fiscal period, granularity and statuses should be available in the same budget data package as different resources.
+* Each resource in a budget data package should have a descriptive, unique and URL friendly ``name``.
+
+Each budget data package should be made available at a permanent URI (web address) to allow others to refer to it but it can be published in more than one location. Each location should be a permanent URI.
+
+Updating a resource in a budget data package should be avoided except for corrections made to the data. Adding resources to a budget data package is on the other hand preferred as new data becomes available, given that it follows the recommended flow described above. In both cases ``version`` of the top-level document should be upgraded in a way that conforms with [Semantic Versioning](http://semver.org)
 
 ## Acknowledgements
 
