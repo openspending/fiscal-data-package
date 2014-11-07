@@ -39,6 +39,8 @@ Budget Data Package is an open specification for the *form* and *content* of bud
 
 A budget is over a year-long process of planning, execution, and oversight of a government's expenditures and revenues. At multiple stages in the process, *quantitative data* is generated, data which specifies the sums of money spent or collected by the government. This data can represent either plans/projections or actual transactions.
 
+In a typical budget process, a government authority, e.g. the executive arm, will put together a **proposed** budget and submit that for approval, e.g. by the country's legislative arm. The approval process might involve making changes to the proposal before the **approved** version is accepted. As time goes by there is a possibility that some projects, institutions etc. will require more money to fulfill their task so adjustments need to be made to the approved budget. The **adjustment** is then approved by the original budget entity, e.g. the legislative arm. This usually requires reasoning for why the original budget was not sufficient. The **executed** budget is the actual money spent or collected which can then be compared to the approved and adjusted plan.
+
 By recognizing the following distinctions between data types, Budget Data Package is expressive enough to cover the data generated at every stage:
 
 * Data can represent either *expenditures* or *revenues*.
@@ -134,7 +136,7 @@ For each data file included in the package, its metadata object in the `resource
 | fiscalPeriod | string | the fiscal period of the dataset, represented in the ISO 8601 time interval convention, that is two ISO dates separated by a solidus (/), e.g. 1982-04-22/1983-04-21 |
 | granularity | string | the level of disaggregation in the data; value is one of `"aggregated"` or `"transactional"` |
 | standard | string | the version of the budget data package specification used by the budget data package |
-| status | string | the stage in the budget cycle represented by the data in the budget data package; value may be `"proposed"`, `"approved"`, `"adjusted"`, or `"executed"` |
+| status | string | the stage in the budget cycle represented by the data in the budget data package; value may be `"proposed"`, `"approved"`, `"adjusted"`, or `"executed"`. Each data represented by a single status MUST be a standalone version, i.e. `"adjusted"` data must show the complete budget and thus also include budget items that did not change (but retain their unique ids). |
 | financialStatement | string | the statement type of data represented by the resource; value is one of `"expenditure"` or `"revenue"` |
 
 Additionally, each metadata object SHOULD include, where relevant:
