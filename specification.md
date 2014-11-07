@@ -314,12 +314,12 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | adminGeocode | string | Name of the geographical region where administrative entity is located. |
 | adminID | string | The internal code for the administrative entity. |
 | amountAdjusted | number | The monetary amount allocated for expenditure for this transaction, after adjustments. |
-| amountBudgeted | number | The monetary amount initially budgeted for this transaction. |
+| amountApproved | number | The monetary amount initially budgeted for this transaction. |
 | budgetLineItem | string | The budget line item authorizing the expenditure. |
 | contractID | string | The contract ID associated with the transaction. |
 | cofog | string; special | The COFOG functional classification for the budget item. |
 | dateAdjusted | date | The date on which the amount budgeted for the transaction was adjusted to the allocated amount. |
-| dateBudgeted | date | The date on which the initial budget plan authorizing the transaction was made. |
+| dateApproved | date | The date on which the initial budget plan authorizing the transaction was made. |
 | dateReported | date | The date on which the transaction was reported to the publishing body. |
 | economic | string | Human-readable ame of the economic classification of the transaction (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
 | economicID | string | The internal code identifier for the economic classification. |
