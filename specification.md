@@ -320,7 +320,7 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | cofog | string; special | The COFOG functional classification for the budget item. |
 | dateAdjusted | date | The date on which the amount budgeted for the transaction was adjusted to the allocated amount. |
 | dateApproved | date | The date on which the initial budget plan authorizing the transaction was made. |
-| dateReported | date | The date on which the transaction was reported to the publishing body. |
+| dateReported | date | The date on which the transaction was reported to the publishing body. This is not the same as date of transaction. The administrative entity responsible might not report transactions immediately when they happen (or they might). |
 | economic | string | Human-readable ame of the economic classification of the transaction (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
 | economicID | string | The internal code identifier for the economic classification. |
 | functional | string | Human-readable ame of the (non-COFOG) functional classification of the transaction (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
