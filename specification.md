@@ -143,7 +143,7 @@ Additionally, each metadata object SHOULD include, where relevant:
 
 | Attribute | Type | Description|
 | --------- | ---- | ---------- |
-| location | string | the two-letter country code (ISO 3166-1 alpha-2) associated with the budget data package |
+| countryCode | string | the two-letter country code (ISO 3166-1 alpha-2) associated with the budget data package |
 
 
 The values of the two attributes `granularity` and `financialStatement` together determine the required and recommended fields associated with the data resource.
