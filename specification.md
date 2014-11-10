@@ -221,6 +221,8 @@ The licit values for each field consist of the numerical codes from the appropri
 
 Aggregated expenditure data (financialStatement `expenditure`, granularity `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
 
+Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual expenditure). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
+
 #### Required fields
 
 In addition to the general required fields, aggregated expenditure data MUST include the following fields:
@@ -266,6 +268,8 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 ### Aggregated revenue data
 
 Aggregated revenue data (finacialStatement `revenue`, granularity `aggregated`) describes projected or actual government revenues, disaggregated to the *economic category* level.
+
+Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual revenue). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
 
 #### Required fields
 
