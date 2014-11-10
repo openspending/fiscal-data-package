@@ -206,11 +206,11 @@ The following fields SHOULD be included wherever possible:
 
 ### Special fields
 
-The values of three fields (`cofog`, `gfsmExpenditure`, and `gfsmRevenue`) are required to follow a particular format.
+The values of three fields (`cofogCode`, `gfsmExpenditure`, and `gfsmRevenue`) are required to follow a particular format.
 
 Each field corresponds to a standard or codesheet for a dimension of classification:
 
-* `cofog`: the United Nations [Classification of the Functions of Government][cofog]
+* `cofogCode`: the United Nations [Classification of the Functions of Government][cofog]
 * `gfsmExpense`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of expense (Table 6.1)
 * `gfsmRevenue`: the IMF [Government Finance Statistics Manual (2001)][gfsm2001] classification of revenue (Table 5.1)
 
@@ -239,7 +239,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | ----- | ---- | ---------- |
 | administratorGeocode | string | Name of the geographical region where administrative entity is located. |
 | administratorID | string | The internal code for the administrative entity. |
-| cofog | string; special | The COFOG functional classification for the budget item. |
+| cofogCode | string; special | The COFOG functional classification for the budget item. |
 | economic | string | Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts. |
 | economicID | string | The internal code identifier for the economic classification. |
 | financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
@@ -321,7 +321,7 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | amountApproved | number | The monetary amount initially budgeted for this transaction. |
 | budgetLineItem | string | The budget line item authorizing the expenditure. |
 | contractID | string | The contract ID associated with the transaction. |
-| cofog | string; special | The COFOG functional classification for the budget item. |
+| cofogCode | string; special | The COFOG functional classification for the budget item. |
 | dateAdjusted | date | The date on which the amount budgeted for the transaction was adjusted to the allocated amount. |
 | dateApproved | date | The date on which the initial budget plan authorizing the transaction was made. |
 | dateReported | date | The date on which the transaction was reported to the publishing body. This is not the same as date of transaction. The administrative entity responsible might not report transactions immediately when they happen (or they might). |
