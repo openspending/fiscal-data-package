@@ -229,7 +229,7 @@ In addition to the general required fields, aggregated expenditure data MUST inc
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| admin | string | The name of the government entity legally responsible for spending the budgeted amount. |
+| administrator | string | The name of the government entity legally responsible for spending the budgeted amount. |
 
 #### Recommended fields
 
@@ -237,8 +237,8 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| adminGeocode | string | Name of the geographical region where administrative entity is located. |
-| adminID | string | The internal code for the administrative entity. |
+| administratorGeocode | string | Name of the geographical region where administrative entity is located. |
+| administratorID | string | The internal code for the administrative entity. |
 | cofog | string; special | The COFOG functional classification for the budget item. |
 | economic | string | Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts. |
 | economicID | string | The internal code identifier for the economic classification. |
@@ -260,8 +260,8 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| adminGeocodeID | string | The internal or local geocode id based for the geographical region where the administrative entity is based. |
-| adminGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region where the administrative entity is based. |
+| administratorGeocodeID | string | The internal or local geocode id based for the geographical region where the administrative entity is based. |
+| administratorGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region where the administrative entity is based. |
 | recipientGeocodeID | string | The internal or local geocode id based for the geographical region targeted by the budget item. |
 | recipientGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region targeted by the budget item. |
 
@@ -305,7 +305,7 @@ In addition to the general required fields, transactional expenditure data MUST 
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| admin | string | The name of the government entity responsible for spending the amount. |
+| administrator | string | The name of the government entity responsible for spending the amount. |
 | date | date | The date on which the transaction took place. |
 | supplier | string | The name of the recipient of the expenditure. |
 
@@ -315,8 +315,8 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| adminGeocode | string | Name of the geographical region where administrative entity is located. |
-| adminID | string | The internal code for the administrative entity. |
+| administratorGeocode | string | Name of the geographical region where administrative entity is located. |
+| administratorID | string | The internal code for the administrative entity. |
 | amountAdjusted | number | The monetary amount allocated for expenditure for this transaction, after adjustments. |
 | amountApproved | number | The monetary amount initially budgeted for this transaction. |
 | budgetLineItem | string | The budget line item authorizing the expenditure. |
@@ -344,8 +344,8 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 
 | Field | Type | Description|
 | ----- | ---- | ---------- |
-| adminGeocodeID | string | The internal or local geocode id based for the geographical region where the administrative entity is based. |
-| adminGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region where the administrative entity is based. |
+| administratorGeocodeID | string | The internal or local geocode id based for the geographical region where the administrative entity is based. |
+| administratorGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region where the administrative entity is based. |
 | recipientGeocodeID | string | The internal or local geocode id based for the geographical region targeted by the transaction. |
 | recipientGeocodeOCDID | string | The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region targeted by the transaction. |
 
