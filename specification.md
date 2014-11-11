@@ -252,7 +252,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | programID | string | The internal code identifier for the government program. |
 | project | string | Name of the project underwriting the budget item. A project is an indivisible activity with a dedicated budget and fixed schedule. A project can be a part of a bigger program and can include multiple smaller tasks. A project in an unemployment reduction program can e.g. be increased education opportunities for adults. |
 | projectID | string | The internal code identifier for the project. |
-| purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
+| procuringEntityID | string | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
 | recipientGeographicCode | string | Name of the geographical region targeted by the budget item. |
 | type | string | Budgetary classification of item. Valid values: "personnel", "non-personnel recurrent", "capital", "other". |
 
@@ -337,7 +337,7 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | programID | string | The internal code identifier for the government program. |
 | project | string | Name of the project underwriting the budget item. A project is an indivisible activity with a dedicated budget and fixed schedule. A project can be a part of a bigger program and can include multiple smaller tasks. A project in an unemployment reduction program can e.g. be increased education opportunities for adults. |
 | projectID | string | The internal code identifier for the project. |
-| purchaserID | string | The government entity acting as purchaser for the transaction, if different from the institution controlling the project. |
+| procuringEntityID | string | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
 | recipientGeographicCode | string | Name of the geographical region targeted by the transaction. |
 
 #### Optional fields
