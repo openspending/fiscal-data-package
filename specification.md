@@ -254,7 +254,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | projectID | string | The internal code identifier for the project. |
 | procuringEntityID | string | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
 | recipientGeographicCode | string | Name of the geographical region targeted by the budget item. |
-| type | string | Budgetary classification of item. Valid values: "personnel", "non-personnel recurrent", "capital", "other". |
+| budgetaryClassification | string | Budgetary classification of item. Valid values: "personnel", "non-personnel recurrent", "capital", "other". |
 
 #### Optional fields
 
