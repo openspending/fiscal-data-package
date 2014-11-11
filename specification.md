@@ -243,8 +243,8 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | economicClassification | string | Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts. |
 | economicClassificationID | string | The internal code identifier for the economic classification. |
 | financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
-| functional | string | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
-| functionalID | string | The internal code identifier for the functional classification. |
+| functionalClassification | string | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| functionalClassificationID | string | The internal code identifier for the functional classification. |
 | fund | string | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the budget item. |
@@ -327,8 +327,8 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | dateReported | date | The date on which the transaction was reported to the publishing body. This is not the same as date of transaction. The administrative entity responsible might not report transactions immediately when they happen (or they might). |
 | economicClassification | string | Human-readable ame of the economic classification of the transaction (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of account. |
 | economicClassificationID | string | The internal code identifier for the economic classification. |
-| functional | string | Human-readable ame of the (non-COFOG) functional classification of the transaction (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
-| functionalID | string | The internal code identifier for the functional classification. |
+| functionalClassification | string | Human-readable ame of the (non-COFOG) functional classification of the transaction (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| functionalClassificationID | string | The internal code identifier for the functional classification. |
 | fund | string | The fund from which the transaction is be drawn. (This refers to a named revenue stream.) |
 | fundID | string | The internal code identifier for the fund. |
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the transaction. |
