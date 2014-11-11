@@ -245,8 +245,8 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | financingMeans | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). |
 | functionalClassification | string | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
 | functionalClassificationID | string | The internal code identifier for the functional classification. |
-| fund | string | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
-| fundID | string | The internal code identifier for the fund. |
+| account | string | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
+| accountID | string | The internal code identifier for the fund. |
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the budget item. |
 | program | string | Name of the government program underwriting the budget item. A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment. |
 | programID | string | The internal code identifier for the government program. |
@@ -281,8 +281,8 @@ There are no required fields for aggregated revenue data.
 | ----- | ---- | ---------- |
 | economicClassification | string | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
 | economicClassificationID | string | The internal code identifier for the economic classification. |
-| fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
-| fundID | string | The internal code identifier for the fund. |
+| account | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
+| accountID | string | The internal code identifier for the fund. |
 | gfsmRevenue | string; special | The GFSM 2001 economic classification of revenues for the revenue item. |
 | recipientGeocode | string | Name of the geographical region targeted by the revenue item. |
 | sourceGeocode | string | Name of the geographical region from which the revenue item originates. |
@@ -329,8 +329,8 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | economicClassificationID | string | The internal code identifier for the economic classification. |
 | functionalClassification | string | Human-readable ame of the (non-COFOG) functional classification of the transaction (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
 | functionalClassificationID | string | The internal code identifier for the functional classification. |
-| fund | string | The fund from which the transaction is be drawn. (This refers to a named revenue stream.) |
-| fundID | string | The internal code identifier for the fund. |
+| account | string | The fund from which the transaction is be drawn. (This refers to a named revenue stream.) |
+| accountID | string | The internal code identifier for the fund. |
 | gfsmExpense | string; special | The GFSM 2001 economic classification for the transaction. |
 | invoiceID | string | The invoice number given by the vendor or supplier. |
 | program | string | Name of the government program underwriting the budget item. A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment. |
@@ -368,8 +368,8 @@ In addition to the general required fields, transactional revenue data MUST incl
 | ----- | ---- | ---------- |
 | economicClassification | string | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
 | economicClassificationID | string | The internal code identifier for the economic classification. |
-| fund | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
-| fundID | string | The internal code identifier for the fund. |
+| account | string | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
+| accountID | string | The internal code identifier for the fund. |
 | recipientGeocode | string | Name of the geographical region targeted by the revenue transaction. |
 | sourceGeocode | string | Name of the geographical region from which the revenue transaction originates. |
 
