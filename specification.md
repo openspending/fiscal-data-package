@@ -242,7 +242,7 @@ Wherever appropriate, aggregated expenditure datasets SHOULD include the followi
 | cofogCode | string; special | The COFOG functional classification for the budget item. |
 | economicClassification | string | Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts. |
 | economicClassificationID | string | The internal code identifier for the economic classification. |
-| financialSource | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). Valid values *to be determined*. |
+| financingMeans | string | Classification of the means of financing the expenditure (to distinguish those financed by loans, grants, aid, etc. from those drawn from a general fund). |
 | functionalClassification | string | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
 | functionalClassificationID | string | The internal code identifier for the functional classification. |
 | fund | string | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
