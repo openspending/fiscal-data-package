@@ -319,7 +319,7 @@ Wherever appropriate, transactional expenditure datasets SHOULD include the foll
 | administratorID | string | The internal code for the administrative entity. |
 | amountAdjusted | number | The monetary amount allocated for expenditure for this transaction, after adjustments. |
 | amountApproved | number | The monetary amount initially budgeted for this transaction. |
-| budgetLineItem | string | The budget line item authorizing the expenditure. |
+| budgetLineItem | string | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
 | contractID | string | The contract ID associated with the transaction. |
 | cofogCode | string; special | The COFOG functional classification for the budget item. |
 | dateAdjusted | date | The date on which the amount budgeted for the transaction was adjusted to the allocated amount. |
