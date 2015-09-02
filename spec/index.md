@@ -1,6 +1,14 @@
 ---
-layout: default
-title: Specification - Budget Data Package v0.2.0 (Draft)
+layout: spec
+title: Specification - Budget Data Package
+version: 0.2.0
+updated: 25 August 2015
+created: 14 March 2014
+author:
+ - Tryggvi Björgvinsson (Open Knowledge)
+ - Rufus Pollock (Open Knowledge)
+ - Neil Ashton (Open Knowledge)
+summary: Budget Data Package is a lightweight and user-oriented format for budget data and associated metadata.
 ---
 
 ## Abstract
@@ -8,11 +16,6 @@ title: Specification - Budget Data Package v0.2.0 (Draft)
 Budget Data Package is a lightweight and user-oriented format for budget data and associated metadata.
 
 Budget data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
-
-## Authors
-
-* Tryggvi Björgvinsson, Open Knowledge Foundation <tryggvi.bjorgvinsson@okfn.org>
-* Neil M. Ashton, Open Knowledge Foundation <neil.ashton@okfn.org>
 
 ## Definitions
 

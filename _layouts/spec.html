@@ -1,0 +1,19 @@
+---
+layout: default
+---
+
+{% if page.summary %}
+  <p>{{ page.summary | markdownify }}</p>
+{% endif %}
+
+{% include meta.html %}
+
+{% capture language %}{% include language.md %}{% endcapture %}
+{{ language | markdownify }}
+
+{% if page.title %}
+{% capture target %}{{ "# " | append: page.title  | markdownify }}{% endcapture %}
+{{ content | replace: target, '' }}
+{% else %}
+{{content}}
+{% endif %}
