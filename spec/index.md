@@ -1,4 +1,7 @@
-# Budget Data Package 0.2.0 -- Draft
+---
+layout: default
+title: Specification - Budget Data Package v0.2.0 (Draft)
+---
 
 ## Abstract
 
