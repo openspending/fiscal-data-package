@@ -5,3 +5,6 @@ github: http://github.com/openspending/budget-data-package
 mailinglist: http://discuss.okfn.org/c/openspending
 twitter: OpenSpending
 googleanalytics: UA-33874954-31
+markdown: kramdown
+kramdown:
+  input: GFM
