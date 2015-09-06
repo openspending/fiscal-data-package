@@ -23,7 +23,7 @@ for those wanting to use the data (such as researchers and journalists).
   </small>
 </a>
 
-## Additional Materials
+## Additional Materials
 
 [`schema.json`][schema] contains a [JSON schema][schema] for Budget Data
 Package metadata.
