@@ -1,0 +1,102 @@
+{
+  "name": "my-openspending-datapackage",
+  "title": "My OpenSpending Data Package",
+  "resources": [
+    {
+      "name": "budget",
+      "title": "Budget",
+      "path": "budget.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "format": "currency"
+          },
+          {
+            "name": "date",
+            "type": "date"
+          },
+          {
+            "name": "payee",
+            "type": "string"
+          },
+          {
+            "name": "payee",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id"
+      },
+      "foreignKeys": [
+        {
+          "fields": "payee",
+          "reference": {
+            "datapackage": "my-openspending-datapackage",
+            "resource": "entities",
+            "fields": "id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "entities",
+      "title": "Entities",
+      "path": "entities.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "id"
+      }
+    }
+  ],
+  "mapping": {
+    "measures: {
+      "amount": {
+        "source": "budget/budget",
+        "currency": "USD",
+        "factor": 1
+      }
+    },
+    "date": {
+      "properties": {
+        "year": {
+          "source": "year"
+        }
+      }
+    },
+    "payee": {
+      "fields": {
+        "id": {
+          "source": "id",
+          "resource": "entities",
+          "primaryKey": true
+        },
+        "title": {
+          "source": "name",
+          "resource": "entities"
+        },
+        "description": {
+          "source": "description",
+          "resource": "entities"
+        }
+      }
+    }
+  }
+}

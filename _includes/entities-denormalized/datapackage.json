@@ -1,0 +1,78 @@
+{
+  "name": "my-openspending-datapackage",
+  "title": "My OpenSpending Data Package",
+  "resources": [
+    {
+      "name": "budget",
+      "title": "Budget",
+      "path": "budget.csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "expenditure",
+            "type": "number",
+            "format": "currency"
+          },
+          {
+            "name": "year",
+            "type": "date"
+          },
+          {
+            "name": "payee_id",
+            "type": "string"
+          },
+          {
+            "name": "payee_name",
+            "type": "string"
+          },
+          {
+            "name": "payor_id",
+            "type": "string"
+          },
+          {
+            "name": "payor_name",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "mapping": {
+    "measures": {
+      "amount": {
+        "source": "expenditure",
+        "currency": "USD",
+        "factor": 1
+      }
+    },
+    "date": {
+      "properties": {
+        "year": {
+          "source": "year"
+        }
+      }
+    },
+    "payee": {
+      "fields": {
+        "id": {
+          "source": "payee_id",
+          "primaryKey": true
+        },
+        "title": {
+          "source": "payee_name"
+        }
+      }
+    }
+    "payor": {
+      "fields": {
+        "id": {
+          "source": "payor_id",
+          "primaryKey": true
+        }
+        "title": {
+          "source": "payor_name"
+        }
+      }
+    }
+  }
+}
