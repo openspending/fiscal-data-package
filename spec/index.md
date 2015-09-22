@@ -37,7 +37,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 Data on government budgets and spending is becoming available in unprecedented quantities. The practice of publishing budget information as machine-readable and openly licensed data is spreading rapidly and will become increasingly standard.
 
-Fiscal Data Package is an open specification for quantitative fiscal data especially that generated during the planning and execution of budgets. This includes both data on expenditures and revenues, as well as both aggregated data and highly granular data recording individual transactions.
+Fiscal Data Package is an open specification for quantitative fiscal data, especially data generated during the planning and execution of budgets. This includes both data on expenditures and revenues, and also covers both aggregated data and highly granular data recording individual transactions.
 
 The specification is both simple and easy for publishers to use and, at the same time, sufficiently rich and structured to be useful and processable - especially machine processable - by consumers. In particular, Fiscal Data Packages are:
 
@@ -204,7 +204,7 @@ The logical model has some key concepts:
 
 * Amount (money): fundamentally fiscal information is usually amount amounts of money.
   * Key subconcept are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)
-* Time: most financial transactions have a date or time associated
+* Date / Time: most financial transactions have a date or time associated
 * Description(s): fiscal information frequently has some kind of description or summary
 * Entities who spend or receive monies: entities, whether individuals or organizations, are the spenders or receivers of money and so often.
   * Payor: the entity expending money
@@ -272,7 +272,7 @@ A dimension has the structure:
 "dimension-name": {
   # dimensionType is optional
   # it can be used to indicate this is a standard types e.g. entity, classification, program etc
-  "dimensionType": "
+  "dimensionType": "...",
   "fields": {
     "field-1": ...,
     "field-2": ...
@@ -293,14 +293,22 @@ A dimension MUST have at least one field with the property `primaryKey` set on i
 
 ```
 "field-1": {
-  "primaryKey": true # note being true is optional it can just be set to ""
+  # note being true is optional it can just be set to ""
+  "primaryKey": true
   "source": "..."
 }
 ```
 
+Dimension Types:
+
+* `datetime`
+* `entity`
+* `classification`
+* `project`
+
 #### Common Dimensions
 
-We illustrate here certain common dimensions
+We illustrate here some common dimensions.
 
 **`date`**
 
