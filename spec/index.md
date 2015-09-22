@@ -1,6 +1,6 @@
 ---
 layout: spec
-title: Specification - Budget Data Package
+title: Specification - Fiscal Data Package
 version: 0.3.0-alpha
 updated: 2 September 2015
 created: 14 March 2014
@@ -8,7 +8,7 @@ author:
  - Tryggvi Björgvinsson (Open Knowledge)
  - Rufus Pollock (Open Knowledge)
  - Paul Walsh (Open Knowledge)
-summary: Budget Data Package is a lightweight and user-oriented format for publishing and consuming fiscal data. Budget data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
+summary: Fiscal Data Package is a lightweight and user-oriented format for publishing and consuming fiscal data. Fiscal data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
 ---
 
 <div class="alert alert-info" markdown="block">
@@ -28,7 +28,8 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
-- `0.3.0`: very substantial rework of spec to use "mapping" approach between physical and logical model. Core framework, based on Tabular Data Package, is unchanged.
+- `0.3.0-alpha2`: rename Budget Data Package to Fiscal Data Package
+- `0.3.0-alpha`: very substantial rework of spec to use "mapping" approach between physical and logical model. Core framework, based on Tabular Data Package, is unchanged.
 - [`0.2.0`](./0.2/): large numbers of changes and clarifications for particular fields but no substantive change to the overall spec
 - [`0.1.0`](./0.1/): first complete version of the specification
 
@@ -36,16 +37,16 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 Data on government budgets and spending is becoming available in unprecedented quantities. The practice of publishing budget information as machine-readable and openly licensed data is spreading rapidly and will become increasingly standard.
 
-Budget Data Package is an open specification for quantitative fiscal data especially that generated during the planning and execution of budgets. This includes both data on expenditures and revenues, as well as both aggregated data and highly granular data recording individual transactions.
+Fiscal Data Package is an open specification for quantitative fiscal data especially that generated during the planning and execution of budgets. This includes both data on expenditures and revenues, as well as both aggregated data and highly granular data recording individual transactions.
 
-The specification is both simple and easy for publishers to use and, at the same time, sufficiently rich and structured to be useful and processable - especially machine processable - by consumers. In particular, Budget Data Packages are:
+The specification is both simple and easy for publishers to use and, at the same time, sufficiently rich and structured to be useful and processable - especially machine processable - by consumers. In particular, Fiscal Data Packages are:
 
 * Made from lightweight and easily made components (CSV data, JSON metadata)
 * Structured according to a simple open standard
 * Self-documented with metadata
 * Including sufficient information to allow for automated and standardized processing and analysis
 
-Budget Data Package specifies the *form* for fiscal data and offers a standardized framework for the *content*. By giving a common *form* to budget data, Budget Data Package frees data users from the artificial obstacles created by the lack of a standard structure. By clarifying the *content* of budget data and recommending standard information that fiscal data should contain, Budget Data Package helps make data releases more comparable and useful. The Budget Data Package specification provides support for:
+Fiscal Data Package specifies the *form* for fiscal data and offers a standardized framework for the *content*. By giving a common *form* to budget data, Fiscal Data Package frees data users from the artificial obstacles created by the lack of a standard structure. By clarifying the *content* of budget data and recommending standard information that fiscal data should contain, Fiscal Data Package helps make data releases more comparable and useful. The Fiscal Data Package specification provides support for:
 
 * A simple and standard way to provide rich metadata about fiscal information - where it came from, who produced it, how it is licensed, what time period it covers etc
 * Mapping the raw "physical" model, as represented by columns in the data files, to a standardized "logical" model based around basic fiscal concepts: amounts spent, suppliers, administrative and functional classifications etc
@@ -72,27 +73,27 @@ This proposal also builds one and reuses the [Data Package][dp] specifications. 
 
 # The Standard
 
-An Budget Data Package has a simple structure:
+A Fiscal Data Package has a simple structure:
 
 * Data: the data MUST be stored in CSV files.
 * Descriptor: there must a descriptor in the form of a single `datapackage.json` file. This file describes both the data and the "package" as a whole (e.g. who created it, its license etc).
 
-Budget Data Package builds on the existing [Data Package][dp] specifications. In particular, a Budget Data Package is a [Tabular Data Package][tdp] which is, in turn, a Data Package. We will spell out key implications of this as we proceed.
+Fiscal Data Package builds on the existing [Data Package][dp] specifications. In particular, a Fiscal Data Package is a [Tabular Data Package][tdp] which is, in turn, a Data Package. We will spell out key implications of this as we proceed.
 
 <!--
 Here's an overview diagram that not only illustrates the basic setup but also the relation with the Data Package specifications:
 
-![Basic diagram of Budget Data Package](img/open-spending-data-package.svg){: .center-block}
+![Basic diagram of Fiscal Data Package](img/open-spending-data-package.svg){: .center-block}
 
-Basic overview of the Budget Data Package
+Basic overview of the Fiscal Data Package
 {: style="text-align: center"}
 -->
 
 ## Data Packages on Disk
 
-Here are some examples of what an Budget Data Package looks like on disk. Usually, the datapackage.json and data files are bundled together, and collectively referred to as "the data package".
+Here are some examples of what an Fiscal Data Package looks like on disk. Usually, the datapackage.json and data files are bundled together, and collectively referred to as "the data package".
 
-A simple example of an Budget Data Package:
+A simple example of an Fiscal Data Package:
 
 ```
 datapackage.json
@@ -141,7 +142,7 @@ The data in your Data Package MUST:
 
 ## The Descriptor - `datapackage.json`
 
-An OpenSpending data package MUST contain a `datapackage.json` - it is the central file in an Budget Data Package.
+A Fiscal Data Package MUST contain a `datapackage.json` - it is the central file in an Fiscal Data Package.
 
 The `datapackage.json` contains information in three key areas:
 
@@ -188,7 +189,7 @@ The two key points we emphasize here from the [Tabular Data Package specificatio
 
 ## Mapping
 
-The Budget Data Package MUST provide a `mapping` property. `mapping` MUST be a hash.
+The Fiscal Data Package MUST provide a `mapping` property. `mapping` MUST be a hash.
 
 The `mapping` hash provides a way to link the "physical" model - the data in CSV files - to a more general, conceptual, "logical" model for fiscal information.
 
@@ -374,7 +375,7 @@ Classifications do not have any standardized name, If the classification is a we
 
 ### Minimal example
 
-Here is the most basic example of an Budget Data Package. The example describes a package that only has transactional data, with only required fields.
+Here is the most basic example of an Fiscal Data Package. The example describes a package that only has transactional data, with only required fields.
 
 ```
 # budget.csv
@@ -398,7 +399,7 @@ Here is an example with information on the payer and payee, denormalized.
 
 ### Example with entities (normalized)
 
-Here is the same example as previous, but with the entity data normalized. That means this is also an example of an Budget Data Package with a resource that is not a spend resource.
+Here is the same example as previous, but with the entity data normalized. That means this is also an example of an Fiscal Data Package with a resource that is not a spend resource.
 
 ```
 # budget.csv
@@ -425,7 +426,7 @@ A budget is over a year-long process of planning, execution, and oversight of a 
 
 In a typical budget process, a government authority, e.g. the executive arm, will put together a **proposed** budget and submit that for approval, e.g. by the country's legislative arm. The approval process might involve making changes to the proposal before the **approved** version is accepted. As time goes by there is a possibility that some projects, institutions etc. will require more money to fulfill their task so adjustments need to be made to the approved budget. The **adjustment** is then approved by the original budget entity, e.g. the legislative arm. This usually requires reasoning for why the original budget was not sufficient. The **executed** budget is the actual money spent or collected which can then be compared to the approved and adjusted plan.
 
-By recognizing the following distinctions between data types, Budget Data Package is expressive enough to cover the data generated at every stage:
+By recognizing the following distinctions between data types, Fiscal Data Package is expressive enough to cover the data generated at every stage:
 
 * Data can represent either *expenditures* or *revenues*.
 * Data can be either *aggregated* or *transactional*. An item of aggregated data represents a whole category of spending (e.g. spending on primary education). An item of transactional data represents a single transaction at some specific point in time.
@@ -437,7 +438,7 @@ Budget data has various degrees of hierarchy, depending on the perspective. From
 
 All of these hierarchies give a picture of how the budget line fits into the bigger picture, but none of them can give the whole picture. Budget data usually only includes general classification categories or the top few hierarchies. For example a project can usually be broken down into tasks, but budget data usually would not go into so much detail. It might not even be divided into projects.
 
-Categorizing and organizing the data is more about describing it from the bigger perspective than breaking it down into detailed components and the Budget Data Package specification tries to take that into account by including top level hierarchies and generalised classification systems but there is still a possibility to go into details by supplying a good description of every row in the budget data.
+Categorizing and organizing the data is more about describing it from the bigger perspective than breaking it down into detailed components and the Fiscal Data Package specification tries to take that into account by including top level hierarchies and generalised classification systems but there is still a possibility to go into details by supplying a good description of every row in the budget data.
 
 
 

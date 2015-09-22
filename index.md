@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Budget Data Package
+title: Fiscal Data Package
 ---
 
-Budget Data Package is a simple, open technical specification for government
+Fiscal Data Package is a simple, open technical specification for government
 budget and spending data.
 
 It is **lightweight** and **user-oriented** specification which aims to be
@@ -19,13 +19,13 @@ for those wanting to use the data (such as researchers and journalists).
   <small>
     The spec contains a full RFC-style specification
     <br />
-    for the Budget Data Package format
+    for the Fiscal Data Package format
   </small>
 </a>
 
 ## Additional Materials
 
-[`schema.json`][schema] contains a [JSON schema][schema] for Budget Data
+[`schema.json`][schema] contains a [JSON schema][schema] for Fiscal Data
 Package metadata.
 
 Note: this JSON schema only specifies the basic structure of the metadata
@@ -37,8 +37,11 @@ well-formedness of CSV datasets.
 
 ## Contributing
 
-Budget Data Package is an open specification. Development of the specification
-is in the hands of its community of users—including data producers,
+Fiscal Data Package is an open specification. Development is led by Open
+Knowledge in collaboration with the World Bank and GIFT, the Global Initiative
+on Fiscal Transparency.
+
+Development closely involves the community of users -- including data producers,
 intermediaries, and consumers.
 
 You can already contribute to the development process by leaving suggestions
