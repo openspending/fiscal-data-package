@@ -75,7 +75,7 @@
       }
     },
     "date": {
-      "properties": {
+      "fields": {
         "year": {
           "source": "year"
         }
