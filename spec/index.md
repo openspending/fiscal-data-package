@@ -163,7 +163,7 @@ The [Data Package specification][dp] list various additional potential metadata 
 
 The following properties `SHOULD` be on the top-level descriptor:
 
-* `license` or `licenses` (DP): specifies the license for the data in this package.
+* `license` (DP): specifies the license for the data in this package.
 * `countryCode`: a valid 2 -digit ISO country code (ISO 3166-1 alpha-2) ,or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
 
 The following properties `MAY` be present:
