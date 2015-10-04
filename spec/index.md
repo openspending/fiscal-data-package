@@ -222,16 +222,35 @@ From an OLAP perspective many of these dimensions may not split out in actual se
 
 ### Details
 
-The `mapping` has the following structure:
+The `mapping` is a hash. It MUST contain a `measures` property and it MUST contain a `dimensions` property. Both `measures` and `dimensions` MUST be arrays:
 
 ```
-  "measures": {
-    "measure-name": {
-      measure-descriptor
-    }
+  {
+    "measures": [
+      {
+        "name": "measure-1",
+        "source": "...",
+        "..."
+      },
+      {
+        "name": "measure-2",
+        "source": "...",
+        "..."
+      }
+    ],
+    "dimensions": [
+      {
+        "name": "dimension-1",
+        "source": "...",
+        "..."
+      },
+      {
+        "name": "dimension-2",
+        "source": "...",
+        "..."
+      }
+    ]
   }
-  "dimension-1": ...
-  "dimension-2": ...
 ```
 
 **Describing sources**: one common feature that we will need repeatedly is to indicate that the data for a given part of the logical model comes from a given field/column in a CSV file. Our common pattern for this is:
@@ -249,27 +268,30 @@ The `mapping` has the following structure:
 
 ### Measures
 
-Measures are numerical and usually correspond to finanical amounts in the source data. Structure is like the following:
+Measures are numerical and usually correspond to finanical amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
 ```
 {
-  "source": "amount"
-  "currency": "USD"
+  "name": "measure-name",
+  "source": "amount",
+  "currency": "USD",
   "factor": 1
 }
 ```
 
 Properties:
 
+* `name`: (`MUST`) The measure name in the logical model
 * `currency`: (`MUST`) Any valid ISO 4217 currency code.
 * `factor`: (`MAY`) A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
 
 ### Dimensions
 
-A dimension has the structure:
+Each dimension is represented by a hash in the `dimensions` array. The hash has the structure:
 
 ```
-"dimension-name": {
+{
+  "name": "dimension-name",
   # dimensionType is optional
   # it can be used to indicate this is a standard types e.g. entity, classification, program etc
   "dimensionType": "...",
@@ -280,6 +302,10 @@ A dimension has the structure:
   other properties ...
 }
 ```
+
+Properties:
+
+* `name`: (`MUST`) The dimension name in the logical model
 
 Each `field` is a property on the dimension - think of it as column on that dimension in a database. At a minimum it must have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above):
 
@@ -313,8 +339,9 @@ We illustrate here some common dimensions.
 **`date`**
 
 ```
-"date": {
-# note the list of fields is for illustration - you can have any fields you like
+{
+  "name": "date",
+  # note the list of fields is for illustration - you can have any fields you like
   "fields": {
     "year": "source field name"
   }
@@ -324,8 +351,9 @@ We illustrate here some common dimensions.
 **`description`**
 
 ```
-"description": {
-# note the list of fields is for illustration - you can have any fields you like
+{
+  "name": "description",
+  # note the list of fields is for illustration - you can have any fields you like
   "fields": {
     "description": "description source field name"
   }
@@ -336,7 +364,8 @@ We illustrate here some common dimensions.
 
 ```
 # note the list of fields is for illustration - you can have any fields you like
-"payer": {
+{
+  "name": "payer",
   "fields": {
     "id": {
       "source": "entity_id"
@@ -355,8 +384,9 @@ We illustrate here some common dimensions.
 **`payee`**
 
 ```
-"payee": {
-  # as per payer ...
+{
+  "name": "payee",
+  # as per payer ...
 }
 ```
 
@@ -366,7 +396,8 @@ Classifications do not have any standardized name, If the classification is a we
 
 ```
 # this is a made-up name for the dimension - you could call your dimension anything
-"function": {
+{
+  "name": "function",
   "dimensionType": "classification",
   "fields": {
     "id": {
