@@ -315,13 +315,19 @@ Each `field` is a property on the dimension - think of it as column on that dime
 }
 ```
 
-A dimension MUST have at least one field with the property `primaryKey` set on it e.g.
+A dimension MUST have a `primaryKey` property. The property MUST be either an array of strings corresponding to the `fields` hash properties or a single string corresponding to one of the `fields` hash properties. The value of `primaryKey` indicates the primary key or primary keys for the dimension. An example:
 
 ```
-"field-1": {
-  # note being true is optional it can just be set to ""
-  "primaryKey": true
-  "source": "..."
+"dimension-name": {
+  "fields": {
+    "field-1": {
+      "source": "..."
+    },
+    "field-2": {
+      "source": "..."
+    }
+  },
+  "primaryKey": ["field-1"]
 }
 ```
 
