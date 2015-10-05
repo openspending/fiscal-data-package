@@ -253,15 +253,15 @@ The `mapping` is a hash. It MUST contain a `measures` property and it MUST conta
   }
 ```
 
-**Describing sources**: one common feature that we will need repeatedly is to indicate that the data for a given part of the logical model comes from a given field/column in a CSV file. Our common pattern for this is:
+**Describing sources**: the logical model will repeatedly need to indicate that the data for a given part of the model comes from a given field/column in a CSV file. This is done with a `source` property.
+
+A full reprsentation of the logical model property is a hash that MUST contain `source` and MAY contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the resource list:
 
 ```
 # full representation, using an object and the source property
 "property-on-logical-model": {
   "source": "name-of-field-on-the-resource",
-  # Optional - if not present it implicitly defaults to first resource in resources list
   "resource": "name-of-resource"
-
   ...
 }
 ```
@@ -282,8 +282,10 @@ Measures are numerical and usually correspond to finanical amounts in the source
 Properties:
 
 * `name`: (`MUST`) The measure name in the logical model
+* `source`: (`MUST`) Field name of source field
 * `currency`: (`MUST`) Any valid ISO 4217 currency code.
 * `factor`: (`MAY`) A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
+* `resource`: (`MAY`) Resource containing the source field
 
 ### Dimensions
 
@@ -307,7 +309,7 @@ Properties:
 
 * `name`: (`MUST`) The dimension name in the logical model
 
-Each `field` is a property on the dimension - think of it as column on that dimension in a database. At a minimum it must have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above):
+Each `field` is a property on the dimension - think of it as column on that dimension in a database. At a minimum it MUST have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above):
 
 ```
 "field-1": {
