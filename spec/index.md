@@ -403,44 +403,13 @@ Classifications do not have any standardized name, If the classification is a we
 
 ## Examples
 
-### Minimal example
+{% assign sorted_pages = site.pages | sort:"order" %}
+{% for page in sorted_pages %}
+  {% if page.category == 'example' %}
+  * [{{ page.title }}]({{ page.url | remove: 'index.html' }}) 
+  {% endif %}
+{% endfor %}
 
-Here is the most basic example of an Fiscal Data Package. The example describes a package that only has transactional data, with only required fields.
-
-```
-# budget.csv
-{% include minimal/budget.csv %}
-
-# datapackage.json
-{% include minimal/datapackage.json %}
-```
-
-### Example with entities (denormalized)
-
-Here is an example with information on the payer and payee, denormalized.
-
-```
-# budget.csv
-{% include entities-denormalized/budget.csv %}
-
-# datapackage.json
-{% include entities-denormalized/datapackage.json %}
-```
-
-### Example with entities (normalized)
-
-Here is the same example as previous, but with the entity data normalized. That means this is also an example of an Fiscal Data Package with a resource that is not a spend resource.
-
-```
-# budget.csv
-{% include entities-normalized/budget.csv %}
-
-# entities.csv
-{% include entities-normalized/entities.csv %}
-
-# datapackage.json
-{% include entities-normalized/datapackage.json %}
-```
 
 # Acknowledgements
 
