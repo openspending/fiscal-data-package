@@ -67,36 +67,45 @@
     }
   ],
   "mapping": {
-    "measures: {
-      "amount": {
-        "source": "budget/budget",
+    "measures: [
+      {
+        "name": "amount",
+        "source": "budget",
         "currency": "USD",
         "factor": 1
       }
-    },
-    "date": {
-      "fields": {
-        "year": {
-          "source": "year"
-        }
+    ],
+    "dimensions": [
+      {
+        "name": "date",
+        "fields": [
+          {
+            "name": "year",
+            "source": "year"
+          }
+        ]
+      },
+      {
+        "name": "payee",
+        "fields": [
+          {
+            "name": "id",
+            "resource": "entities",
+            "source": "payee_id"
+          },
+          {
+            "name": "title",
+            "resource": "entities",
+            "source": "payee_name"
+          },
+          {
+            "name": "description",
+            "resource": "entities",
+            "source": "description"
+          }
+        ],
+        "primaryKey": ["id"]
       }
-    },
-    "payee": {
-      "fields": {
-        "id": {
-          "source": "id",
-          "resource": "entities",
-          "primaryKey": true
-        },
-        "title": {
-          "source": "name",
-          "resource": "entities"
-        },
-        "description": {
-          "source": "description",
-          "resource": "entities"
-        }
-      }
-    }
+    ]
   }
 }

@@ -38,41 +38,52 @@
     }
   ],
   "mapping": {
-    "measures": {
-      "amount": {
+    "measures": [
+      {
+        "name": "amount",
         "source": "expenditure",
         "currency": "USD",
         "factor": 1
       }
-    },
-    "date": {
-      "fields": {
-        "year": {
-          "source": "year"
-        }
+    ],
+    "dimensions": [
+      {
+        "name": "date",
+        "fields": [
+          {
+            "name": "year",
+            "source": "year"
+          }
+        ]
+      },
+      {
+        "name": "payee",
+        "fields": [
+          {
+            "name": "id",
+            "source": "payee_id"
+          },
+          {
+            "name": "title",
+            "source": "payee_name"
+          }
+        ],
+        "primaryKey": ["id"]
       }
-    },
-    "payee": {
-      "fields": {
-        "id": {
-          "source": "payee_id",
-          "primaryKey": true
-        },
-        "title": {
-          "source": "payee_name"
-        }
+      {
+        "name": "payor",
+        "fields": [
+          {
+            "name": "id",
+            "source": "payor_id"
+          }
+          {
+            "name": "title",
+            "source": "payor_name"
+          }
+        ],
+        "primaryKey": ["id"]
       }
-    }
-    "payor": {
-      "fields": {
-        "id": {
-          "source": "payor_id",
-          "primaryKey": true
-        }
-        "title": {
-          "source": "payor_name"
-        }
-      }
-    }
+    ]
   }
 }

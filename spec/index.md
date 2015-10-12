@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha2
-updated: 22 September 2015
+version: 0.3.0-alpha3
+updated: 11 October 2015
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha3`: rework mapping structure in various ways
 - `0.3.0-alpha2`: rename Budget Data Package to Fiscal Data Package
 - `0.3.0-alpha`: very substantial rework of spec to use "mapping" approach between physical and logical model. Core framework, based on Tabular Data Package, is unchanged.
 - [`0.2.0`](./0.2/): large numbers of changes and clarifications for particular fields but no substantive change to the overall spec
@@ -241,12 +242,16 @@ The `mapping` is a hash. It MUST contain a `measures` property and it MUST conta
     "dimensions": [
       {
         "name": "dimension-1",
-        "source": "...",
+        "fields": [
+          "...",
+        ],
         "..."
       },
       {
         "name": "dimension-2",
-        "source": "...",
+        "fields": [
+          "...",
+        ],
         "..."
       }
     ]
@@ -297,15 +302,17 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
   # dimensionType is optional
   # it can be used to indicate this is a standard types e.g. entity, classification, program etc
   "dimensionType": "...",
-  "fields": {
-    "field-1": {
+  "fields": [
+    {
+      "name": "field-1",
       "source": "...",
       "resource": "..."
     },
-    "field-2": {
+    {
+      "name": "field-2",
       "source": "..."
     }
-  },
+  ],
   "primaryKey": ["field-1"],
   other properties ...
 }
@@ -314,8 +321,7 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
 Properties:
 
 * `name`: (`MUST`) The dimension name in the logical model
-* `fields`: (`MUST`) A hash of the mapped fields from the resources, that make up the dimension.
-  * Each `field` is a property on the dimension - think of it as column on that dimension in a database. At a minimum it must have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above)
+* `fields`: (`MUST`) An array of field objects that make up the dimension. Each `field` is an entry in the array - think of it as column on that dimension in a database. At a minimum it must have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above). A `field` MUST have a `name` attribute and `source` information.
 * `primaryKey`: (`MUST`) Either an array of strings corresponding to the `fields` hash properties or a single string corresponding to one of the `fields` hash properties. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
 * `dimensionType`: (`MAY`) Describes what kind of a dimension it is. `dimensionType` is a string that MUST be one of the following:
   * `datetime`
@@ -333,9 +339,12 @@ We illustrate here some common dimensions.
 {
   "name": "date",
   # note the list of fields is for illustration - you can have any fields you like
-  "fields": {
-    "year": "source field name"
-  }
+  "fields": [
+    {
+      "name": "year",
+      "source": "source field name"
+    }
+  ]
 }
 ```
 
@@ -345,11 +354,34 @@ We illustrate here some common dimensions.
 {
   "name": "description",
   # note the list of fields is for illustration - you can have any fields you like
-  "fields": {
-    "description": "description source field name"
-  }
+  "fields": [
+    {
+      "name": "description",
+      "source": "description source field name"
+    } 
+  ]
 }
 ```
+
+Note, that it might be more common to have description and other fields clustered on a "fact" dimension:
+
+```
+{
+  "name": "fact",
+  # note the list of fields is for illustration - you can have any fields you like
+  "fields": [
+    {
+      "name": "description",
+      "source": "description source field name"
+    },
+    {
+      "title": "title",
+      "source": "title source field name"
+    }
+  ]
+}
+```
+
 
 **`payer`**
 
@@ -357,17 +389,20 @@ We illustrate here some common dimensions.
 # note the list of fields is for illustration - you can have any fields you like
 {
   "name": "payer",
-  "fields": {
-    "id": {
+  "fields": [
+    {
+      "name": "id",
       "source": "entity_id"
     },
-    "title": {
+    {
+      "name": "title",
       "source": "entity_name"
     },
-    "description": {
-      "source": "entities/about"
+    {
+      "name": "description",
+      "source": "about"
     }
-  }
+  ]
   ...
 }
 ```
@@ -390,14 +425,16 @@ Classifications do not have any standardized name, If the classification is a we
 {
   "name": "function",
   "dimensionType": "classification",
-  "fields": {
-    "id": {
+  "fields": [
+    {
+      "name": "id",
       "source": "budget_tree_id"
-    }
-    "title": {
+    },
+    {
+      "name": "title",
       "source": "budget_tree_label"
     }
-  }
+  ]
 }
 ```
 
