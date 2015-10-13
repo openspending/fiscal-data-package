@@ -49,6 +49,7 @@
     "dimensions": [
       {
         "name": "date",
+        "dimensionType": "datetime",
         "fields": [
           {
             "name": "year",
@@ -58,6 +59,7 @@
       },
       {
         "name": "payee",
+        "dimensionType": "entity",
         "fields": [
           {
             "name": "id",
@@ -72,6 +74,7 @@
       }
       {
         "name": "payor",
+        "dimensionType": "entity",
         "fields": [
           {
             "name": "id",
