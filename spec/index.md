@@ -138,7 +138,7 @@ data/my-list-of-projects-the-money-is-associated-with.csv # additional augmentin
 The data in your Data Package MUST:
 
 * Be in CSV format.
-* Have well-structured CSVs- no blank rows, columns etc. [Tabular Data Package][tdp] speels this out in detail.
+* Have well-structured CSVs- no blank rows, columns etc. [Tabular Data Package][tdp] spells this out in detail.
 
 *Note: you can store other data files in your data package - for example, you may want to archive the original xls or data files you used. However, we do not consider these data for the purposes of this specification.*
 
@@ -161,7 +161,7 @@ This follows [Data Pacakge][dp] (DP). In particular, the following properties `M
 * `name` (DP): a url-compatible short name ("slug") for the package
 * `title` (DP): a human readable title for the package
 
-The [Data Package specification][dp] list various additional potential metadata properties including information on licensing, package authors and much more. Here we focus on detailing key properties, especially those which are specific to this specification:
+The [Data Package specification][dp] lists various additional potential metadata properties including information on licensing, package authors and much more. Here we focus on detailing key properties, especially those which are specific to this specification:
 
 The following properties `SHOULD` be on the top-level descriptor:
 
@@ -208,16 +208,16 @@ The logical model has some key concepts:
   * Key subconcept are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)
 * Date / Time: most financial transactions have a date or time associated
 * Description(s): fiscal information frequently has some kind of description or summary
-* Entities who spend or receive monies: entities, whether individuals or organizations, are the spenders or receivers of money and so often.
+* Entities who spend or receive monies: entities, whether individuals or organizations, are the spenders or receivers of money.
   * Payor: the entity expending money
   * Payee: the entity receiving money
 * Classifications (taxonomies): for example, that a given transaction relates to Healthcare, or is a capital vs non-capital expenditure.
 * Project / Programs: expenditure is often linked to a specific project or program
 
-The actual description implemenation utilises [OLAP][olap] terminology (and ideas). Key aspects for our purpose are:
+The actual description implementation utilises [OLAP][olap] terminology (and ideas). Key aspects for our purpose are:
 
 * Numerical *measures*: these will usually be the monetary amounts in the spending data
-* Dimensions: dimensions cover all items othe than the measure
+* Dimensions: dimensions cover all items other than the measure
   * In OLAP attributes is also used for dimensions that are "single-valued" - for example, a description field.
 
 From an OLAP perspective many of these dimensions may not split out in actual separate tables but map to attributes on the fact table if they are very simple (e.g. a given classification may just be a single field).
@@ -261,7 +261,7 @@ The `mapping` is a hash. It MUST contain a `measures` property and it MUST conta
 
 **Describing sources**: the logical model will repeatedly need to indicate that the data for a given part of the model comes from a given field/column in a CSV file. This is done with a `source` property.
 
-A full reprsentation of the logical model property is a hash that MUST contain `source` and MAY contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the resource list:
+A full representation of the logical model property is a hash that MUST contain `source` and MAY contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the resource list:
 
 ```
 # full representation, using an object and the source property
@@ -609,7 +609,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | ----- | -------- | ------- | ---------- |
 | cofog | Classification | 2 | The COFOG functional classification for the budget item. |
 | gsfm  | Classification | 2 | The GFSM 2001 economic classification for the budget item. |
-| chart-of-accounts | Classification | 2 | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| chart-of-accounts | Classification | 2 | Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
 | adminstrator | Entity | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
 | account | Entity | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
 | program | Project | 3 |  Name of the government program underwriting the budget item. A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment. |
@@ -666,7 +666,7 @@ By recognizing the following distinctions between data types, Fiscal Data Packag
 
 ### Budget hierarchy and categorizations
 
-Budget data has various degrees of hierarchy, depending on the perspective. From a functional perspective it can use a functional classification. The functional classification can be set up as a few levels (a hierarchy). An economical classification is not compatible with the functional hierarchy and has a different hierarchy. Another possible hierarchy would be a program project hierarchy where many projects are a part of a program.
+Budget data has various degrees of hierarchy, depending on the perspective. From a functional perspective it can use a functional classification. The functional classification can be set up as a few levels (a hierarchy). An economical classification is not compatible with the functional hierarchy and has a different hierarchy. Another possible hierarchy would be a program/project hierarchy where many projects are a part of a program.
 
 All of these hierarchies give a picture of how the budget line fits into the bigger picture, but none of them can give the whole picture. Budget data usually only includes general classification categories or the top few hierarchies. For example a project can usually be broken down into tasks, but budget data usually would not go into so much detail. It might not even be divided into projects.
 
