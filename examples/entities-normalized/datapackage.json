@@ -24,10 +24,6 @@
           {
             "name": "payee",
             "type": "string"
-          },
-          {
-            "name": "payee",
-            "type": "string"
           }
         ],
         "primaryKey": "id"
