@@ -38,7 +38,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 Data on government budgets and spending is becoming available in unprecedented quantities. The practice of publishing budget information as machine-readable and openly licensed data is spreading rapidly and will become increasingly standard.
 
-Fiscal Data Package is an open specification for quantitative fiscal data, especially data generated during the planning and execution of budgets. This includes both data on expenditures and revenues, and also covers both aggregated data and highly granular data recording individual transactions.
+Fiscal Data Package is an open specification for quantitative fiscal data, especially data generated during the planning and execution of budgets. It supports both data on expenditures and revenues, and also supports publishing both highly aggregated and highly granular data, for example individual transactions.
 
 The specification is both simple and easy for publishers to use and, at the same time, sufficiently rich and structured to be useful and processable - especially machine processable - by consumers. In particular, Fiscal Data Packages are:
 
@@ -72,7 +72,7 @@ Often, this data takes the form of rows in a spreadsheet or database with each r
 
 This proposal also builds one and reuses the [Data Package][dp] specifications. These are a family of simple, lightweight formats for publishing data. If you are unfamiliar with these, more information can be found in the Appendix.
 
-# The Standard
+# Form and Structure
 
 A Fiscal Data Package has a simple structure:
 
@@ -446,6 +446,201 @@ Classifications do not have any standardized name, If the classification is a we
   * [{{ page.title }}]({{ page.url | remove: 'index.html' }}) 
   {% endif %}
 {% endfor %}
+
+# Content
+
+This section provides a standard framework for the "content" of Fiscal Data Packages. The previous section has been about the form both for the data (e.g. that it is CSV) and for the metadata (the information in the datapackage.json). This section is about the "content", that is the kind of actual data a Package contains. In particular, it sets out guideliness for what information, exactly, is present. For example, that government budget information is classified according to a standard classification codesheet like the [UN's COFOG][cofog].
+
+[cofog]: http://data.okfn.org/data/core/cofog/
+
+Content requirements will necessarily vary across the different types of fiscal data. For example, the data describing high level budgets may be different from that describing day to day expenditures, and expenditure information may be different from revenue. Thus, our framework will distinguish different types of fiscal data.
+
+We also emphasize that what we provide is a framework rather than a strict standard. That is, we provide recommendations on what information should be provided rather than strict requirements. These recommendations are also categorised into "quality" levels. Each level requires more information be provided.
+
+Finally, our recommendations place requirements on the "logical" model not the physical model. Of course, the logical model data is sourced from the physical model so requirements on the logical model ultimately place requirements on the physical model. However, by defining our requirements on the logical model we keep the flexibility in naming and structure of the raw, source data - for example, whilst a classification dimension with COFOG data should be named `cofog` and have a field called `code` your source CSV could have that COFOG data in a column called "COFOG-Code" or "Classification" or any other name.
+
+
+## Required data (all categories)
+
+All datasets MUST have at least one measure. Essentially this is requiring each dataset have at least one field / column which corresponds to an "amount" (of money).
+
+## Recommended data (all categories)
+
+The following fields SHOULD be included wherever possible:
+
+* `id`: A globally unique identifier for the budget item. This `id` field will usually be located on the default `fact` dimension.
+
+## Special Dimensions
+
+### Classifications
+
+It is common for fiscal data to be classified in various ways. A classification is a labelling of a given item with a reference to standardized codesheet.
+
+Classifications will be represented in the mapping as a dimension. Each classification dimension MUST have a `code` field whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` field if there is a need to indicate the version of a classification.
+
+Whenever we have a code field in a classification dimension, the licit values for that field consists of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for `gfsmRevenue`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
+
+Classifications are of different types. The type of the classification MAY be indicated using the `classificationType` attribute on the dimension. Values are:
+
+* `functional`
+* `administrative`
+* `chartOfAccounts`
+
+It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, We recommend adopting the following structure using the keyword `level` with level 1 being the highest, most aggregate level:
+
+```
+{
+  "name": "your-classification",
+  "fields": [
+    {
+      # this will be the precise code
+      "name": "code",
+      "source": "..."
+    },
+    {
+      # you can name the levels however you want, this is just an example
+      "name": "level1"
+      "level": 1,
+    }
+    {
+      "name": "level2"
+      "level": 2,
+    }
+  ]
+}
+```
+
+#### COFOG (Classifications of Functions of Government)
+
+This classification uses the United Nations [Classification of the Functions of Government][cofog]. Here is the simplest example as a dimension:
+
+```
+{
+  "name": "cofog",
+  "fields": [
+    {
+      "name": "code",
+      "source": "..."
+    }
+  ]
+}
+```
+
+#### IMF GSFM
+
+GSFM is the [IMF Government Finance Statistics Manual (2001)][gfsm2001]. For expenditure classification we use Table 6.1. For revenue use Table 5.1.
+
+[gfsm2001]: http://www.imf.org/external/pubs/ft/gfs/manual/
+
+#### Chart of Accounts
+
+It is common for both revenue and expenditure that there is some general "economic" classification for the item using the publisher's chart of accounts. Relevant fields for this dimension:
+
+* `code`  The internal code identifier for the economic classification.
+* `title`:  Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts.
+
+### Programs and Projects
+
+Expenditures are frequently associated with a program or project. Often these terms are used interchangeably. There is a rough distinction:
+
+* Program: A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment.
+* Project: A project is an indivisible activity with a dedicated budget and fixed schedule. A project can be a part of a bigger program and can include multiple smaller tasks. A project in an unemployment reduction program can e.g. be increased education opportunities for adults.
+
+In terms of representation as a dimension the structure is common:
+
+```
+{
+  "name": "program" or "project" or "your-chosen-name",
+  "dimensionType": "project",
+  "fields": [
+    {
+      # Name of the government program or project underwriting the budget item.
+      "name": "title"
+      "source": ...
+    },
+    {
+      # The internal code identifier for the government program or project
+      "name": "id"
+      "source": ...
+    }
+  ]
+}
+```
+
+### Entities
+
+#### Administrators
+
+* `title`: The title or name of the government entity legally responsible for spending the budgeted amount.
+* `id`: The internal code for the administrative entity.
+* `location`: Reference to a `location` dimension listing geographical region where administrative entity is located.
+* `locationCode`: code for geographical region where administrative entity is located.
+
+#### Accounts
+
+Whilst strictly not an entity, the concept of an "account" from which money is spent or into which money is deposited is common and closely resembles an "entity" in terms of functionality within fiscal analysis (e.g. tracing the movement of money between different pots). Recommended fields on an account dimension are:
+
+* `title`: The fund into which the revenue item will be deposited. (This refers to a named revenue stream.)
+* `id`: The internal code identifier for the fund.
+
+### Location
+
+There is a frequent desire to label items with location, usually by attaching geographic codes for a region or area. This allows the spending or revenue to  be analysed by region or area. This geographic information can be introduced directly by classifying the item with a code, or, more frequently indirectly by associating a geographic code to e.g. an entity. For example, by labelling a supplier with their location one can then associate a spend with that supplier as spending in that location.
+
+We RECOMMEND using a `location` dimension though fields may also be applied directly onto another object (e.g. an entity). Here are fields that MAY be applied either directly to an item or to an entity or other object associated to an item.
+
+* `code`: The internal or local geographicCode id based for the geographical region
+* `title`: Name or title of the geographical region targeted by the budget item
+* `codeList`: the geo codelist from which the geocode is drawn
+* `ocdid`: The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region
+
+Note when applying these as fields directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
+
+----
+
+## Aggregated expenditure data
+
+Aggregated expenditure data (financialStatement `expenditure`, granularity `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
+
+Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual expenditure). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
+
+| Dimension | Type | Quality | Description|
+| ----- | -------- | ------- | ---------- |
+| cofog | Classification | 2 | The COFOG functional classification for the budget item. |
+| gsfm  | Classification | 2 | The GFSM 2001 economic classification for the budget item. |
+| chart-of-accounts | Classification | 2 | Human-readable ame of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| adminstrator | Entity | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
+| account | Entity | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
+| program | Project | 3 |  Name of the government program underwriting the budget item. A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment. |
+| procurer | Entity | (3) | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
+
+## Aggregated revenue data
+
+Aggregated revenue data describes projected or actual government revenues, disaggregated to the *economic category* level.
+
+Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual revenue). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
+
+| Dimension | Type | Quality | Description|
+| ----- | ---- | ---------- |
+| chart-of-accounts | Classification | (2) | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
+| gsfm | Classification | 2 | The GFSM economic classification of revenues for the revenue item. |
+| account | Entity | 3 | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
+| recipient | Entity | 2 | The recipient (if any) targetted by the revenue item. |
+| source | Location | (3) | Geographical region from which the revenue item originates. |
+
+## Transactional expenditure data
+
+Transactional expenditure data (direction `expenditure`, granularity `transactional`) describes government expenditures at the level of individual transactions, exchanges of funds taking place at a specific time between two entities. 
+
+| Dimension | Type | Quality | Description|
+| --------- | ---- | ------- | ---------- |
+| administrator | Entity | 2 | The government entity responsible for spending the amount. |
+| date | Date | 1 | The date on which the transaction took place. |
+| supplier | Entity | 2 | The recipient of the expenditure. |
+| contract | Project | 3 | The contract associated with the transaction. |
+| budgetLineItem | Fact | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
+| invoiceID | Fact | (3) | The invoice number given by the vendor or supplier. |
+| procurer | Entity | (3) | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
 
 
 # Acknowledgements
