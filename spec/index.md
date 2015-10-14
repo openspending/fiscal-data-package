@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha3
-updated: 11 October 2015
+version: 0.3.0-alpha4
+updated: 14 October 2015
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
 - `0.3.0-alpha3`: rework mapping structure in various ways
 - `0.3.0-alpha2`: rename Budget Data Package to Fiscal Data Package
 - `0.3.0-alpha`: very substantial rework of spec to use "mapping" approach between physical and logical model. Core framework, based on Tabular Data Package, is unchanged.
