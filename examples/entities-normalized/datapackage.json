@@ -93,12 +93,12 @@
           {
             "name": "id",
             "resource": "entities",
-            "source": "payee_id"
+            "source": "id"
           },
           {
             "name": "title",
             "resource": "entities",
-            "source": "payee_name"
+            "source": "title"
           },
           {
             "name": "description",
