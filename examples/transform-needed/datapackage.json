@@ -55,6 +55,15 @@
             "source": "program"
           }
         ]
+      },
+      {
+        "name": "payee",
+        "fields": [
+          {
+            "name": "title",
+            "source": "country"
+          }
+        ]
       }
     ]
   }
