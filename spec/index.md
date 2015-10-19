@@ -301,7 +301,7 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
 {
   "name": "dimension-name",
   # dimensionType is optional
-  # it can be used to indicate this is a standard types e.g. entity, classification, program etc
+  # it can be used to indicate this is a standard types e.g. entity, classification, project etc
   "dimensionType": "...",
   "fields": [
     {
