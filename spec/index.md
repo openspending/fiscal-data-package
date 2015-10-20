@@ -156,7 +156,7 @@ We will detail each in turn.
 
 ## General Package Metadata
 
-This follows [Data Pacakge][dp] (DP). In particular, the following properties `MUST` be on the top-level descriptor:
+This follows [Data Package][dp] (DP). In particular, the following properties `MUST` be on the top-level descriptor:
 
 * `name` (DP): a url-compatible short name ("slug") for the package
 * `title` (DP): a human readable title for the package
@@ -166,7 +166,7 @@ The [Data Package specification][dp] lists various additional potential metadata
 The following properties `SHOULD` be on the top-level descriptor:
 
 * `license` (DP): specifies the license for the data in this package.
-* `countryCode`: a valid 2 -digit ISO country code (ISO 3166-1 alpha-2) ,or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
+* `countryCode`: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
 
 The following properties `MAY` be present:
 
@@ -274,7 +274,7 @@ A full representation of the logical model property is a hash that MUST contain 
 
 ### Measures
 
-Measures are numerical and usually correspond to finanical amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
+Measures are numerical and usually correspond to financial amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
 ```
 {
