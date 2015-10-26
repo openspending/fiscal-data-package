@@ -71,13 +71,13 @@ Often, this data takes the form of rows in a spreadsheet or database with each r
 +-----
 ```
 
-This proposal also builds one and reuses the [Data Package][dp] specifications. These are a family of simple, lightweight formats for publishing data. If you are unfamiliar with these, more information can be found in the Appendix.
+This proposal also builds on and reuses the [Data Package][dp] specifications. These are a family of simple, lightweight formats for publishing data. If you are unfamiliar with these, more information can be found in the Appendix.
 
 # Form and Structure
 
 A Fiscal Data Package has a simple structure:
 
-* Data: the data MUST be stored in CSV files.
+* Data: the data `MUST` be stored in CSV files.
 * Descriptor: there must a descriptor in the form of a single `datapackage.json` file. This file describes both the data and the "package" as a whole (e.g. who created it, its license etc).
 
 Fiscal Data Package builds on the existing [Data Package][dp] specifications. In particular, a Fiscal Data Package is a [Tabular Data Package][tdp] which is, in turn, a Data Package. We will spell out key implications of this as we proceed.
