@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha4
-updated: 14 October 2015
+version: 0.3.0-alpha5
+updated: 4 November 2015
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
 - `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
 - `0.3.0-alpha3`: rework mapping structure in various ways
 - `0.3.0-alpha2`: rename Budget Data Package to Fiscal Data Package
