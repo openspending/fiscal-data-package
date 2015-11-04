@@ -343,6 +343,7 @@ We illustrate here some common dimensions.
 ```
 {
   "name": "date",
+  "dimensionType": "datetime",
   # note the list of fields is for illustration - you can have any fields you like
   "fields": [
     {
@@ -373,6 +374,7 @@ Note, that it might be more common to have description and other fields clustere
 ```
 {
   "name": "fact",
+  "dimensionType": "fact",
   # note the list of fields is for illustration - you can have any fields you like
   "fields": [
     {
@@ -394,6 +396,7 @@ Note, that it might be more common to have description and other fields clustere
 # note the list of fields is for illustration - you can have any fields you like
 {
   "name": "payer",
+  "dimensionType": "entity",
   "fields": [
     {
       "name": "id",
