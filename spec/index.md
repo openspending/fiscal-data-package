@@ -172,7 +172,14 @@ The following properties `SHOULD` be on the top-level descriptor:
 The following properties `MAY` be present:
 
 * `granularity`: a keyword that represents the type of spend data, being one of "aggregated" or "transactional".
-* `fiscalPeriod`: the fiscal period of the dataset, represented in the ISO 8601 time interval convention, that is two ISO dates separated by a solidus (/), e.g. 1982-04-22/1983-04-21
+* `fiscalPeriod`: the fiscal period of the dataset, represented as a hash with two properties (`start` and `end`) whose values are ISO 8601 dates.
+
+```
+{
+  "start": "1982-04-22",
+  "end": "1983-04-21"
+}
+```
 
 In addition to the properties described above, the descriptor `MAY` contain any number of additional properties that are not declared in the specification.
 
