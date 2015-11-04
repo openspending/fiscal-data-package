@@ -203,7 +203,7 @@ The `mapping` hash provides a way to link the "physical" model - the data in CSV
 
 The logical model has some key concepts:
 
-* Amount (money): fundamentally fiscal information is usually amount amounts of money.
+* Amount (money): fundamentally fiscal information relates to amounts of money.
   * Key subconcept are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)
 * Date / Time: most financial transactions have a date or time associated
 * Description(s): fiscal information frequently has some kind of description or summary
@@ -215,7 +215,7 @@ The logical model has some key concepts:
 
 The actual description implementation utilises [OLAP][olap] terminology (and ideas). Key aspects for our purpose are:
 
-* Numerical *measures*: these will usually be the monetary amounts in the spending data
+* Numerical *measures*: these will be the monetary amounts in the spending data
 * Dimensions: dimensions cover all items other than the measure
   * In OLAP attributes is also used for dimensions that are "single-valued" - for example, a description field.
 
@@ -273,7 +273,7 @@ A full representation of the logical model property is a hash that MUST contain 
 
 ### Measures
 
-Measures are numerical and usually correspond to financial amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
+Measures are numerical and correspond to financial amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
 ```
 {
