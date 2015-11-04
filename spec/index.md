@@ -330,6 +330,9 @@ Properties:
   * `entity`
   * `classification`
   * `project`
+  * `fact`
+  * `location`
+  * `other`
 
 #### Common Dimensions
 
@@ -608,13 +611,13 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 
 | Dimension | Type | Quality | Description|
 | ----- | -------- | ------- | ---------- |
-| cofog | Classification | 2 | The COFOG functional classification for the budget item. |
-| gsfm  | Classification | 2 | The GFSM 2001 economic classification for the budget item. |
-| chart-of-accounts | Classification | 2 | Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
-| adminstrator | Entity | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
-| account | Entity | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
-| program | Project | 3 |  Name of the government program underwriting the budget item. A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment. |
-| procurer | Entity | (3) | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
+| cofog | `classification` | 2 | The COFOG functional classification for the budget item. |
+| gsfm  | `classification` | 2 | The GFSM 2001 economic classification for the budget item. |
+| chart-of-accounts | `classification` | 2 | Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| administrator | `entity` | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
+| account | `entity` | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
+| program | `project` | 3 |  Name of the government program underwriting the budget item. A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment. |
+| procurer | `entity` | (3) | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
 
 ## Aggregated revenue data
 
@@ -624,11 +627,11 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 
 | Dimension | Type | Quality | Description|
 | ----- | ---- | ---------- |
-| chart-of-accounts | Classification | (2) | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
-| gsfm | Classification | 2 | The GFSM economic classification of revenues for the revenue item. |
-| account | Entity | 3 | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
-| recipient | Entity | 2 | The recipient (if any) targetted by the revenue item. |
-| source | Location | (3) | Geographical region from which the revenue item originates. |
+| chart-of-accounts | `classification` | (2) | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
+| gsfm | `classification` | 2 | The GFSM economic classification of revenues for the revenue item. |
+| account | `entity` | 3 | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
+| recipient | `entity` | 2 | The recipient (if any) targetted by the revenue item. |
+| source | `location` | (3) | Geographical region from which the revenue item originates. |
 
 ## Transactional expenditure data
 
@@ -636,13 +639,13 @@ Transactional expenditure data (direction `expenditure`, granularity `transactio
 
 | Dimension | Type | Quality | Description|
 | --------- | ---- | ------- | ---------- |
-| administrator | Entity | 2 | The government entity responsible for spending the amount. |
-| date | Date | 1 | The date on which the transaction took place. |
-| supplier | Entity | 2 | The recipient of the expenditure. |
-| contract | Project | 3 | The contract associated with the transaction. |
-| budgetLineItem | Fact | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
-| invoiceID | Fact | (3) | The invoice number given by the vendor or supplier. |
-| procurer | Entity | (3) | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
+| administrator | `entity` | 2 | The government entity responsible for spending the amount. |
+| date | `datetime` | 1 | The date on which the transaction took place. |
+| supplier | `entity` | 2 | The recipient of the expenditure. |
+| contract | `project` | 3 | The contract associated with the transaction. |
+| budgetLineItem | `fact` | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
+| invoiceID | `fact` | (3) | The invoice number given by the vendor or supplier. |
+| procurer | `entity` | (3) | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
 
 
 # Acknowledgements
