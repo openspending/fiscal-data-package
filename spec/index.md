@@ -171,7 +171,6 @@ The following properties `SHOULD` be on the top-level descriptor:
 The following properties `MAY` be present:
 
 * `granularity`: a keyword that represents the type of spend data, being one of "aggregated" or "transactional".
-* `direction`: A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
 * `status`: A keyword that represents the status of the data, being one of "proposed", "approved", "adjusted", or "executed".
 * `fiscalPeriod`: the fiscal period of the dataset, represented in the ISO 8601 time interval convention, that is two ISO dates separated by a solidus (/), e.g. 1982-04-22/1983-04-21
 
@@ -291,7 +290,8 @@ Properties:
 * `source`: (`MUST`) Field name of source field
 * `currency`: (`MUST`) Any valid ISO 4217 currency code.
 * `factor`: (`MAY`) A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
-* `resource`: (`MAY`) Resource containing the source field
+* `resource`: (`MAY`) Resource containing the source field. Defaults to the first resource in the resources list.
+* `direction`: (`MAY`) A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
 
 ### Dimensions
 
