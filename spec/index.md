@@ -486,7 +486,7 @@ Classifications are of different types. The type of the classification MAY be in
 
 * `functional`
 * `administrative`
-* `chartOfAccounts`
+* `economic`
 
 It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, We recommend adopting the following structure using the keyword `level` with level 1 being the highest, most aggregate level:
 
