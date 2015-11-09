@@ -493,7 +493,7 @@ It is common for fiscal data to be classified in various ways. A classification 
 
 Classifications will be represented in the mapping as a dimension. Each classification dimension MUST have a `code` field whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` field if there is a need to indicate the version of a classification.
 
-Whenever we have a code field in a classification dimension, the licit values for that field consists of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for `gfsmRevenue`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
+Whenever we have a code field in a classification dimension, the licit values for that field consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gsfm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
 Classifications are of different types. The type of the classification MAY be indicated using the `classificationType` attribute on the dimension. Values are:
 
@@ -543,9 +543,9 @@ This classification uses the United Nations [Classification of the Functions of 
 
 #### IMF GSFM
 
-GSFM is the [IMF Government Finance Statistics Manual (2001)][gfsm2001]. For expenditure classification we use Table 6.1. For revenue use Table 5.1.
+GSFM is the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For expenditure classification, use Table 6.1. For revenue, use Table 5.1.
 
-[gfsm2001]: http://www.imf.org/external/pubs/ft/gfs/manual/
+[gfsm2014]: http://www.imf.org/external/np/sta/gfsm/
 
 #### Chart of Accounts
 
@@ -622,7 +622,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | Dimension | Type | Quality | Description|
 | ----- | -------- | ------- | ---------- |
 | cofog | `classification` | 2 | The COFOG functional classification for the budget item. |
-| gsfm  | `classification` | 2 | The GFSM 2001 economic classification for the budget item. |
+| gsfm  | `classification` | 2 | The GFSM 2014 economic classification for the budget item. |
 | chart-of-accounts | `classification` | 2 | Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
 | administrator | `entity` | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
 | account | `entity` | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
@@ -638,7 +638,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | Dimension | Type | Quality | Description|
 | ----- | ---- | ---------- |
 | chart-of-accounts | `classification` | (2) | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
-| gsfm | `classification` | 2 | The GFSM economic classification of revenues for the revenue item. |
+| gsfm | `classification` | 2 | The GFSM 2014 economic classification for the revenue item. |
 | account | `entity` | 3 | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | recipient | `entity` | 2 | The recipient (if any) targetted by the revenue item. |
 | source | `location` | (3) | Geographical region from which the revenue item originates. |
