@@ -614,7 +614,7 @@ Note when applying these as fields directly on an object we suggest prefixing ea
 
 ## Aggregated expenditure data
 
-Aggregated expenditure data (financialStatement `expenditure`, granularity `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
+Aggregated expenditure data (direction: `expenditure`, granularity: `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
 
 Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual expenditure). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
 
