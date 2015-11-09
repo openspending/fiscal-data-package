@@ -210,9 +210,8 @@ The `mapping` hash provides a way to link the "physical" model - the data in CSV
 
 The logical model has some key concepts:
 
-* Amount (money): fundamentally fiscal information relates to amounts of money.
-  * Key subconcept are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)
-* Date / Time: most financial transactions have a date or time associated
+* Amount (money): fiscal information fundamentally relates to amounts of money.
+  * Key subconcepts are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)* Date / Time: most financial transactions have a date or time associated
 * Description(s): fiscal information frequently has some kind of description or summary
 * Entities who spend or receive monies: entities, whether individuals or organizations, are the spenders or receivers of money.
   * Payor: the entity expending money
@@ -464,11 +463,11 @@ Classifications do not have any standardized `name`, If the classification is a 
 
 # Content
 
-This section provides a standard framework for the "content" of Fiscal Data Packages. The previous section has been about the form both for the data (e.g. that it is CSV) and for the metadata (the information in the datapackage.json). This section is about the "content", that is the kind of actual data a Package contains. In particular, it sets out guideliness for what information, exactly, is present. For example, that government budget information is classified according to a standard classification codesheet like the [UN's COFOG][cofog].
+This section provides a standard framework for the "content" of Fiscal Data Packages. The previous section has been about the form both for the data (e.g. that it is CSV) and for the metadata (the information in the datapackage.json). This section is about the "content", that is the kind of actual data a Package contains. In particular, it sets out guidelines for what information, exactly, is present. For example, that government budget information is classified according to a standard classification codesheet like the [UN's COFOG][cofog].
 
 [cofog]: http://data.okfn.org/data/core/cofog/
 
-Content requirements will necessarily vary across the different types of fiscal data. For example, the data describing high level budgets may be different from that describing day to day expenditures, and expenditure information may be different from revenue. Thus, our framework will distinguish different types of fiscal data.
+Content requirements will necessarily vary across the different types of fiscal data. For example, the data describing high level budgets may be different from that describing day-to-day expenditures, and expenditure information may be different from revenue. Thus, our framework will distinguish different types of fiscal data.
 
 We also emphasize that what we provide is a framework rather than a strict standard. That is, we provide recommendations on what information should be provided rather than strict requirements. These recommendations are also categorised into "quality" levels. Each level requires more information be provided.
 
@@ -477,7 +476,7 @@ Finally, our recommendations place requirements on the "logical" model not the p
 
 ## Required data (all categories)
 
-All datasets MUST have at least one measure. Essentially this is requiring each dataset have at least one field / column which corresponds to an "amount" (of money).
+All datasets MUST have at least one measure. Essentially this is requiring each dataset have at least one field / column which corresponds to an "amount" of money.
 
 ## Recommended data (all categories)
 
@@ -501,7 +500,7 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, We recommend adopting the following structure using the keyword `level` with level 1 being the highest, most aggregate level:
+It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `level` with level 1 being the highest, most aggregate level:
 
 ```
 {
