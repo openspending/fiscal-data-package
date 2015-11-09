@@ -296,7 +296,7 @@ Properties:
 * `source`: (`MUST`) Field name of source field
 * `currency`: (`MUST`) Any valid ISO 4217 currency code.
 * `factor`: (`MAY`) A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
-* `resource`: (`MAY`) Resource containing the source field. Defaults to the first resource in the resources list.
+* `resource`: (`MAY`) Resource containing the source field. Defaults to the first resource in the resources array.
 * `direction`: (`MAY`) A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
 * `phase`: (`MAY`) the phase of the budget that the values in this measure relate to. It is a string that `MUST` be one of the following: 
   * `proposed`
