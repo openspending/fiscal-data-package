@@ -136,7 +136,7 @@ data/my-list-of-projects-the-money-is-associated-with.csv # additional augmentin
 
 ## The Data
 
-The data in your Data Package MUST:
+The data in your Data Package `MUST`:
 
 * Be in CSV format.
 * Have well-structured CSVs- no blank rows, columns etc. [Tabular Data Package][tdp] spells this out in detail.
@@ -145,7 +145,7 @@ The data in your Data Package MUST:
 
 ## The Descriptor - `datapackage.json`
 
-A Fiscal Data Package MUST contain a `datapackage.json` - it is the central file in an Fiscal Data Package.
+A Fiscal Data Package `MUST` contain a `datapackage.json` - it is the central file in an Fiscal Data Package.
 
 The `datapackage.json` contains information in three key areas:
 
@@ -186,18 +186,18 @@ In addition to the properties described above, the descriptor `MAY` contain any 
 
 ## Resources
 
-The Data Package MUST have a `resources` property. 
+The Data Package `MUST` have a `resources` property. 
 
 The definition and behaviour of the `resources` property is described in detail in the [Data Package][dp-resources] and [Tabular Data Package][tdp] specifications.
 
 The two key points we emphasize here from the [Tabular Data Package specification][tdp] are:
 
-* Each data file MUST have an entry in the `resources` array
-* That entry in the resources array MUST have a [JSON Table Schema][jts] schema describing the data file
+* Each data file `MUST` have an entry in the `resources` array
+* That entry in the resources array `MUST` have a [JSON Table Schema][jts] schema describing the data file
 
 ## Mapping
 
-The Fiscal Data Package MUST provide a `mapping` property. `mapping` MUST be a hash.
+The Fiscal Data Package `MUST` provide a `mapping` property. `mapping` `MUST` be a hash.
 
 The `mapping` hash provides a way to link the "physical" model - the data in CSV files - to a more general, conceptual, "logical" model for fiscal information.
 
@@ -230,7 +230,7 @@ From an OLAP perspective many of these dimensions may not split out in actual se
 
 ### Details
 
-The `mapping` is a hash. It MUST contain a `measures` property and it MUST contain a `dimensions` property. Both `measures` and `dimensions` MUST be arrays:
+The `mapping` is a hash. It `MUST` contain a `measures` property and it `MUST` contain a `dimensions` property. Both `measures` and `dimensions` `MUST` be arrays:
 
 ```
   {
@@ -267,7 +267,7 @@ The `mapping` is a hash. It MUST contain a `measures` property and it MUST conta
 
 **Describing sources**: the logical model will repeatedly need to indicate that the data for a given part of the model comes from a given field/column in a CSV file. This is done with a `source` property.
 
-A full representation of the logical model property is a hash that MUST contain `source` and MAY contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the resource list:
+A full representation of the logical model property is a hash that `MUST` contain `source` and `MAY` contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the resource array:
 
 ```
 # full representation, using an object and the source property
@@ -332,7 +332,7 @@ Properties:
 * `name`: (`MUST`) The dimension name in the logical model
 * `fields`: (`MUST`) An array of field objects that make up the dimension. Each `field` is an entry in the array - think of it as column on that dimension in a database. At a minimum it must have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above). A `field` MUST have a `name` attribute and `source` information.
 * `primaryKey`: (`MUST`) Either an array of strings corresponding to the `fields` hash properties or a single string corresponding to one of the `fields` hash properties. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
-* `dimensionType`: (`MAY`) Describes what kind of a dimension it is. `dimensionType` is a string that MUST be one of the following:
+* `dimensionType`: (`MAY`) Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
   * `datetime`
   * `entity`
   * `classification`
@@ -433,7 +433,7 @@ Note, that it might be more common to have description and other fields clustere
 
 **`classification`**
 
-Classifications do not have any standardized name, If the classification is a well-known and standardized one, then it is conventional to use the name of that classification e.g. for COFOG the dimension would be called `cofog`.
+Classifications do not have any standardized `name`, If the classification is a well-known and standardized one, then it is conventional to use the name of that classification e.g. for COFOG the dimension would be called `cofog`.
 
 ```
 # this is a made-up name for the dimension - you could call your dimension anything
@@ -491,11 +491,11 @@ The following fields SHOULD be included wherever possible:
 
 It is common for fiscal data to be classified in various ways. A classification is a labelling of a given item with a reference to standardized codesheet.
 
-Classifications will be represented in the mapping as a dimension. Each classification dimension MUST have a `code` field whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` field if there is a need to indicate the version of a classification.
+Classifications will be represented in the mapping as a dimension. Each classification dimension `MUST` have a `code` field whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` field if there is a need to indicate the version of a classification.
 
 Whenever we have a code field in a classification dimension, the licit values for that field consists of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for `gfsmRevenue`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
-Classifications are of different types. The type of the classification MAY be indicated using the `classificationType` attribute on the dimension. Values are:
+Classifications are of different types. The type of the classification `MAY` be indicated using the `classificationType` attribute on the dimension. Values are:
 
 * `functional`
 * `administrative`
@@ -602,7 +602,7 @@ Whilst strictly not an entity, the concept of an "account" from which money is s
 
 There is a frequent desire to label items with location, usually by attaching geographic codes for a region or area. This allows the spending or revenue to  be analysed by region or area. This geographic information can be introduced directly by classifying the item with a code, or, more frequently indirectly by associating a geographic code to e.g. an entity. For example, by labelling a supplier with their location one can then associate a spend with that supplier as spending in that location.
 
-We RECOMMEND using a `location` dimension though fields may also be applied directly onto another object (e.g. an entity). Here are fields that MAY be applied either directly to an item or to an entity or other object associated to an item.
+We RECOMMEND using a `location` dimension though fields may also be applied directly onto another object (e.g. an entity). Here are fields that `MAY` be applied either directly to an item or to an entity or other object associated to an item.
 
 * `code`: The internal or local geographicCode id based for the geographical region
 * `title`: Name or title of the geographical region targeted by the budget item
