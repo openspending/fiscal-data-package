@@ -353,7 +353,7 @@ Properties:
   * `datetime`
   * `entity`
   * `classification`
-  * `project`
+  * `activity`
   * `fact`
   * `location`
   * `other`
@@ -596,12 +596,12 @@ Expenditures are frequently associated with a program or project. Often these te
 * Program: A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment.
 * Project: A project is an indivisible activity with a dedicated budget and fixed schedule. A project can be a part of a bigger program and can include multiple smaller tasks. A project in an unemployment reduction program can e.g. be increased education opportunities for adults.
 
-In terms of representation as a dimension the structure is common:
+In terms of representation as a dimension, we use a `dimensionType` of "activity".  The structure is as follows:
 
 ```
 {
   "name": "program" or "project" or "your-chosen-name",
-  "dimensionType": "project",
+  "dimensionType": "activity",
   "fields": [
     {
       # The internal code identifier for the government program or project
@@ -663,7 +663,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | chart-of-accounts | `classification` | 2 | Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
 | administrator | `entity` | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
 | account | `entity` | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
-| program | `project` | 3 |  Name of the government program underwriting the budget item. A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment. |
+| program | `activity` | 3 |  Name of the government program underwriting the budget item. |
 | procurer | `entity` | (3) | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
 
 ## Aggregated revenue data
@@ -689,7 +689,7 @@ Transactional expenditure data (direction `expenditure`, granularity `transactio
 | administrator | `entity` | 2 | The government entity responsible for spending the amount. |
 | date | `datetime` | 1 | The date on which the transaction took place. |
 | supplier | `entity` | 2 | The recipient of the expenditure. |
-| contract | `project` | 3 | The contract associated with the transaction. |
+| contract | `activity` | 3 | The contract associated with the transaction. |
 | budgetLineItem | `fact` | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
 | invoiceID | `fact` | (3) | The invoice number given by the vendor or supplier. |
 | procurer | `entity` | (3) | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
