@@ -53,7 +53,7 @@ Fiscal Data Package specifies the *form* for fiscal data and offers a standardiz
 
 * A simple and standard way to provide rich metadata about fiscal information - where it came from, who produced it, how it is licensed, what time period it covers etc
 * Mapping the raw "physical" model, as represented by columns in the data files, to a standardized "logical" model based around basic fiscal concepts: amounts spent, suppliers, administrative and functional classifications etc
-* Progressive enhancement of data via a range of *recommended*, but not *required* metadata, in order to establish clear path for data providers to enhance data quality, and to address new use cases going forward.
+* Progressive enhancement of data via a range of *recommended*, but not *required* metadata, in order to establish a clear path for data providers to enhance data quality, and to address new use cases going forward.
 
 
 # Background
@@ -94,13 +94,18 @@ Basic overview of the Fiscal Data Package
 
 ## Data Packages on Disk
 
-Here are some examples of what an Fiscal Data Package looks like on disk. Usually, the datapackage.json and data files are bundled together, and collectively referred to as "the data package".
+Here are some examples of what an Fiscal Data Package looks like on disk. Usually, the `datapackage.json` and data files are bundled together, and collectively referred to as "the data package".
 
 A simple example of an Fiscal Data Package:
 
 ```
+# descriptor file
+
 datapackage.json
-# data files - can be data/ subdirectory or just in the base directory, must be CSV
+
+# data files - can be data/ subdirectory or just in the base
+# directory, must be CSV
+
 data/my-financial-data.csv
 ```
 
@@ -110,15 +115,17 @@ A more complex example, with additional files:
 datapackage.json
 README.md           # optional
 
-# data files - can be data/ subdirectory or just in the base directory, must be CSV
+# data files - can be data/ subdirectory or just in the base
+# directory, must be CSV
+
 data/my-financial-data.csv
 
 # directory for storing original data and other 'archival' material
 # (optional)
 archive/my-original-data.xls
 
-# scripts used in preparing the data package
-# (optional)
+# scripts used in preparing the data package (optional)
+
 scripts/scrape-and-clean-the-data.py
 ```
 
@@ -128,7 +135,9 @@ And, an example of a data package with normalized data could be:
 datapackage.json
 README.md
 
-# data files, but only the first one actually contains the spend data. It may contain references (foreign keys) to the other files.
+# data files, but only the first one actually contains the spend
+# data. It may contain references (foreign keys) to the other files.
+
 data/my-financial-data.csv # actually contains spend data
 data/my-list-of-entities-receiving-money.csv # data that augmented the spend data
 data/my-list-of-projects-the-money-is-associated-with.csv # additional augmenting data
@@ -193,7 +202,7 @@ The definition and behaviour of the `resources` property is described in detail 
 The two key points we emphasize here from the [Tabular Data Package specification][tdp] are:
 
 * Each data file `MUST` have an entry in the `resources` array
-* That entry in the resources array `MUST` have a [JSON Table Schema][jts] schema describing the data file
+* That entry in the `resources` array `MUST` have a [JSON Table Schema][jts] schema describing the data file
 
 ## Mapping
 
@@ -211,7 +220,8 @@ The `mapping` hash provides a way to link the "physical" model - the data in CSV
 The logical model has some key concepts:
 
 * Amount (money): fiscal information fundamentally relates to amounts of money.
-  * Key subconcepts are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)* Date / Time: most financial transactions have a date or time associated
+  * Key subconcepts are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)
+  * Date / Time: most financial transactions have a date or time associated
 * Description(s): fiscal information frequently has some kind of description or summary
 * Entities who spend or receive monies: entities, whether individuals or organizations, are the spenders or receivers of money.
   * Payor: the entity expending money
@@ -223,7 +233,7 @@ The actual description implementation utilises [OLAP][olap] terminology (and ide
 
 * Numerical *measures*: these will be the monetary amounts in the spending data
 * Dimensions: dimensions cover all items other than the measure
-  * In OLAP attributes is also used for dimensions that are "single-valued" - for example, a description field.
+  * In OLAP, "attribute" is also used for dimensions that are "single-valued" - for example, a description field.
 
 From an OLAP perspective many of these dimensions may not split out in actual separate tables but map to attributes on the fact table if they are very simple (e.g. a given classification may just be a single field).
 
@@ -266,7 +276,7 @@ The `mapping` is a hash. It `MUST` contain a `measures` property and it `MUST` c
 
 **Describing sources**: the logical model will repeatedly need to indicate that the data for a given part of the model comes from a given field/column in a CSV file. This is done with a `source` property.
 
-A full representation of the logical model property is a hash that `MUST` contain `source` and `MAY` contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the resource array:
+A full representation of the logical model property is a hash that `MUST` contain `source` and `MAY` contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the `resources` array:
 
 ```
 # full representation, using an object and the source property
@@ -296,7 +306,7 @@ Properties:
 * `source`: (`MUST`) Field name of source field
 * `currency`: (`MUST`) Any valid ISO 4217 currency code.
 * `factor`: (`MAY`) A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
-* `resource`: (`MAY`) Resource containing the source field. Defaults to the first resource in the resources array.
+* `resource`: (`MAY`) Resource containing the source field. Defaults to the first resource in the `resources` array.
 * `direction`: (`MAY`) A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
 * `phase`: (`MAY`) the phase of the budget that the values in this measure relate to. It is a string that `MUST` be one of the following: 
   * `proposed`
@@ -311,8 +321,11 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
 ```
 {
   "name": "dimension-name",
-  # dimensionType is optional
-  # it can be used to indicate this is a standard type of dimension e.g. entity, classification, project etc
+
+  # dimensionType is optional. it can be used to indicate this is a
+  # standard type of dimension e.g. entity, classification, project
+  # etc
+  
   "dimensionType": "...",
   "fields": [
     {
@@ -326,7 +339,7 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
     }
   ],
   "primaryKey": ["field-1"],
-  other properties ...
+  # other properties ...
 }
 ```
 
@@ -354,7 +367,10 @@ We illustrate here some common dimensions.
 {
   "name": "date",
   "dimensionType": "datetime",
-  # note the list of fields is for illustration - you can have any fields you like
+  
+  # note: the list of fields is for illustration - you can have any
+  # fields you like
+  
   "fields": [
     {
       "name": "year",
@@ -369,7 +385,10 @@ We illustrate here some common dimensions.
 ```
 {
   "name": "description",
-  # note the list of fields is for illustration - you can have any fields you like
+  
+  # note the list of fields is for illustration - you can have any
+  # fields you like
+  
   "fields": [
     {
       "name": "description",
@@ -385,7 +404,10 @@ Note, that it might be more common to have description and other fields clustere
 {
   "name": "fact",
   "dimensionType": "fact",
-  # note the list of fields is for illustration - you can have any fields you like
+  
+  # note the list of fields is for illustration - you can have any
+  # fields you like
+  
   "fields": [
     {
       "name": "description",
@@ -403,10 +425,13 @@ Note, that it might be more common to have description and other fields clustere
 **`payer`**
 
 ```
-# note the list of fields is for illustration - you can have any fields you like
 {
   "name": "payer",
   "dimensionType": "entity",
+  
+  # note the list of fields is for illustration - you can have any
+  # fields you like
+
   "fields": [
     {
       "name": "id",
@@ -430,17 +455,20 @@ Note, that it might be more common to have description and other fields clustere
 ```
 {
   "name": "payee",
+  
   # as per payer ...
 }
 ```
 
 **`classification`**
 
-Classifications do not have any standardized `name`, If the classification is a well-known and standardized one, then it is conventional to use the name of that classification e.g. for COFOG the dimension would be called `cofog`.
+Classifications do not have a standardized `name`. If the classification is a well-known and standardized one, then it is conventional to use the name of that classification e.g. for COFOG the dimension would be called `cofog`.
 
 ```
-# this is a made-up name for the dimension - you could call your dimension anything
 {
+  # this is a made-up name for the dimension - you could call your
+  # dimension anything
+
   "name": "function",
   "dimensionType": "classification",
   "fields": [
@@ -475,7 +503,7 @@ Content requirements will necessarily vary across the different types of fiscal 
 
 We also emphasize that what we provide is a framework rather than a strict standard. That is, we provide recommendations on what information should be provided rather than strict requirements. These recommendations are also categorised into "quality" levels. Each level requires more information be provided.
 
-Finally, our recommendations place requirements on the "logical" model not the physical model. Of course, the logical model data is sourced from the physical model so requirements on the logical model ultimately place requirements on the physical model. However, by defining our requirements on the logical model we keep the flexibility in naming and structure of the raw, source data - for example, whilst a classification dimension with COFOG data should be named `cofog` and have a field called `code` your source CSV could have that COFOG data in a column called "COFOG-Code" or "Classification" or any other name.
+Finally, our recommendations place requirements on the "logical" model not the physical model. Of course, the logical model data is sourced from the physical model so requirements on the logical model ultimately place requirements on the physical model. However, by defining our requirements on the logical model, we keep the flexibility in naming and structure of the raw, source data - for example, whilst a classification dimension with COFOG data should be named `cofog` and have a field called `code` your source CSV could have that COFOG data in a column called "COFOG-Code" or "Classification" or any other name.
 
 
 ## Required data (all categories)
@@ -496,7 +524,7 @@ It is common for fiscal data to be classified in various ways. A classification 
 
 Classifications will be represented in the mapping as a dimension. Each classification dimension `MUST` have a `code` field whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` field if there is a need to indicate the version of a classification.
 
-Whenever we have a code field in a classification dimension, the licit values for that field consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gsfm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
+Whenever we have a code field in a classification dimension, the licit values for that field consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gfsm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
 Classifications are of different types. The type of the classification `MAY` be indicated using the `classificationType` attribute on the dimension. Values are:
 
@@ -512,17 +540,20 @@ It is common for classifications to be hierarchical and have different levels. I
   "fields": [
     {
       # this will be the precise code
+      
       "name": "code",
       "source": "..."
     },
     {
-      # you can name the levels however you want, this is just an example
-      "name": "level1"
-      "level": 1,
+      # you can name the levels however you want, this is just an 
+      # example
+
+      "name": "level1",
+      "level": 1
     }
     {
-      "name": "level2"
-      "level": 2,
+      "name": "level2",
+      "level": 2
     }
   ]
 }
@@ -544,9 +575,9 @@ This classification uses the United Nations [Classification of the Functions of 
 }
 ```
 
-#### IMF GSFM
+#### IMF GFSM
 
-GSFM is the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For expenditure classification, use Table 6.1. For revenue, use Table 5.1.
+GFSM is the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For expenditure classification, use Table 6.1. For revenue, use Table 5.1.
 
 [gfsm2014]: http://www.imf.org/external/np/sta/gfsm/
 
@@ -554,7 +585,7 @@ GSFM is the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For exp
 
 It is common for both revenue and expenditure that there is some general "economic" classification for the item using the publisher's chart of accounts. Relevant fields for this dimension:
 
-* `code`  The internal code identifier for the economic classification.
+* `code`:  The internal code identifier for the economic classification.
 * `title`:  Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts.
 
 ### Programs and Projects
@@ -572,13 +603,15 @@ In terms of representation as a dimension the structure is common:
   "dimensionType": "project",
   "fields": [
     {
-      # Name of the government program or project underwriting the budget item.
-      "name": "title"
+      # The internal code identifier for the government program or project
+
+      "name": "id"
       "source": ...
     },
     {
-      # The internal code identifier for the government program or project
-      "name": "id"
+      # Name of the government program or project underwriting the budget item.
+
+      "name": "title"
       "source": ...
     }
   ]
@@ -625,7 +658,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | Dimension | Type | Quality | Description|
 | ----- | -------- | ------- | ---------- |
 | cofog | `classification` | 2 | The COFOG functional classification for the budget item. |
-| gsfm  | `classification` | 2 | The GFSM 2014 economic classification for the budget item. |
+| gfsm  | `classification` | 2 | The GFSM 2014 economic classification for the budget item. |
 | chart-of-accounts | `classification` | 2 | Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
 | administrator | `entity` | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
 | account | `entity` | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
@@ -641,7 +674,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | Dimension | Type | Quality | Description|
 | ----- | ---- | ---------- |
 | chart-of-accounts | `classification` | (2) | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
-| gsfm | `classification` | 2 | The GFSM 2014 economic classification for the revenue item. |
+| gfsm | `classification` | 2 | The GFSM 2014 economic classification for the revenue item. |
 | account | `entity` | 3 | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
 | recipient | `entity` | 2 | The recipient (if any) targetted by the revenue item. |
 | source | `location` | (3) | Geographical region from which the revenue item originates. |
