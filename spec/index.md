@@ -347,8 +347,8 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
 Properties:
 
 * `name`: (`MUST`) The dimension name in the logical model
-* `fields`: (`MUST`) An array of field objects that make up the dimension. Each `field` is an entry in the array - think of it as column on that dimension in a database. At a minimum it must have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above). A `field` MUST have a `name` attribute and `source` information.
-* `primaryKey`: (`MUST`) Either an array of strings corresponding to the `fields` hash properties or a single string corresponding to one of the `fields` hash properties. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
+* `fields`: (`MUST`) An array of field objects that make up the dimension. Each field is an entry in the array - think of it as column on that dimension in a database. At a minimum it must have "source" information - i.e. where the data comes from for that property (see "Describing Sources" above). A field MUST have a `name` attribute and `source` information.
+* `primaryKey`: (`MUST`) Either an array of strings corresponding to the `name` attributes in a set of field objects in the `fields` array or a single string corresponding to one of these `name`s. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
 * `dimensionType`: (`MAY`) Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
   * `datetime`
   * `entity`
