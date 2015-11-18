@@ -621,6 +621,8 @@ In terms of representation as a dimension, we use a `dimensionType` of "activity
 
 ### Entities
 
+An entity is a distinct organization, government department, or individual that is spending or receiving a given amount.  Entities will be represented by dimensions.
+
 #### Administrators
 
 * `title`: The title or name of the government entity legally responsible for spending the budgeted amount.
@@ -650,7 +652,11 @@ Note when applying these as fields directly on an object we suggest prefixing ea
 
 ----
 
-## Aggregated expenditure data
+## Suggested Dimensions for Different Types of Spending Data
+
+This section lists the suggested sets of dimensions that can usefully describe different types of spending data.  We also include quality levels for each dimension.  For example, if your aggregated expenditure data has a dimension named "cofog" described as above, it will have a quality level of "2".  Quality levels in parentheses are applied to dimensions which are desirable but not required to reach that quality level.
+
+### Aggregated expenditure data
 
 Aggregated expenditure data (direction `expenditure`, granularity `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
 
@@ -666,7 +672,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | program | `activity` | 3 |  Name of the government program underwriting the budget item. |
 | procurer | `entity` | (3) | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
 
-## Aggregated revenue data
+### Aggregated revenue data
 
 Aggregated revenue data (direction `revenue`, granularity `aggregated`) describes projected or actual government revenues, disaggregated to the *economic category* level.
 
@@ -680,7 +686,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 | recipient | `entity` | 2 | The recipient (if any) targetted by the revenue item. |
 | source | `location` | (3) | Geographical region from which the revenue item originates. |
 
-## Transactional expenditure data
+### Transactional expenditure data
 
 Transactional expenditure data (direction `expenditure`, granularity `transactional`) describes government expenditures at the level of individual transactions, exchanges of funds taking place at a specific time between two entities. 
 
