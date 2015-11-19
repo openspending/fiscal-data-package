@@ -25,15 +25,14 @@ for those wanting to use the data (such as researchers and journalists).
 
 ## Additional Materials
 
-[`schema.json`][schema] contains a [JSON schema][schema] for Fiscal Data
-Package metadata.
+[`fiscal-data-package.json`][schema] (hosted in the [dataprotocols/schemas repository](https://github.com/dataprotocols/schemas)) contains a [JSON schema](http://json-schema.org/) for Fiscal Data Package metadata.
 
 Note: this JSON schema only specifies the basic structure of the metadata
 descriptor. It does not check fine-grained properties like the required fields
 associated with different dataset types, and it does not specify the
 well-formedness of CSV datasets.
 
-[schema]: /schema.json
+[schema]: https://raw.githubusercontent.com/dataprotocols/schemas/master/fiscal-data-package.json
 
 ## Contributing
 
