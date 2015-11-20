@@ -415,7 +415,7 @@ Note, that it might be more common to have description and other fields clustere
       "source": "description source field name"
     },
     {
-      "title": "title",
+      "name": "title",
       "source": "title source field name"
     }
   ]
