@@ -81,16 +81,7 @@ A Fiscal Data Package has a simple structure:
 * Data: the data `MUST` be stored in CSV files.
 * Descriptor: there must a descriptor in the form of a single `datapackage.json` file. This file describes both the data and the "package" as a whole (e.g. who created it, its license etc).
 
-Fiscal Data Package builds on the existing [Data Package][dp] specifications. In particular, a Fiscal Data Package is a [Tabular Data Package][tdp] which is, in turn, a Data Package. We will spell out key implications of this as we proceed.
-
-<!--
-Here's an overview diagram that not only illustrates the basic setup but also the relation with the Data Package specifications:
-
-![Basic diagram of Fiscal Data Package](img/open-spending-data-package.svg){: .center-block}
-
-Basic overview of the Fiscal Data Package
-{: style="text-align: center"}
--->
+Fiscal Data Package builds on the [Data Packages specifications][dp] by defining a "profile" that places some additional constraints on the metadata relevant to describing fiscal data.  A Fiscal Data Package also extends the [Tabular Data Package][tdp] profile (`tabular`) which itself extends the `base` Data Package format.  In this sense, a Fiscal Data Package is a [Tabular Data Package][tdp] which is, in turn, a [Data Package][dp]. We will spell out key implications of this as we proceed.
 
 ## File structures
 
@@ -163,6 +154,12 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
   "countryCode": "au", // or [ "au", "nz" ]
+
+  // RECOMMENDED: the "profile set" for this package. If the `profiles` key is present, it `MUST` be set to the following hash:
+  "profiles": {
+    "fiscal": "*",
+    "tabular": "*"
+  }
 
   // OPTIONAL: a keyword that represents the type of spend data, being one of "aggregated" or "transactional".
   "granularity": "aggregated", 
