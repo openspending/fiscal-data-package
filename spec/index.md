@@ -292,71 +292,70 @@ A full representation of the logical model property is a hash that `MUST` contai
 
 Measures are numerical and correspond to financial amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
-```
+```javascript
 {
+  // REQUIRED: The measure name in the logical model
   "name": "measure-name",
+  
+  // REQUIRED: Field name of source field
   "source": "amount",
+  
+  // REQUIRED: Any valid ISO 4217 currency code.
   "currency": "USD",
-  "factor": 1
+  
+  // OPTIONAL: A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
+  "factor": 1,
+  
+  // OPTIONAL: Resource containing the source field. Defaults to the first resource in the `resources` array.
+  "resource": "file1",
+  
+  // OPTIONAL: A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
+  "direction": "expenditure",
+  
+  // OPTIONAL: The phase of the budget that the values in this measure relate to. It is a string that `MUST` be one of the following: proposed, approved, adjusted, executed
+  "phase": "proposed",
+  
+  // (other properties allowed)
+  
 }
 ```
-
-Properties:
-
-* `name`: (`MUST`) The measure name in the logical model
-* `source`: (`MUST`) Field name of source field
-* `currency`: (`MUST`) Any valid ISO 4217 currency code.
-* `factor`: (`MAY`) A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
-* `resource`: (`MAY`) Resource containing the source field. Defaults to the first resource in the `resources` array.
-* `direction`: (`MAY`) A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
-* `phase`: (`MAY`) the phase of the budget that the values in this measure relate to. It is a string that `MUST` be one of the following: 
-  * `proposed`
-  * `approved`
-  * `adjusted`
-  * `executed`
 
 ### Dimensions
 
 Each dimension is represented by a hash in the `dimensions` array. The hash has the structure:
 
-```
+```javascript
 {
-  "name": "dimension-name",
+  // REQUIRED: The dimension name in the logical model
+  "name": "ProjectClass",
 
-  # dimensionType is optional. it can be used to indicate this is a
-  # standard type of dimension e.g. entity, classification, project
-  # etc
-  
-  "dimensionType": "...",
+  // REQUIRED: An array of field objects that make up the dimension. Each field is an entry in the array - think of it as column on that dimension in a database. A field MUST have a `name` attribute and `source` information - i.e. where the data comes from for that property 
   "fields": [
     {
-      "name": "field-1",
-      "source": "...",
+      // REQUIRED
+      "name": "Project",
+      // REQUIRED: the field name where the comes from for this property (see "Describing Sources" above).
+      "source": "proj",
+      // OPTIONAL: the resource in which the field is located
       "resource": "..."
     },
     {
-      "name": "field-2",
-      "source": "..."
+      "name": "ClassCode",
+      "source": "class_code"
     }
   ],
-  "primaryKey": ["field-1"],
-  # other properties ...
+  
+  // REQUIRED: Either an array of strings corresponding to the `name` attributes in a set of field objects in the `fields` array or a single string corresponding to one of these `name`s. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
+  "primaryKey": ["Project", "ClassCode"],
+
+  // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
+  // datetime, entity, classification, activity, fact, location, other`
+  "dimensionType": "classification",
+
+  // (other properties allowed)
+
 }
 ```
-
-Properties:
-
-* `name`: (`MUST`) The dimension name in the logical model
-* `fields`: (`MUST`) An array of field objects that make up the dimension. Each field is an entry in the array - think of it as column on that dimension in a database. A field MUST have a `name` attribute and `source` information - i.e. where the data comes from for that property (see "Describing Sources" above).
-* `primaryKey`: (`MUST`) Either an array of strings corresponding to the `name` attributes in a set of field objects in the `fields` array or a single string corresponding to one of these `name`s. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
-* `dimensionType`: (`MAY`) Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
-  * `datetime`
-  * `entity`
-  * `classification`
-  * `activity`
-  * `fact`
-  * `location`
-  * `other`
 
 #### Common Dimensions
 
