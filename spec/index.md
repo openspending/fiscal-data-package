@@ -155,7 +155,7 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
   "countryCode": "au", // or [ "au", "nz" ]
 
-  // RECOMMENDED: the "profile set" for this package. If the `profiles` key is present, it `MUST` be set to the following hash:
+  // RECOMMENDED: the "profile set" for this package. If the `profiles` key is present, it MUST be set to the following hash:
   "profiles": {
     "fiscal": "*",
     "tabular": "*"
@@ -575,4 +575,3 @@ Categorizing and organizing the data is more about describing it from the bigger
 [cofog]: http://unstats.un.org/unsd/cr/registry/regcst.asp?Cl=4
 [imf-budget]: http://www.imf.org/external/pubs/ft/tnm/2009/tnm0906.pdf
 [olap]: https://en.wikipedia.org/wiki/Online_analytical_processing
-
