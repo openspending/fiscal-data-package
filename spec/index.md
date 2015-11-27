@@ -92,59 +92,37 @@ Basic overview of the Fiscal Data Package
 {: style="text-align: center"}
 -->
 
-## Data Packages on Disk
+## File structures
 
-Here are some examples of what an Fiscal Data Package looks like on disk. Usually, the `datapackage.json` and data files are bundled together, and collectively referred to as "the data package".
+Here are some examples of what a Fiscal Data Package looks like on disk. Usually, the `datapackage.json` and data files are bundled together, and collectively referred to as "the data package".
 
-A simple example of an Fiscal Data Package:
+A simple example of a Fiscal Data Package:
 
-```
-# descriptor file
-
-datapackage.json
-
-# data files - can be data/ subdirectory or just in the base
-# directory, must be CSV
-
-data/my-financial-data.csv
-```
+File  | Comment 
+------|-------
+`datapackage.json`           | Descriptor file
+`data/my-financial-data.csv` | Data files, must be .csv. In `data/` by convention, but not required to be.
 
 A more complex example, with additional files:
 
-```
-datapackage.json
-README.md           # optional
-
-# data files - can be data/ subdirectory or just in the base
-# directory, must be CSV
-
-data/my-financial-data.csv
-
-# directory for storing original data and other 'archival' material
-# (optional)
-
-archive/my-original-data.xls
-
-# scripts used in preparing the data package (optional)
-
-scripts/scrape-and-clean-the-data.py
-```
+File  | Comment 
+------|-------
+`datapackage.json`            | Descriptor file
+`README.md`                   | Optional, extra files are ignored.
+`data/my-financial-data.csv`  | Actual data, referred to by descriptor.
+`archive/my-original-data.xls` | Directory for original sources and "archival" material (optional)
+`scripts/scrape-and-clean-the-data.py `| Scripts used in preparing the data package (optional)
 
 And, an example of a data package with normalized data could be:
 
-```
-datapackage.json
-README.md
+File  | Comment 
+------|-------
+`datapackage.json` | Defines foreign key references between the primary file and secondary data files.
+`data/my-financial-data.csv`                                | Actually contains spend data. 
+`data/my-list-of-entities-receiving-money.csv`              | Data that augmented the spend data, linked by foreign key.
+`data/my-list-of-projects-the-money-is-associated-with.csv` | additional augmenting data
 
-# data files, but only the first one actually contains the spend
-# data. It may contain references (foreign keys) to the other files.
-
-data/my-financial-data.csv # actually contains spend data
-data/my-list-of-entities-receiving-money.csv # data that augmented the spend data
-data/my-list-of-projects-the-money-is-associated-with.csv # additional augmenting data
-```
-
-## The Data
+## Data files
 
 The data in your Data Package `MUST`:
 
@@ -169,36 +147,59 @@ We will detail each in turn.
 
 This follows [Data Package][dp] (DP). In particular, the following properties `MUST` be on the top-level descriptor:
 
-* `name` (DP): a url-compatible short name ("slug") for the package
-* `title` (DP): a human readable title for the package
+```javascript
+{ 
 
-The [Data Package specification][dp] lists various additional potential metadata properties including information on licensing, package authors and much more. Here we focus on detailing key properties, especially those which are specific to this specification:
+  // REQUIRED (DataPackage): a url-compatible short name ("slug") for the package
+  "name": "Australia2014",
 
-The following properties `SHOULD` be on the top-level descriptor:
+  // REQUIRED (DataPackage): a human readable title for the package
+  "title": "Australian annual budget 2013-14",
 
-* `license` (DP): specifies the license for the data in this package.
-* `countryCode`: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
+  // ... other properties such as licensing, authors etc, as specified in Data Package specification...
 
-The following properties `MAY` be present:
+  // RECOMMENDED (DataPackage): the license for the data in this package.
+  "license": "cc-by 3.0",
 
-* `granularity`: a keyword that represents the type of spend data, being one of "aggregated" or "transactional".
-* `fiscalPeriod`: the fiscal period of the dataset, represented as a hash with two properties (`start` and `end`) whose values are ISO 8601 dates.
+  // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
+  "countryCode": "au", // or [ "au", "nz" ]
 
-```
-{
-  "start": "1982-04-22",
-  "end": "1983-04-21"
+  // OPTIONAL: a keyword that represents the type of spend data, being one of "aggregated" or "transactional".
+  "granularity": "aggregated", 
+  
+  // OPTIONAL: the fiscal period of the dataset
+  "fiscalPeriod": {
+    "start": "1982-04-22",
+    "end": "1983-04-21"
+  },
+
+  // OPTIONAL: ...other properties...
+
+  // REQUIRED, see "Resources"
+  "resources": [ ... ],
+
+  // REQUIRED, see "Mapping"
+  "mapping": {
+
+    // REQUIRED: array of measures in logical model
+    "measures": [
+      { ... } // REQUIRED at least 1: see "Measures"
+    ],
+
+    // REQUIRED: array of dimensions in logical model
+    "dimensions": [
+      { ... } // REQUIRED at least 1: see "Dimensions"
+    ]
+  }
+
 }
 ```
 
-In addition to the properties described above, the descriptor `MAY` contain any number of additional properties that are not declared in the specification.
 
 
 ## Resources
 
-The Data Package `MUST` have a `resources` property. 
-
-The definition and behaviour of the `resources` property is described in detail in the [Data Package][dp-resources] and [Tabular Data Package][tdp] specifications.
+The Data Package `MUST` have a `resources` property, described in detail in the [Data Package][dp-resources] and [Tabular Data Package][tdp] specifications.
 
 The two key points we emphasize here from the [Tabular Data Package specification][tdp] are:
 
@@ -206,8 +207,6 @@ The two key points we emphasize here from the [Tabular Data Package specificatio
 * That entry in the `resources` array `MUST` have a [JSON Table Schema][jts] schema describing the data file
 
 ## Mapping
-
-The Fiscal Data Package `MUST` provide a `mapping` property. `mapping` `MUST` be a hash.
 
 The `mapping` hash provides a way to link the "physical" model - the data in CSV files - to a more general, conceptual, "logical" model for fiscal information.
 
@@ -238,86 +237,39 @@ The actual description implementation utilises [OLAP][olap] terminology (and ide
 
 From an OLAP perspective many of these dimensions may not split out in actual separate tables but map to attributes on the fact table if they are very simple (e.g. a given classification may just be a single field).
 
-### Details
-
-The `mapping` is a hash. It `MUST` contain a `measures` property and it `MUST` contain a `dimensions` property. Both `measures` and `dimensions` `MUST` be arrays:
-
-```
-  {
-    "measures": [
-      {
-        "name": "measure-1",
-        "source": "...",
-        "..."
-      },
-      {
-        "name": "measure-2",
-        "source": "...",
-        "..."
-      }
-    ],
-    "dimensions": [
-      {
-        "name": "dimension-1",
-        "fields": [
-          "...",
-        ],
-        "..."
-      },
-      {
-        "name": "dimension-2",
-        "fields": [
-          "...",
-        ],
-        "..."
-      }
-    ]
-  }
-```
-
-**Describing sources**: the logical model will repeatedly need to indicate that the data for a given part of the model comes from a given field/column in a CSV file. This is done with a `source` property.
-
-A full representation of the logical model property is a hash that `MUST` contain `source` and `MAY` contain `resource`. `source` declares the name of the field on the resource. `resource` declares the resource where the source field is. If `resource` is not included, it defaults to the first resource in the `resources` array:
-
-```
-# full representation, using an object and the source property
-"property-on-logical-model": {
-  "source": "name-of-field-on-the-resource",
-  "resource": "name-of-resource"
-  ...
-}
-```
-
 ### Measures
 
 Measures are numerical and correspond to financial amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
 ```javascript
-{
-  // REQUIRED: The measure name in the logical model
-  "name": "measure-name",
-  
-  // REQUIRED: Field name of source field
-  "source": "amount",
-  
-  // REQUIRED: Any valid ISO 4217 currency code.
-  "currency": "USD",
-  
-  // OPTIONAL: A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
-  "factor": 1,
-  
-  // OPTIONAL: Resource containing the source field. Defaults to the first resource in the `resources` array.
-  "resource": "file1",
-  
-  // OPTIONAL: A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
-  "direction": "expenditure",
-  
-  // OPTIONAL: The phase of the budget that the values in this measure relate to. It is a string that `MUST` be one of the following: proposed, approved, adjusted, executed
-  "phase": "proposed",
-  
-  // (other properties allowed)
-  
-}
+"measures": [ 
+  {
+    // REQUIRED: The measure name in the logical model
+    "name": "measure-name",
+    
+    // REQUIRED: Field name of source field
+    "source": "amount",
+    
+    // REQUIRED: Any valid ISO 4217 currency code.
+    "currency": "USD",
+    
+    // OPTIONAL: A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
+    "factor": 1,
+    
+    // OPTIONAL: Resource containing the source field. Defaults to the first resource in the `resources` array.
+    "resource": "budget-2014-au",
+    
+    // OPTIONAL: A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
+    "direction": "expenditure",
+    
+    // OPTIONAL: The phase of the budget that the values in this measure relate to. 
+    // It `MUST` be one of the following strings: proposed, approved, adjusted, executed
+    "phase": "proposed",
+    
+    // (other properties allowed)  
+  }
+  ...
+]
 ```
 
 ### Dimensions
@@ -325,163 +277,45 @@ Measures are numerical and correspond to financial amounts in the source data. E
 Each dimension is represented by a hash in the `dimensions` array. The hash has the structure:
 
 ```javascript
-{
-  // REQUIRED: The dimension name in the logical model
-  "name": "ProjectClass",
+"dimensions": [
+  {
+    // REQUIRED: The dimension name in the logical model
+    "name": "ProjectClass",
 
-  // REQUIRED: An array of field objects that make up the dimension. Each field is an entry in the array - think of it as column on that dimension in a database. A field MUST have a `name` attribute and `source` information - i.e. where the data comes from for that property 
-  "fields": [
-    {
-      // REQUIRED
-      "name": "Project",
-      // REQUIRED: the field name where the comes from for this property (see "Describing Sources" above).
-      "source": "proj",
-      // OPTIONAL: the resource in which the field is located
-      "resource": "..."
-    },
-    {
-      "name": "ClassCode",
-      "source": "class_code"
-    }
-  ],
-  
-  // REQUIRED: Either an array of strings corresponding to the `name` attributes in a set of field objects in the `fields` array or a single string corresponding to one of these `name`s. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
-  "primaryKey": ["Project", "ClassCode"],
+    // REQUIRED: An array of field objects that make up the dimension. Each field is an entry in the array - think of it 
+    // as column on that dimension in a database. A field MUST have a `name` attribute and `source` information - 
+    // i.e. where the data comes from for that property 
+    "fields": [
+      {
+        // REQUIRED
+        "name": "Project",
 
-  // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
-  // datetime, entity, classification, activity, fact, location, other`
-  "dimensionType": "classification",
+        // REQUIRED: the field name where the comes from for this property (see "Describing Sources" above).
+        "source": "proj",
 
-  // (other properties allowed)
+        // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
+        "resource": "budget-2014-au"
+      },
+      {
+        "name": "ClassCode",
+        "source": "class_code"
+      }
+    ],
+    
+    // REQUIRED: Either an array of strings corresponding to the `name` attributes in a set of field objects in the 
+    // `fields` array or a single string corresponding to one of these `name`s. The value of `primaryKey` indicates 
+    // the primary key or primary keys for the dimension.
+    "primaryKey": ["Project", "ClassCode"],
 
-}
-```
+    // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
+    // datetime, entity, classification, activity, fact, location, other`
+    "dimensionType": "classification",
 
-#### Common Dimensions
+    // (other properties allowed)
 
-We illustrate here some common dimensions.
-
-**`date`**
-
-```
-{
-  "name": "date",
-  "dimensionType": "datetime",
-  
-  # note: the list of fields is for illustration - you can have any
-  # fields you like
-  
-  "fields": [
-    {
-      "name": "year",
-      "source": "source field name"
-    }
-  ]
-}
-```
-
-**`description`**
-
-```
-{
-  "name": "description",
-  
-  # note the list of fields is for illustration - you can have any
-  # fields you like
-  
-  "fields": [
-    {
-      "name": "description",
-      "source": "description source field name"
-    } 
-  ]
-}
-```
-
-Note, that it might be more common to have description and other fields clustered on a "fact" dimension:
-
-```
-{
-  "name": "fact",
-  "dimensionType": "fact",
-  
-  # note the list of fields is for illustration - you can have any
-  # fields you like
-  
-  "fields": [
-    {
-      "name": "description",
-      "source": "description source field name"
-    },
-    {
-      "name": "title",
-      "source": "title source field name"
-    }
-  ]
-}
-```
-
-
-**`payer`**
-
-```
-{
-  "name": "payer",
-  "dimensionType": "entity",
-  
-  # note the list of fields is for illustration - you can have any
-  # fields you like
-
-  "fields": [
-    {
-      "name": "id",
-      "source": "entity_id"
-    },
-    {
-      "name": "title",
-      "source": "entity_name"
-    },
-    {
-      "name": "description",
-      "source": "about"
-    }
-  ]
+  }
   ...
-}
-```
-
-**`payee`**
-
-```
-{
-  "name": "payee",
-  
-  # as per payer ...
-}
-```
-
-**`classification`**
-
-Classifications do not have a standardized `name`. If the classification is a well-known and standardized one, then it is conventional to use the name of that classification e.g. for COFOG the dimension would be called `cofog`.
-
-```
-{
-  # this is a made-up name for the dimension - you could call your
-  # dimension anything
-
-  "name": "function",
-  "dimensionType": "classification",
-  "fields": [
-    {
-      "name": "id",
-      "source": "budget_tree_id"
-    },
-    {
-      "name": "title",
-      "source": "budget_tree_label"
-    }
-  ]
-}
+]
 ```
 
 ## Examples
@@ -678,7 +512,7 @@ Aggregated revenue data (direction `revenue`, granularity `aggregated`) describe
 Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual revenue). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
 
 | Dimension | Type | Quality | Description|
-| ----- | ---- | ---------- |
+| --------- | ---- | ------- |------------|
 | chart-of-accounts | `classification` | (2) | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
 | gfsm | `classification` | 2 | The GFSM 2014 economic classification for the revenue item. |
 | account | `entity` | 3 | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
