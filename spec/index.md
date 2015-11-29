@@ -207,28 +207,6 @@ The `mapping` hash links columns in the CSV files ("physical model") to pre-defi
 *Diagram illustrating how the mapping connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
 {: style="text-align: center"}
 
-### Logical Model
-
-The logical model has some key concepts:
-
-* Amount (money): fiscal information fundamentally relates to amounts of money.
-  * Key subconcepts are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)
-  * Date / Time: most financial transactions have a date or time associated
-* Description(s): fiscal information frequently has some kind of description or summary
-* Entities who spend or receive monies: entities, whether individuals or organizations, are the spenders or receivers of money.
-  * Payor: the entity expending money
-  * Payee: the entity receiving money
-* Classifications (taxonomies): for example, that a given transaction relates to Healthcare, or is a capital vs non-capital expenditure.
-* Project / Programs: expenditure is often linked to a specific project or program
-
-The actual description implementation utilises [OLAP][olap] terminology (and ideas). Key aspects for our purpose are:
-
-* Numerical *measures*: these will be the monetary amounts in the spending data
-* Dimensions: dimensions cover all items other than the measure
-  * In OLAP, "attribute" is also used for dimensions that are "single-valued" - for example, a description field.
-
-From an OLAP perspective many of these dimensions may not split out in actual separate tables but map to attributes on the fact table if they are very simple (e.g. a given classification may just be a single field).
-
 ### Measures
 
 Measures are numerical and define the columns in the source data which contain financial amounts. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
