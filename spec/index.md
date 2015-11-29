@@ -147,10 +147,10 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   // REQUIRED (DataPackage): a human readable title for the package
   "title": "Australian annual budget 2013-14",
 
-  // ... other properties such as licensing, authors etc, as specified in Data Package specification...
-
   // RECOMMENDED (DataPackage): the license for the data in this package.
   "license": "cc-by 3.0",
+
+  // RECOMMENDED: other properties such as description, homepage, version, sources, author, contributors, keywords, as specified in dataprotocols.org/data-packages/
 
   // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
   "countryCode": "au", // or [ "au", "nz" ]
