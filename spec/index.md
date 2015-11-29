@@ -298,7 +298,13 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
     "primaryKey": ["Project", "ClassCode"],
 
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
-    // datetime, entity, classification, activity, fact, location, other`
+        // "datetime": the date of a transaction 
+        // "entity": names the organisation doing the spending or receiving
+        // "classification": one or more fields that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing) 
+        // "activity": one or more fields that create an administrative hierarchy (eg, Department > Programme > Project)
+        // "fact": an attribute such as an ID or reference number attached to a transaction
+        // "location": the geographical location where money is spent
+        // "other": not one of the above
     "dimensionType": "classification",
 
     // (other properties allowed)
