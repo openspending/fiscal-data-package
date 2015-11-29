@@ -161,7 +161,9 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
     "tabular": "*"
   }
 
-  // OPTIONAL: a keyword that represents the type of spend data, being one of "aggregated" or "transactional".
+  // OPTIONAL: a keyword that represents the type of spend data:
+  //   * "transaction": rows have dates, and correspond to individual transactions
+  //  * "aggregated": rows are summaries of expenditure across a fiscal period
   "granularity": "aggregated", 
   
   // OPTIONAL: the fiscal period of the dataset
