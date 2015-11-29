@@ -172,7 +172,10 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   // OPTIONAL: ...other properties...
 
-  // REQUIRED, see "Resources"
+  // REQUIRED: array of CSV files contained in the package. Defined in http://dataprotocols.org/data-packages/ and http://dataprotocols.org/tabular-data-package/ . Note: 
+  //   * Each data file `MUST` have an entry in the `resources` array
+  //   * That entry in the `resources` array `MUST` have a JSON table schema describing the data file. (see http://dataprotocols.org/json-table-schema/)
+
   "resources": [ ... ],
 
   // REQUIRED, see "Mapping"
@@ -192,16 +195,6 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 }
 ```
 
-
-
-## Resources
-
-The Data Package `MUST` have a `resources` property, described in detail in the [Data Package][dp-resources] and [Tabular Data Package][tdp] specifications.
-
-The two key points we emphasize here from the [Tabular Data Package specification][tdp] are:
-
-* Each data file `MUST` have an entry in the `resources` array
-* That entry in the `resources` array `MUST` have a [JSON Table Schema][jts] schema describing the data file
 
 ## Mapping
 
