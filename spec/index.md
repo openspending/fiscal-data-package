@@ -159,11 +159,11 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   "profiles": {
     "fiscal": "*",
     "tabular": "*"
-  }
+  },
 
   // OPTIONAL: a keyword that represents the type of spend data:
   //   * "transaction": rows have dates, and correspond to individual transactions
-  //  * "aggregated": rows are summaries of expenditure across a fiscal period
+  //   * "aggregated": rows are summaries of expenditure across a fiscal period
   "granularity": "aggregated", 
   
   // OPTIONAL: the fiscal period of the dataset
@@ -178,19 +178,19 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   //   * Each data file `MUST` have an entry in the `resources` array
   //   * That entry in the `resources` array `MUST` have a JSON table schema describing the data file. (see http://dataprotocols.org/json-table-schema/)
 
-  "resources": [ ... ],
+  "resources": [ /* ... */ ],
 
   // REQUIRED, see "Mapping"
   "mapping": {
 
     // REQUIRED: array of measures in logical model
     "measures": [
-      { ... } // REQUIRED at least 1: see "Measures"
+      { /* ... */ } // REQUIRED at least 1: see "Measures"
     ],
 
     // REQUIRED: array of dimensions in logical model
     "dimensions": [
-      { ... } // REQUIRED at least 1: see "Dimensions"
+      { /* ... */ } // REQUIRED at least 1: see "Dimensions"
     ]
   }
 
@@ -236,9 +236,9 @@ Measures are numerical and define the columns in the source data which contain f
     // It `MUST` be one of the following strings: proposed, approved, adjusted, executed
     "phase": "proposed",
     
-    // (other properties allowed)  
+    // OPTIONAL: Other properties allowed.
   }
-  ...
+  //...
 ]
 ```
 
@@ -278,19 +278,19 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
     "primaryKey": ["Project", "ClassCode"],
 
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
-        // "datetime": the date of a transaction 
-        // "entity": names the organisation doing the spending or receiving
-        // "classification": one or more fields that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing) 
-        // "activity": one or more fields that create an administrative hierarchy (eg, Department > Programme > Project)
-        // "fact": an attribute such as an ID or reference number attached to a transaction
-        // "location": the geographical location where money is spent
-        // "other": not one of the above
-    "dimensionType": "classification",
+    // * "datetime": the date of a transaction 
+    // * "entity": names the organisation doing the spending or receiving
+    // * "classification": one or more fields that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing) 
+    // * "activity": one or more fields that create an administrative hierarchy (eg, Department > Programme > Project)
+    // * "fact": an attribute such as an ID or reference number attached to a transaction
+    // * "location": the geographical location where money is spent
+    // * "other": not one of the above
+"dimensionType": "classification",
 
-    // (other properties allowed)
+    // OPTIONAL: Other properties allowed.
 
   }
-  ...
+  //...
 ]
 ```
 
