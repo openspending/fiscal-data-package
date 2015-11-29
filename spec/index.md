@@ -229,7 +229,7 @@ From an OLAP perspective many of these dimensions may not split out in actual se
 
 ### Measures
 
-Measures are numerical and correspond to financial amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
+Measures are numerical and define the columns in the source data which contain financial amounts. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
 ```javascript
 "measures": [ 
