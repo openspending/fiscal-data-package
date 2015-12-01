@@ -280,12 +280,18 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
     // * "datetime": the date of a transaction 
     // * "entity": names the organisation doing the spending or receiving
-    // * "classification": one or more fields that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing) 
-    // * "activity": one or more fields that create an administrative hierarchy (eg, Department > Programme > Project)
+    // * "classification": one or more fields that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing). Combine with `classificationType` for greater expressiveness.
+    // * "activity": names a specific programme or project under which the money is spent
     // * "fact": an attribute such as an ID or reference number attached to a transaction
     // * "location": the geographical location where money is spent
     // * "other": not one of the above
-"dimensionType": "classification",
+    "dimensionType": "classification",
+
+    // RECOMMENDED (if using dimensionType="classification"). The basis on which transactions are being classified, one of these values:
+    // * "administrative": an organisational structure, such as Portfolio > Department > Branch
+    // * "functional": the purpose of the spending, such as Health > Hospital services > Nursing
+    // * "economic": focused on the nature of the accounting, such as Compensation > Wages and salaries > Wages and salaries in cash
+    "classificationType": "administrative"
 
     // OPTIONAL: Other properties allowed.
 
