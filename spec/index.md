@@ -287,9 +287,10 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
         // REQUIRED
         "name": "Project",
 
-        // REQUIRED: the field name ("source") where the value comes from for this property (see "Describing Sources" above) OR a "constant" key that provides a single value for all rows of the dataset).
+        // REQUIRED:
+        // EITHER: the field name where the value comes from for this property (see "Describing Sources" above);
         "source": "proj",
-        // OR:
+        // OR: a single value that applies for all rows of the dataset.
         "constant": "Some Project",
 
         // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
