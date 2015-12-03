@@ -280,15 +280,18 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
     "name": "ProjectClass",
 
     // REQUIRED: An array of field objects that make up the dimension. Each field is an entry in the array - think of it 
-    // as column on that dimension in a database. A field MUST have a `name` attribute and `source` information - 
+    // as a column on that dimension in a database. A field MUST have a `name` attribute and `source` information - 
     // i.e. where the data comes from for that property 
     "fields": [
       {
         // REQUIRED
         "name": "Project",
 
-        // REQUIRED: the field name where the comes from for this property (see "Describing Sources" above).
+        // REQUIRED:
+        // EITHER: the field name where the value comes from for this property (see "Describing Sources" above);
         "source": "proj",
+        // OR: a single value that applies for all rows of the dataset.
+        "constant": "Some Project",
 
         // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
         "resource": "budget-2014-au"
