@@ -147,10 +147,10 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   // REQUIRED (DataPackage): a human readable title for the package
   "title": "Australian annual budget 2013-14",
 
-  // ... other properties such as licensing, authors etc, as specified in Data Package specification...
-
   // RECOMMENDED (DataPackage): the license for the data in this package.
   "license": "cc-by 3.0",
+
+  // RECOMMENDED: other properties such as description, homepage, version, sources, author, contributors, keywords, as specified in dataprotocols.org/data-packages/
 
   // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
   "countryCode": "au", // or [ "au", "nz" ]
@@ -159,9 +159,11 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   "profiles": {
     "fiscal": "*",
     "tabular": "*"
-  }
+  },
 
-  // OPTIONAL: a keyword that represents the type of spend data, being one of "aggregated" or "transactional".
+  // OPTIONAL: a keyword that represents the type of spend data:
+  //   * "transaction": rows have dates, and correspond to individual transactions
+  //   * "aggregated": rows are summaries of expenditure across a fiscal period
   "granularity": "aggregated", 
   
   // OPTIONAL: the fiscal period of the dataset
@@ -172,20 +174,23 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   // OPTIONAL: ...other properties...
 
-  // REQUIRED, see "Resources"
-  "resources": [ ... ],
+  // REQUIRED: array of CSV files contained in the package. Defined in http://dataprotocols.org/data-packages/ and http://dataprotocols.org/tabular-data-package/ . Note: 
+  //   * Each data file `MUST` have an entry in the `resources` array
+  //   * That entry in the `resources` array `MUST` have a JSON table schema describing the data file. (see http://dataprotocols.org/json-table-schema/)
+
+  "resources": [ /* ... */ ],
 
   // REQUIRED, see "Mapping"
   "mapping": {
 
     // REQUIRED: array of measures in logical model
     "measures": [
-      { ... } // REQUIRED at least 1: see "Measures"
+      { /* ... */ } // REQUIRED at least 1: see "Measures"
     ],
 
     // REQUIRED: array of dimensions in logical model
     "dimensions": [
-      { ... } // REQUIRED at least 1: see "Dimensions"
+      { /* ... */ } // REQUIRED at least 1: see "Dimensions"
     ]
   }
 
@@ -193,50 +198,18 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 ```
 
 
-
-## Resources
-
-The Data Package `MUST` have a `resources` property, described in detail in the [Data Package][dp-resources] and [Tabular Data Package][tdp] specifications.
-
-The two key points we emphasize here from the [Tabular Data Package specification][tdp] are:
-
-* Each data file `MUST` have an entry in the `resources` array
-* That entry in the `resources` array `MUST` have a [JSON Table Schema][jts] schema describing the data file
-
 ## Mapping
 
-The `mapping` hash provides a way to link the "physical" model - the data in CSV files - to a more general, conceptual, "logical" model for fiscal information.
+The `mapping` hash links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
 
 <img src="https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/pub?w=710&h=357" alt="" />
 
 *Diagram illustrating how the mapping connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
 {: style="text-align: center"}
 
-### Logical Model
-
-The logical model has some key concepts:
-
-* Amount (money): fiscal information fundamentally relates to amounts of money.
-  * Key subconcepts are things like: currency, units of account vs nominal (i.e. deflated or purchasing power parity values vs nominal values)
-  * Date / Time: most financial transactions have a date or time associated
-* Description(s): fiscal information frequently has some kind of description or summary
-* Entities who spend or receive monies: entities, whether individuals or organizations, are the spenders or receivers of money.
-  * Payor: the entity expending money
-  * Payee: the entity receiving money
-* Classifications (taxonomies): for example, that a given transaction relates to Healthcare, or is a capital vs non-capital expenditure.
-* Project / Programs: expenditure is often linked to a specific project or program
-
-The actual description implementation utilises [OLAP][olap] terminology (and ideas). Key aspects for our purpose are:
-
-* Numerical *measures*: these will be the monetary amounts in the spending data
-* Dimensions: dimensions cover all items other than the measure
-  * In OLAP, "attribute" is also used for dimensions that are "single-valued" - for example, a description field.
-
-From an OLAP perspective many of these dimensions may not split out in actual separate tables but map to attributes on the fact table if they are very simple (e.g. a given classification may just be a single field).
-
 ### Measures
 
-Measures are numerical and correspond to financial amounts in the source data. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
+Measures are numerical and define the columns in the source data which contain financial amounts. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
 ```javascript
 "measures": [ 
@@ -263,9 +236,9 @@ Measures are numerical and correspond to financial amounts in the source data. E
     // It `MUST` be one of the following strings: proposed, approved, adjusted, executed
     "phase": "proposed",
     
-    // (other properties allowed)  
+    // OPTIONAL: Other properties allowed.
   }
-  ...
+  //...
 ]
 ```
 
@@ -308,13 +281,25 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
     "primaryKey": ["Project", "ClassCode"],
 
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
-    // datetime, entity, classification, activity, fact, location, other`
+    // * "datetime": the date of a transaction 
+    // * "entity": names the organisation doing the spending or receiving
+    // * "classification": one or more fields that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing). Combine with `classificationType` for greater expressiveness.
+    // * "activity": names a specific programme or project under which the money is spent
+    // * "fact": an attribute such as an ID or reference number attached to a transaction
+    // * "location": the geographical location where money is spent
+    // * "other": not one of the above
     "dimensionType": "classification",
 
-    // (other properties allowed)
+    // RECOMMENDED (if using dimensionType="classification"). The basis on which transactions are being classified, one of these values:
+    // * "administrative": an organisational structure, such as Portfolio > Department > Branch
+    // * "functional": the purpose of the spending, such as Health > Hospital services > Nursing
+    // * "economic": focused on the nature of the accounting, such as Compensation > Wages and salaries > Wages and salaries in cash
+    "classificationType": "administrative"
+
+    // OPTIONAL: Other properties allowed.
 
   }
-  ...
+  //...
 ]
 ```
 
