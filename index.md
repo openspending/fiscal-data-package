@@ -36,14 +36,9 @@ well-formedness of CSV datasets.
 
 ## Contributing
 
-Fiscal Data Package is an open specification. Development is led by Open
-Knowledge in collaboration with the World Bank and GIFT, the Global Initiative
-on Fiscal Transparency.
+Fiscal Data Package is an open specification. Development is led by [Open Knowledge](https://okfn.org/) in collaboration with the [World Bank](https://www.worldbank.org/) and [GIFT, the Global Initiative on Fiscal Transparency](http://www.fiscaltransparency.net/).
 
-Development closely involves the community of users -- including data producers,
-intermediaries, and consumers.
+Development closely involves the community of users -- including data producers, intermediaries, and consumers.
 
-You can already contribute to the development process by leaving suggestions
-and queries in the [issue
-tracker](https://github.com/openspending/budget-data-package/issues).
+You can already contribute to the development process by leaving suggestions and queries in the [issue tracker](https://github.com/openspending/budget-data-package/issues).
 
