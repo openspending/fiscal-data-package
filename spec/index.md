@@ -2,7 +2,7 @@
 layout: spec
 title: Specification - Fiscal Data Package
 version: 0.3.0-alpha6
-updated: 4 November 2015
+updated: 7 December 2015
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
