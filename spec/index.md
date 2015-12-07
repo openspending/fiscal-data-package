@@ -1,7 +1,7 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha5
+version: 0.3.0-alpha6
 updated: 4 November 2015
 created: 14 March 2014
 author:
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha6`: change name of dimension `fields` to `attributes`, reversion of measures and dimension fields to objects
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
 - `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
 - `0.3.0-alpha3`: rework mapping structure in various ways
@@ -142,10 +143,10 @@ This follows [Data Package][dp] (DP). In particular, the `name` and `title` prop
 { 
 
   // REQUIRED (DataPackage): a url-compatible short name ("slug") for the package
-  "name": "Australia2014",
+  "name": "australia-2014",
 
   // REQUIRED (DataPackage): a human readable title for the package
-  "title": "Australian annual budget 2013-14",
+  "title": "Australian Annual Budget 2014",
 
   // RECOMMENDED (DataPackage): the license for the data in this package.
   "license": "cc-by 3.0",
@@ -153,7 +154,7 @@ This follows [Data Package][dp] (DP). In particular, the `name` and `title` prop
   // RECOMMENDED: other properties such as description, homepage, version, sources, author, contributors, keywords, as specified in dataprotocols.org/data-packages/
 
   // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
-  "countryCode": "au", // or [ "au", "nz" ]
+  "countryCode": "AU", // or [ "AU", "NZ" ]
 
   // RECOMMENDED: the "profile set" for this package. If the `profiles` key is present, it MUST be set to the following object:
   "profiles": {
@@ -196,7 +197,6 @@ This follows [Data Package][dp] (DP). In particular, the `name` and `title` prop
 
 }
 ```
-
 
 ## Mapping
 
@@ -249,23 +249,23 @@ Dimensions provide the "context" for a measure and are represented by entries in
     // REQUIRED: An array of attribute objects that make up the dimension. Each field of an attribute must have either a `source` key referencing the field name in the resource from which the data is mapped or a `constant` key that provides its value.
     "attributes": [
       {
-        "project": {    
+        "title": {    
           // EITHER: the field name of the source file from which the value is derived for this property
-          "source": "proj",
+          "source": "project_field_on_source",
           // OR: a single value that applies for all rows of the dataset.
           "constant": "Some Project",
 
           // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
           "resource": "budget-2014-au"
         },
-        "code": {
+        "id": {
           "source": "class_code"
         }
       }
     ],
     
     // REQUIRED: Either an array of strings corresponding to a set of field names (keys within attribute objects) or a single string referencing one of these. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
-    "primaryKey": ["project", "code"],
+    "primaryKey": ["id"],
 
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
     // * "datetime": the date of a transaction 
@@ -400,14 +400,14 @@ In terms of representation as a dimension, we use a `dimensionType` of "activity
   "dimensionType": "activity",
   "attributes": [
     {
-      "id": {
-        # The internal code identifier for the government program or project
-        
-        "source": "..."
-      },
       "title": {
         # Name of the government program or project underwriting the budget item.
 
+        "source": "..."
+      },
+      "id": {
+        # The internal code identifier for the government program or project
+        
         "source": "..."
       }
     }
