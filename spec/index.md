@@ -183,15 +183,15 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   // REQUIRED, see "Mapping"
   "mapping": {
 
-    // REQUIRED: array of measures in logical model
-    "measures": [
-      { /* ... */ } // REQUIRED at least 1: see "Measures"
-    ],
+    // REQUIRED: the measures object in logical model
+    "measures": {
+      /* ... */ // REQUIRED at least 1: see "Measures"
+    },
 
-    // REQUIRED: array of dimensions in logical model
-    "dimensions": [
-      { /* ... */ } // REQUIRED at least 1: see "Dimensions"
-    ]
+    // REQUIRED: the dimensions object in logical model
+    "dimensions": {
+      /* ... */ // REQUIRED at least 1: see "Dimensions"
+    }
   }
 
 }
@@ -209,15 +209,12 @@ The `mapping` hash links columns in the CSV files ("physical model") to pre-defi
 
 ### Measures
 
-Measures are numerical and define the columns in the source data which contain financial amounts. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
+Measures are numerical and define the columns in the source data which contain financial amounts. Each measure is represented by a key in the `measures` object. The object has the following structure:
 
 ```javascript
-"measures": [ 
-  {
-    // REQUIRED: The measure name in the logical model
-    "name": "measure-name",
-    
-    // REQUIRED: Field name of source field
+"measures": {
+  "measure-name": {
+    // REQUIRED: Name of source field
     "source": "amount",
     
     // REQUIRED: Any valid ISO 4217 currency code.
@@ -239,27 +236,21 @@ Measures are numerical and define the columns in the source data which contain f
     // OPTIONAL: Other properties allowed.
   }
   //...
-]
+}
 ```
 
 ### Dimensions
 
-Each dimension is represented by a hash in the `dimensions` array. The hash has the structure:
+Each dimension is represented by a key in the `dimensions` object. The object has the following structure:
 
 ```javascript
-"dimensions": [
-  {
-    // REQUIRED: The dimension name in the logical model
-    "name": "ProjectClass",
-
-    // REQUIRED: An array of field objects that make up the dimension. Each field is an entry in the array - think of it 
-    // as a column on that dimension in a database. A field MUST have a `name` attribute and `source` information - 
+"dimensions": {
+  "project-class": {
+    // REQUIRED: A fields object that defines the fields of the dimension. Think of it 
+    // as a column on that dimension in a database. A field MUST have `source` information - 
     // i.e. where the data comes from for that property 
-    "fields": [
-      {
-        // REQUIRED
-        "name": "Project",
-
+    "fields": {
+      "project": {
         // REQUIRED:
         // EITHER: the field name where the value comes from for this property (see "Describing Sources" above);
         "source": "proj",
@@ -269,16 +260,16 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
         // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
         "resource": "budget-2014-au"
       },
-      {
-        "name": "ClassCode",
+      "code": {
         "source": "class_code"
       }
-    ],
+    },
     
-    // REQUIRED: Either an array of strings corresponding to the `name` attributes in a set of field objects in the 
-    // `fields` array or a single string corresponding to one of these `name`s. The value of `primaryKey` indicates 
+    // REQUIRED: Either an array of strings corresponding to the field keys in the 
+    // `fields` object or a single string corresponding to one of these. The value of `primaryKey` indicates 
     // the primary key or primary keys for the dimension.
-    "primaryKey": ["Project", "ClassCode"],
+    
+    "primaryKey": ["project", "code"],
 
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
     // * "datetime": the date of a transaction 
@@ -300,7 +291,7 @@ Each dimension is represented by a hash in the `dimensions` array. The hash has 
 
   }
   //...
-]
+}
 ```
 
 ## Examples
@@ -354,27 +345,21 @@ Classifications are of different types. The type of the classification `MAY` be 
 It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `level` with level 1 being the highest, most aggregate level:
 
 ```
-{
-  "name": "your-classification",
-  "fields": [
-    {
-      # this will be the precise code
-      
-      "name": "code",
+"your-classification": {
+  "fields": {
+    "code": {
+      // this will be the precise code
       "source": "..."
     },
-    {
-      # you can name the levels however you want, this is just an 
-      # example
-
-      "name": "level1",
+    "level1": {
+      "source": "..."
       "level": 1
     }
-    {
-      "name": "level2",
+    "level2": "{
+      "source": "..."
       "level": 2
     }
-  ]
+  }
 }
 ```
 
@@ -383,14 +368,12 @@ It is common for classifications to be hierarchical and have different levels. I
 This classification uses the United Nations [Classification of the Functions of Government][cofog]. Here is the simplest example as a dimension:
 
 ```
-{
-  "name": "cofog",
-  "fields": [
-    {
-      "name": "code",
+"cofog": {
+  "fields": {
+    "code": {
       "source": "..."
     }
-  ]
+  }
 }
 ```
 
@@ -417,23 +400,20 @@ Expenditures are frequently associated with a program or project. Often these te
 In terms of representation as a dimension, we use a `dimensionType` of "activity".  The structure is as follows:
 
 ```
-{
-  "name": "program" or "project" or "your-chosen-name",
+"program-or-project-name": {
   "dimensionType": "activity",
-  "fields": [
-    {
+  "fields": {
+    "id": {
       # The internal code identifier for the government program or project
 
-      "name": "id"
       "source": ...
     },
-    {
+    "title": {
       # Name of the government program or project underwriting the budget item.
 
-      "name": "title"
       "source": ...
     }
-  ]
+  }
 }
 ```
 
