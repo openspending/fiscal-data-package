@@ -350,7 +350,7 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `level` with level 1 being the highest, most aggregate level:
+It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within a field to reference another field that serves as the first field's parent.  Here is an example of its use:
 
 ```
 "your-classification": {
@@ -361,11 +361,36 @@ It is common for classifications to be hierarchical and have different levels. I
     },
     "level1": {
       "source": "..."
-      "level": 1
-    }
+    },
     "level2": "{
+      "source": "...",
+      "parent": "level1"
+    }
+  }
+}
+```
+
+If you have multiple fields that exist at the same level of a hierarchy (e.g. an identifier for the level and its title), only use the "parent" key among the fields that serve as the identifier for the level.
+
+```
+"your-classification": {
+  "fields": {
+    "code": {
+      // this will be the precise code
       "source": "..."
-      "level": 2
+    },
+    "level1_id": {
+      "source": "..."
+    },
+    "level1_title": {
+      "source": "..."
+    },
+    "level2_id": "{
+      "source": "...",
+      "parent": "level1_id"
+    },
+    "level2_title": "{
+      "source": "..."
     }
   }
 }
