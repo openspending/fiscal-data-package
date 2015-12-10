@@ -1,7 +1,7 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha6
+version: 0.3.0-alpha5
 updated: 4 November 2015
 created: 14 March 2014
 author:
@@ -28,7 +28,6 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
-- `0.3.0-alpha6`: change name of dimension `fields` to `attributes`, reversion of measures and dimension fields to objects
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
 - `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
 - `0.3.0-alpha3`: rework mapping structure in various ways
@@ -137,16 +136,16 @@ We will detail each in turn.
 
 ## General Package Metadata
 
-This follows [Data Package][dp] (DP). In particular, the `name` and `title` properties `MUST` be on the top-level descriptor:
+This follows [Data Package][dp] (DP). In particular, the following properties `MUST` be on the top-level descriptor:
 
 ```javascript
 { 
 
   // REQUIRED (DataPackage): a url-compatible short name ("slug") for the package
-  "name": "australia-2014",
+  "name": "Australia2014",
 
   // REQUIRED (DataPackage): a human readable title for the package
-  "title": "Australian Annual Budget 2014",
+  "title": "Australian annual budget 2013-14",
 
   // RECOMMENDED (DataPackage): the license for the data in this package.
   "license": "cc-by 3.0",
@@ -154,9 +153,9 @@ This follows [Data Package][dp] (DP). In particular, the `name` and `title` prop
   // RECOMMENDED: other properties such as description, homepage, version, sources, author, contributors, keywords, as specified in dataprotocols.org/data-packages/
 
   // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
-  "countryCode": "AU", // or [ "AU", "NZ" ]
+  "countryCode": "au", // or [ "au", "nz" ]
 
-  // RECOMMENDED: the "profile set" for this package. If the `profiles` key is present, it MUST be set to the following object:
+  // RECOMMENDED: the "profile set" for this package. If the `profiles` key is present, it MUST be set to the following hash:
   "profiles": {
     "fiscal": "*",
     "tabular": "*"
@@ -185,22 +184,23 @@ This follows [Data Package][dp] (DP). In particular, the `name` and `title` prop
   "mapping": {
 
     // REQUIRED: array of measures in logical model
-    "measures": {
-      /* ... */ // REQUIRED at least 1: see "Measures"
-    },
+    "measures": [
+      { /* ... */ } // REQUIRED at least 1: see "Measures"
+    ],
 
     // REQUIRED: array of dimensions in logical model
-    "dimensions": {
-      /* ... */ // REQUIRED at least 1: see "Dimensions"
-    }
+    "dimensions": [
+      { /* ... */ } // REQUIRED at least 1: see "Dimensions"
+    ]
   }
 
 }
 ```
 
+
 ## Mapping
 
-The `mapping` object links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
+The `mapping` hash links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
 
 <img src="https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/pub?w=710&h=357" alt="" />
 
@@ -209,11 +209,14 @@ The `mapping` object links columns in the CSV files ("physical model") to pre-de
 
 ### Measures
 
-Measures correspond to an actual amount in a budget line and are represented by an entry in the `measures` object. Each measure defines the column in the source data which contains this amount. The `measures` object has the following structure:
+Measures are numerical and define the columns in the source data which contain financial amounts. Each measure is represented by a hash in the `measures` array. The hash structure is like the following:
 
 ```javascript
-"measures": { 
-  "measure-name": {
+"measures": [ 
+  {
+    // REQUIRED: The measure name in the logical model
+    "name": "measure-name",
+    
     // REQUIRED: Field name of source field
     "source": "amount",
     
@@ -236,36 +239,46 @@ Measures correspond to an actual amount in a budget line and are represented by 
     // OPTIONAL: Other properties allowed.
   }
   //...
-}
+]
 ```
 
 ### Dimensions
 
-Dimensions provide the "context" for a measure and are represented by entries in the `dimensions` object.  Each `dimension` can have multiple attributes, and each attribute can have multiple fields.  Each field defines the column in the source data which contains an element of the contextual information for the spending in the budget line.  The `dimensions` object has the following structure:
+Each dimension is represented by a hash in the `dimensions` array. The hash has the structure:
 
 ```javascript
-"dimensions": {
-  "dimension-name": {
-    // REQUIRED: An array of attribute objects that make up the dimension. Each field of an attribute must have either a `source` key referencing the field name in the resource from which the data is mapped or a `constant` key that provides its value.
-    "attributes": [
-      {
-        "title": {    
-          // EITHER: the field name of the source file from which the value is derived for this property
-          "source": "project_field_on_source",
-          // OR: a single value that applies for all rows of the dataset.
-          "constant": "Some Project",
+"dimensions": [
+  {
+    // REQUIRED: The dimension name in the logical model
+    "name": "ProjectClass",
 
-          // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
-          "resource": "budget-2014-au"
-        },
-        "id": {
-          "source": "class_code"
-        }
+    // REQUIRED: An array of field objects that make up the dimension. Each field is an entry in the array - think of it 
+    // as a column on that dimension in a database. A field MUST have a `name` attribute and `source` information - 
+    // i.e. where the data comes from for that property 
+    "fields": [
+      {
+        // REQUIRED
+        "name": "Project",
+
+        // REQUIRED:
+        // EITHER: the field name where the value comes from for this property (see "Describing Sources" above);
+        "source": "proj",
+        // OR: a single value that applies for all rows of the dataset.
+        "constant": "Some Project",
+
+        // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
+        "resource": "budget-2014-au"
+      },
+      {
+        "name": "ClassCode",
+        "source": "class_code"
       }
     ],
     
-    // REQUIRED: Either an array of strings corresponding to a set of field names (keys within attribute objects) or a single string referencing one of these. The value of `primaryKey` indicates the primary key or primary keys for the dimension.
-    "primaryKey": ["id"],
+    // REQUIRED: Either an array of strings corresponding to the `name` attributes in a set of field objects in the 
+    // `fields` array or a single string corresponding to one of these `name`s. The value of `primaryKey` indicates 
+    // the primary key or primary keys for the dimension.
+    "primaryKey": ["Project", "ClassCode"],
 
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
     // * "datetime": the date of a transaction 
@@ -314,7 +327,7 @@ Finally, our recommendations place requirements on the "logical" model not the p
 
 ## Required data (all categories)
 
-All datasets MUST have at least one measure. Essentially this is requiring each dataset have at least one column which corresponds to an "amount" of money.
+All datasets MUST have at least one measure. Essentially this is requiring each dataset have at least one field / column which corresponds to an "amount" of money.
 
 ## Recommended data (all categories)
 
@@ -338,20 +351,28 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend creating an entry in the attributes array for each level of the hierarchy.  Hierarchical order will be inferred by the attribute's position in the array:
+It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `level` with level 1 being the highest, most aggregate level:
 
 ```
-"your-classification": {
-  "attributes": [
+{
+  "name": "your-classification",
+  "fields": [
     {
-      "level1": {
-        "source": "..."
-      }
+      # this will be the precise code
+      
+      "name": "code",
+      "source": "..."
     },
     {
-      "level2": {
-        "source": "..."
-      }
+      # you can name the levels however you want, this is just an 
+      # example
+
+      "name": "level1",
+      "level": 1
+    }
+    {
+      "name": "level2",
+      "level": 2
     }
   ]
 }
@@ -362,12 +383,12 @@ It is common for classifications to be hierarchical and have different levels. I
 This classification uses the United Nations [Classification of the Functions of Government][cofog]. Here is the simplest example as a dimension:
 
 ```
-"cofog": {
-  "attributes": [
+{
+  "name": "cofog",
+  "fields": [
     {
-      "code": {
-        "source": "..."
-      }
+      "name": "code",
+      "source": "..."
     }
   ]
 }
@@ -396,20 +417,21 @@ Expenditures are frequently associated with a program or project. Often these te
 In terms of representation as a dimension, we use a `dimensionType` of "activity".  The structure is as follows:
 
 ```
-"your-chosen-program-name": {
+{
+  "name": "program" or "project" or "your-chosen-name",
   "dimensionType": "activity",
-  "attributes": [
+  "fields": [
     {
-      "title": {
-        # Name of the government program or project underwriting the budget item.
+      # The internal code identifier for the government program or project
 
-        "source": "..."
-      },
-      "id": {
-        # The internal code identifier for the government program or project
-        
-        "source": "..."
-      }
+      "name": "id"
+      "source": ...
+    },
+    {
+      # Name of the government program or project underwriting the budget item.
+
+      "name": "title"
+      "source": ...
     }
   ]
 }
