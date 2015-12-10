@@ -259,6 +259,9 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 
         // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
         "resource": "budget-2014-au"
+        
+        // OPTIONAL: the field within this dimension (if it exists) for which this field provides a label.
+        "labelfor": "..."
       },
       "code": {
         "source": "class_code"
