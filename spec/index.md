@@ -246,10 +246,10 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 ```javascript
 "dimensions": {
   "project-class": {
-    // REQUIRED: A fields object that defines the fields of the dimension. Think of it 
-    // as a column on that dimension in a database. A field MUST have `source` information - 
+    // REQUIRED: An attributes object that defines the attributes of the dimension. Think of each attribute
+    // as a column on that dimension in a database. An attribute MUST have `source` information - 
     // i.e. where the data comes from for that property 
-    "fields": {
+    "attributes": {
       "project": {
         // REQUIRED:
         // EITHER: the field name where the value comes from for this property (see "Describing Sources" above);
@@ -273,8 +273,8 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
       }
     },
     
-    // REQUIRED: Either an array of strings corresponding to the field keys in the 
-    // `fields` object or a single string corresponding to one of these. The value of `primaryKey` indicates 
+    // REQUIRED: Either an array of strings corresponding to the attribute keys in the 
+    // `attributes` object or a single string corresponding to one of these. The value of `primaryKey` indicates 
     // the primary key or primary keys for the dimension.
     
     "primaryKey": ["project", "code"],
@@ -282,7 +282,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
     // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
     // * "datetime": the date of a transaction 
     // * "entity": names the organisation doing the spending or receiving
-    // * "classification": one or more fields that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing). Combine with `classificationType` for greater expressiveness.
+    // * "classification": one or more attributes that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing). Combine with `classificationType` for greater expressiveness.
     // * "activity": names a specific programme or project under which the money is spent
     // * "fact": an attribute such as an ID or reference number attached to a transaction
     // * "location": the geographical location where money is spent
@@ -321,7 +321,7 @@ Content requirements will necessarily vary across the different types of fiscal 
 
 We also emphasize that what we provide is a framework rather than a strict standard. That is, we provide recommendations on what information should be provided rather than strict requirements. These recommendations are also categorised into "quality" levels. Each level requires more information be provided.
 
-Finally, our recommendations place requirements on the "logical" model not the physical model. Of course, the logical model data is sourced from the physical model so requirements on the logical model ultimately place requirements on the physical model. However, by defining our requirements on the logical model, we keep the flexibility in naming and structure of the raw, source data - for example, whilst a classification dimension with COFOG data should be named `cofog` and have a field called `code` your source CSV could have that COFOG data in a column called "COFOG-Code" or "Classification" or any other name.
+Finally, our recommendations place requirements on the "logical" model not the physical model. Of course, the logical model data is sourced from the physical model so requirements on the logical model ultimately place requirements on the physical model. However, by defining our requirements on the logical model, we keep the flexibility in naming and structure of the raw, source data - for example, whilst a classification dimension with COFOG data should be named `cofog` and have an attribute called `code` your source CSV could have that COFOG data in a column called "COFOG-Code" or "Classification" or any other name.
 
 
 ## Required data (all categories)
@@ -330,9 +330,9 @@ All datasets MUST have at least one measure. Essentially this is requiring each 
 
 ## Recommended data (all categories)
 
-The following fields SHOULD be included wherever possible:
+The following attributes SHOULD be included wherever possible:
 
-* `id`: A globally unique identifier for the budget item. This `id` field will usually be located on the default `fact` dimension.
+* `id`: A globally unique identifier for the budget item. This `id` attribute will usually be located on the default `fact` dimension.
 
 ## Special Dimensions
 
@@ -340,9 +340,9 @@ The following fields SHOULD be included wherever possible:
 
 It is common for fiscal data to be classified in various ways. A classification is a labelling of a given item with a reference to standardized codesheet.
 
-Classifications will be represented in the mapping as a dimension. Each classification dimension `MUST` have a `code` field whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` field if there is a need to indicate the version of a classification.
+Classifications will be represented in the mapping as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
 
-Whenever we have a code field in a classification dimension, the licit values for that field consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gfsm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
+Whenever we have a code attribute in a classification dimension, the licit values for that attribute consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gfsm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
 Classifications are of different types. The type of the classification `MAY` be indicated using the `classificationType` attribute on the dimension. Values are:
 
@@ -350,11 +350,11 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within a field to reference another field that serves as the first field's parent.  Here is an example of its use:
+It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within an attribute to reference another attribute that serves as the first attribute's parent.  Here is an example of its use:
 
 ```
 "your-classification": {
-  "fields": {
+  "attributes": {
     "code": {
       // this will be the precise code
       "source": "..."
@@ -370,11 +370,11 @@ It is common for classifications to be hierarchical and have different levels. I
 }
 ```
 
-If you have multiple fields that exist at the same level of a hierarchy (e.g. an identifier for the level and its title), only use the "parent" key among the fields that serve as the identifier for the level.
+If you have multiple attributes that exist at the same level of a hierarchy (e.g. an identifier for the level and its title), only use the "parent" key among the attributes that serve as the identifier for the level.
 
 ```
 "your-classification": {
-  "fields": {
+  "attributes": {
     "code": {
       // this will be the precise code
       "source": "..."
@@ -402,7 +402,7 @@ This classification uses the United Nations [Classification of the Functions of 
 
 ```
 "cofog": {
-  "fields": {
+  "attributes": {
     "code": {
       "source": "..."
     }
@@ -418,7 +418,7 @@ GFSM is the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For exp
 
 #### Chart of Accounts
 
-It is common for both revenue and expenditure that there is some general "economic" classification for the item using the publisher's chart of accounts. Relevant fields for this dimension:
+It is common for both revenue and expenditure that there is some general "economic" classification for the item using the publisher's chart of accounts. Relevant attributes for this dimension:
 
 * `code`:  The internal code identifier for the economic classification.
 * `title`:  Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts.
@@ -435,7 +435,7 @@ In terms of representation as a dimension, we use a `dimensionType` of "activity
 ```
 "program-or-project-name": {
   "dimensionType": "activity",
-  "fields": {
+  "attributes": {
     "id": {
       # The internal code identifier for the government program or project
 
@@ -463,7 +463,7 @@ An entity is a distinct organization, government department, or individual that 
 
 #### Accounts
 
-Whilst strictly not an entity, the concept of an "account" from which money is spent or into which money is deposited is common and closely resembles an "entity" in terms of functionality within fiscal analysis (e.g. tracing the movement of money between different pots). Recommended fields on an account dimension are:
+Whilst strictly not an entity, the concept of an "account" from which money is spent or into which money is deposited is common and closely resembles an "entity" in terms of functionality within fiscal analysis (e.g. tracing the movement of money between different pots). Recommended attributes on an account dimension are:
 
 * `title`: The fund into which the revenue item will be deposited. (This refers to a named revenue stream.)
 * `id`: The internal code identifier for the fund.
@@ -472,14 +472,14 @@ Whilst strictly not an entity, the concept of an "account" from which money is s
 
 There is a frequent desire to label items with location, usually by attaching geographic codes for a region or area. This allows the spending or revenue to  be analysed by region or area. This geographic information can be introduced directly by classifying the item with a code, or, more frequently indirectly by associating a geographic code to e.g. an entity. For example, by labelling a supplier with their location one can then associate a spend with that supplier as spending in that location.
 
-We RECOMMEND using a `location` dimension though fields may also be applied directly onto another object (e.g. an entity). Here are fields that `MAY` be applied either directly to an item or to an entity or other object associated to an item.
+We RECOMMEND using a `location` dimension though attributes may also be applied directly onto another object (e.g. an entity). Here are attributes that `MAY` be applied either directly to an item or to an entity or other object associated to an item.
 
 * `code`: The internal or local geographicCode id based for the geographical region
 * `title`: Name or title of the geographical region targeted by the budget item
 * `codeList`: the geo codelist from which the geocode is drawn
 * `ocdid`: The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region
 
-Note when applying these as fields directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
+Note when applying these as attributes directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
 
 ----
 
@@ -491,7 +491,7 @@ This section lists the suggested sets of dimensions that can usefully describe d
 
 Aggregated expenditure data (direction `expenditure`, granularity `aggregated`) describes planned or executed government expenditures. These planned expenditures are disaggregated to at least the *functional category* level, and they can optionally be disaggregated up to the level of individual projects.
 
-Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual expenditure). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
+Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual expenditure). For this reason there are attributes in aggregated data which are not applicable to transactional data, and vice versa.
 
 | Dimension | Type | Quality | Description|
 | ----- | -------- | ------- | ---------- |
@@ -507,7 +507,7 @@ Aggregated data is in many cases the proposed, approved or adjusted budget (but 
 
 Aggregated revenue data (direction `revenue`, granularity `aggregated`) describes projected or actual government revenues, disaggregated to the *economic category* level.
 
-Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual revenue). For this reason there are fields in aggregated data which are not applicable to transactional data, and vice versa.
+Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual revenue). For this reason there are attributes in aggregated data which are not applicable to transactional data, and vice versa.
 
 | Dimension | Type | Quality | Description|
 | --------- | ---- | ------- |------------|
