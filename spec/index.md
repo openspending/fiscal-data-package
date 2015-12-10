@@ -260,7 +260,12 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
         // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
         "resource": "budget-2014-au"
         
-        // OPTIONAL: the field within this dimension (if it exists) for which this field provides a label.
+        // OPTIONAL: the key referencing an attribute within this 
+        // dimension (if it exists) for which this attribute 
+        // provides a label.  For instance, given two dimension 
+        // attributes named "project_code" and "project_label", 
+        // the attribute "project_label" will provide a "labelfor" 
+        // pointing to "project_code"
         "labelfor": "..."
       },
       "code": {
