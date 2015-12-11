@@ -29,42 +29,39 @@
     }
   ],
   "mapping": {
-    "measures": [
-      {
-        "name": "amount",
+    "measures": {
+      "amount": {
         "source": "expenditure",
         "currency": "EUR",
         "factor": 1
       }
-    ],
-    "dimensions": [
-      {
-        "name": "date",
-        "fields": [
-          {
-            "name": "year",
+    },
+    "dimensions": {
+      "date": {
+        "attributes": {
+          "year": {
             "source": "year"
           }
-        ]
+        },
+        "primaryKey": "year"
       },
-      {
-        "name": "program",
-        "fields": [
-          {
-            "name": "title",
+      "program": {
+        "attributes": {
+          "title": {
             "source": "program"
           }
-        ]
+        },
+        "primaryKey": "title"
+        
       },
-      {
-        "name": "payee",
-        "fields": [
-          {
-            "name": "title",
+      "payee": {
+        "attributes": {
+          "title": {
             "source": "country"
           }
-        ]
+        },
+        "primaryKey": "title"
       }
-    ]
+    }
   }
 }
