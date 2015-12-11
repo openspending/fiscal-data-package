@@ -22,24 +22,22 @@
     }
   ],
   "mapping": {
-    "measures": [
-      {
-        "name": "amount",
+    "measures": {
+      "amount": {       
         "source": "expenditure",
         "currency": "USD",
         "factor": 1
       }
-    ],
-    "dimensions": [
-      {
-        "name": "date",
-        "fields": [
-          {
-            "name": "year",
+    },
+    "dimensions": {
+      "date": {
+        "attributes": {
+          "year": {
             "source": "year"
           }
-        ]
+        },
+        "primaryKey": "year"
       }
-    ]
+    }
   }
 }
