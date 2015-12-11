@@ -172,10 +172,10 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   },
 
   // OPTIONAL: a keyword that represents the type of spend data:
-  //   * "transaction": rows have dates, and correspond to 
+  //   * "transaction": rows have dates and correspond to 
   //     individual transactions
   //   * "aggregated": rows are summaries of expenditure across a 
-  //      fiscal period
+  //     fiscal period
   "granularity": "aggregated", 
   
   // OPTIONAL: the fiscal period of the dataset
@@ -309,6 +309,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
     // OPTIONAL: Describes what kind of a dimension it is. 
     // `dimensionType` is a string that `MUST` be one of the 
     // following:
+    //
     // * "datetime": the date of a transaction 
     // * "entity": names the organisation doing the spending or 
     //   receiving
@@ -327,6 +328,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
     // RECOMMENDED (if using dimensionType="classification"). The 
     // basis on which transactions are being classified, one of 
     // these values:
+    //
     // * "administrative": an organisational structure, such as 
     //   Portfolio > Department > Branch
     // * "functional": the purpose of the spending, such as 
