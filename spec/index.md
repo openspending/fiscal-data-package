@@ -1,7 +1,7 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha5
+version: 0.3.0-alpha6
 updated: 4 November 2015
 created: 14 March 2014
 author:
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
 - `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
 - `0.3.0-alpha3`: rework mapping structure in various ways
@@ -141,29 +142,41 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 ```javascript
 { 
 
-  // REQUIRED (DataPackage): a url-compatible short name ("slug") for the package
+  // REQUIRED (DataPackage): a url-compatible short name ("slug") 
+  // for the package
   "name": "Australia2014",
 
   // REQUIRED (DataPackage): a human readable title for the package
   "title": "Australian annual budget 2013-14",
 
-  // RECOMMENDED (DataPackage): the license for the data in this package.
+  // RECOMMENDED (DataPackage): the license for the data in this 
+  // package.
   "license": "cc-by 3.0",
 
-  // RECOMMENDED: other properties such as description, homepage, version, sources, author, contributors, keywords, as specified in dataprotocols.org/data-packages/
+  // RECOMMENDED: other properties such as description, homepage, 
+  // version, sources, author, contributors, keywords, as specified 
+  // in dataprotocols.org/data-packages/
 
-  // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 alpha-2), or, an array of valid ISO codes (if this relates to multiple countries). This field is for listing the country of countries associated to this data.  For example, if this the budget for country then you would put that country's ISO code.
+  // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 
+  // alpha-2), or, an array of valid ISO codes (if this relates to
+  // multiple countries). This field is for listing the country of 
+  // countries associated to this data.  For example, if this the 
+  // budget for country then you would put that country's ISO code.
   "countryCode": "au", // or [ "au", "nz" ]
 
-  // RECOMMENDED: the "profile set" for this package. If the `profiles` key is present, it MUST be set to the following hash:
+  // RECOMMENDED: the "profile set" for this package. If the 
+  // `profiles` key is present, it MUST be set to the following 
+  // hash:
   "profiles": {
     "fiscal": "*",
     "tabular": "*"
   },
 
   // OPTIONAL: a keyword that represents the type of spend data:
-  //   * "transaction": rows have dates, and correspond to individual transactions
-  //   * "aggregated": rows are summaries of expenditure across a fiscal period
+  //   * "transaction": rows have dates and correspond to 
+  //     individual transactions
+  //   * "aggregated": rows are summaries of expenditure across a 
+  //     fiscal period
   "granularity": "aggregated", 
   
   // OPTIONAL: the fiscal period of the dataset
@@ -174,9 +187,14 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   // OPTIONAL: ...other properties...
 
-  // REQUIRED: array of CSV files contained in the package. Defined in http://dataprotocols.org/data-packages/ and http://dataprotocols.org/tabular-data-package/ . Note: 
-  //   * Each data file `MUST` have an entry in the `resources` array
-  //   * That entry in the `resources` array `MUST` have a JSON table schema describing the data file. (see http://dataprotocols.org/json-table-schema/)
+  // REQUIRED: array of CSV files contained in the package. Defined
+  // in http://dataprotocols.org/data-packages/ and 
+  // http://dataprotocols.org/tabular-data-package/ . Note: 
+  //   * Each data file `MUST` have an entry in the `resources` 
+  //     array
+  //   * That entry in the `resources` array `MUST` have a JSON 
+  //     table schema describing the data file. 
+  //     (see http://dataprotocols.org/json-table-schema/)
 
   "resources": [ /* ... */ ],
 
@@ -220,17 +238,22 @@ Measures are numerical and define the columns in the source data which contain f
     // REQUIRED: Any valid ISO 4217 currency code.
     "currency": "USD",
     
-    // OPTIONAL: A factor by which to multiple the raw monetary values to get the real monetary amount, eg `1000`. Defaults to `1`.
+    // OPTIONAL: A factor by which to multiple the raw monetary 
+    // values to get the real monetary amount, eg `1000`. Defaults 
+    // to `1`.
     "factor": 1,
     
-    // OPTIONAL: Resource containing the source field. Defaults to the first resource in the `resources` array.
+    // OPTIONAL: Resource containing the source field. Defaults to 
+    // the first resource in the `resources` array.
     "resource": "budget-2014-au",
     
-    // OPTIONAL: A keyword that represents the *direction* of the spend, being one of "expenditure" or "revenue".
+    // OPTIONAL: A keyword that represents the *direction* of the 
+    // spend, being one of "expenditure" or "revenue".
     "direction": "expenditure",
     
-    // OPTIONAL: The phase of the budget that the values in this measure relate to. 
-    // It `MUST` be one of the following strings: proposed, approved, adjusted, executed
+    // OPTIONAL: The phase of the budget that the values in this 
+    // measure relate to. It `MUST` be one of the following strings:
+    // proposed, approved, adjusted, executed.
     "phase": "proposed",
     
     // OPTIONAL: Other properties allowed.
@@ -246,18 +269,22 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 ```javascript
 "dimensions": {
   "project-class": {
-    // REQUIRED: An attributes object that defines the attributes of the dimension. Think of each attribute
-    // as a column on that dimension in a database. An attribute MUST have `source` information - 
+    // REQUIRED: An attributes object that defines the attributes of the 
+    // dimension. Think of each attribute as a column on that dimension in 
+    // a database. An attribute MUST have `source` information - 
     // i.e. where the data comes from for that property 
     "attributes": {
       "project": {
         // REQUIRED:
-        // EITHER: the field name where the value comes from for this property (see "Describing Sources" above);
+        // EITHER: the field name where the value comes from for 
+        // this property (see "Describing Sources" above);
         "source": "proj",
-        // OR: a single value that applies for all rows of the dataset.
+        // OR: a single value that applies for all rows of the 
+        // dataset.
         "constant": "Some Project",
 
-        // OPTIONAL: the resource in which the field is located. Defaults to the first resource in the `resources` array.
+        // OPTIONAL: the resource in which the field is located. 
+        // Defaults to the first resource in the `resources` array.
         "resource": "budget-2014-au"
         
         // OPTIONAL: the key referencing an attribute within this 
@@ -273,26 +300,43 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
       }
     },
     
-    // REQUIRED: Either an array of strings corresponding to the attribute keys in the 
-    // `attributes` object or a single string corresponding to one of these. The value of `primaryKey` indicates 
-    // the primary key or primary keys for the dimension.
+    // REQUIRED: Either an array of strings corresponding to the 
+    // attribute keys in the `attributes` object or a single string 
+    // corresponding to one of these. The value of `primaryKey` 
+    // indicates the primary key or primary keys for the dimension.
     
     "primaryKey": ["project", "code"],
 
-    // OPTIONAL: Describes what kind of a dimension it is. `dimensionType` is a string that `MUST` be one of the following:
+    // OPTIONAL: Describes what kind of a dimension it is. 
+    // `dimensionType` is a string that `MUST` be one of the 
+    // following:
+    //
     // * "datetime": the date of a transaction 
-    // * "entity": names the organisation doing the spending or receiving
-    // * "classification": one or more attributes that create a categorical hierarchy of the type of spending (eg, Health > Hospital services > Nursing). Combine with `classificationType` for greater expressiveness.
-    // * "activity": names a specific programme or project under which the money is spent
-    // * "fact": an attribute such as an ID or reference number attached to a transaction
+    // * "entity": names the organisation doing the spending or 
+    //   receiving
+    // * "classification": one or more fields that create a 
+    //   categorical hierarchy of the type of spending (eg: 
+    //   Health > Hospital services > Nursing). Combine with 
+    //   `classificationType` for greater expressiveness.
+    // * "activity": names a specific programme or project under 
+    //   which the money is spent
+    // * "fact": an attribute such as an ID or reference number 
+    //   attached to a transaction
     // * "location": the geographical location where money is spent
     // * "other": not one of the above
     "dimensionType": "classification",
 
-    // RECOMMENDED (if using dimensionType="classification"). The basis on which transactions are being classified, one of these values:
-    // * "administrative": an organisational structure, such as Portfolio > Department > Branch
-    // * "functional": the purpose of the spending, such as Health > Hospital services > Nursing
-    // * "economic": focused on the nature of the accounting, such as Compensation > Wages and salaries > Wages and salaries in cash
+    // RECOMMENDED (if using dimensionType="classification"). The 
+    // basis on which transactions are being classified, one of 
+    // these values:
+    //
+    // * "administrative": an organisational structure, such as 
+    //   Portfolio > Department > Branch
+    // * "functional": the purpose of the spending, such as 
+    //   Health > Hospital services > Nursing
+    // * "economic": focused on the nature of the accounting, such 
+    //   as Compensation > Wages and salaries > Wages and salaries 
+    //   in cash
     "classificationType": "administrative"
 
     // OPTIONAL: Other properties allowed.
