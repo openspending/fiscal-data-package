@@ -39,7 +39,7 @@
   "mapping": {
     "measures": {
       "amount": {       
-        "source": "expenditure",
+        "source": "amount",
         "currency": "USD",
         "factor": 1
       }
