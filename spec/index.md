@@ -1,7 +1,7 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha7
+version: 0.3.0-alpha8
 updated: 15 January 2016
 created: 14 March 2014
 author:
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha8`: remove `fact` as dimensionType
 - `0.3.0-alpha7`: dimension attribute sources -> fields
 - `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
@@ -321,8 +322,6 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
     //   `classificationType` for greater expressiveness.
     // * "activity": names a specific programme or project under 
     //   which the money is spent
-    // * "fact": an attribute such as an ID or reference number 
-    //   attached to a transaction
     // * "location": the geographical location where money is spent
     // * "other": not one of the above
     "dimensionType": "classification",
@@ -377,7 +376,7 @@ All datasets MUST have at least one measure. Essentially this is requiring each 
 
 The following attributes SHOULD be included wherever possible:
 
-* `id`: A globally unique identifier for the budget item. This `id` attribute will usually be located on the default `fact` dimension.
+* `id`: A globally unique identifier for the budget item. This `id` attribute will usually be located on a dimension of type `other`.
 
 ## Special Dimensions
 
@@ -572,8 +571,8 @@ Transactional expenditure data (direction `expenditure`, granularity `transactio
 | date | `datetime` | 1 | The date on which the transaction took place. |
 | supplier | `entity` | 2 | The recipient of the expenditure. |
 | contract | `activity` | 3 | The contract associated with the transaction. |
-| budgetLineItem | `fact` | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
-| invoiceID | `fact` | (3) | The invoice number given by the vendor or supplier. |
+| budgetLineItem | `other` | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
+| invoiceID | `other` | (3) | The invoice number given by the vendor or supplier. |
 | procurer | `entity` | (3) | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
 
 
