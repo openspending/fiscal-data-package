@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha6
-updated: 4 November 2015
+version: 0.3.0-alpha7
+updated: 15 January 2016
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha7`: dimension attribute sources -> fields
 - `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
 - `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
@@ -232,8 +233,8 @@ Measures are numerical and define the columns in the source data which contain f
 ```javascript
 "measures": {
   "measure-name": {
-    // REQUIRED: Name of source field
-    "source": "amount",
+    // REQUIRED: Name of the source field
+    "field": "amount",
     
     // REQUIRED: Any valid ISO 4217 currency code.
     "currency": "USD",
@@ -269,16 +270,16 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 ```javascript
 "dimensions": {
   "project-class": {
-    // REQUIRED: An attributes object that defines the attributes of the 
-    // dimension. Think of each attribute as a column on that dimension in 
-    // a database. An attribute MUST have `source` information - 
-    // i.e. where the data comes from for that property 
+    // REQUIRED: An attributes object that defines the attributes of 
+    // the dimension. Think of each attribute as a column on that 
+    // dimension in a database. An attribute MUST have either a 
+    // `field` OR a `constant` key.
     "attributes": {
       "project": {
         // REQUIRED:
         // EITHER: the field name where the value comes from for 
         // this property (see "Describing Sources" above);
-        "source": "proj",
+        "field": "proj",
         // OR: a single value that applies for all rows of the 
         // dataset.
         "constant": "Some Project",
@@ -296,7 +297,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
         "labelfor": "..."
       },
       "code": {
-        "source": "class_code"
+        "field": "class_code"
       }
     },
     
@@ -401,13 +402,13 @@ It is common for classifications to be hierarchical and have different levels. I
   "attributes": {
     "code": {
       // this will be the precise code
-      "source": "..."
+      "field": "..."
     },
     "level1": {
-      "source": "..."
+      "field": "..."
     },
     "level2": "{
-      "source": "...",
+      "field": "...",
       "parent": "level1"
     }
   }
@@ -421,20 +422,20 @@ If you have multiple attributes that exist at the same level of a hierarchy (e.g
   "attributes": {
     "code": {
       // this will be the precise code
-      "source": "..."
+      "field": "..."
     },
     "level1_id": {
-      "source": "..."
+      "field": "..."
     },
     "level1_title": {
-      "source": "..."
+      "field": "..."
     },
     "level2_id": "{
-      "source": "...",
+      "field": "...",
       "parent": "level1_id"
     },
     "level2_title": "{
-      "source": "..."
+      "field": "..."
     }
   }
 }
@@ -448,7 +449,7 @@ This classification uses the United Nations [Classification of the Functions of 
 "cofog": {
   "attributes": {
     "code": {
-      "source": "..."
+      "field": "..."
     }
   }
 }
@@ -483,12 +484,12 @@ In terms of representation as a dimension, we use a `dimensionType` of "activity
     "id": {
       # The internal code identifier for the government program or project
 
-      "source": ...
+      "field": ...
     },
     "title": {
       # Name of the government program or project underwriting the budget item.
 
-      "source": ...
+      "field": ...
     }
   }
 }
