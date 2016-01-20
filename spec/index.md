@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha6
-updated: 4 November 2015
+version: 0.3.0-alpha9
+updated: 20 January 2016
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,9 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha9`: mapping -> model
+- `0.3.0-alpha8`: remove `fact` as dimensionType
+- `0.3.0-alpha7`: dimension attribute sources -> fields
 - `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
 - `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
@@ -131,7 +134,7 @@ The `datapackage.json` contains information in three key areas:
 
 * Package Metadata - title, author etc
 * Resources - describing data files
-* Mapping - mapping the source data to a "Logical" model
+* Model - mapping the source data to a "Logical" model
 
 We will detail each in turn.
 
@@ -198,8 +201,8 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   "resources": [ /* ... */ ],
 
-  // REQUIRED, see "Mapping"
-  "mapping": {
+  // REQUIRED, see "Model"
+  "model": {
 
     // REQUIRED: the measures object in logical model
     "measures": {
@@ -216,13 +219,13 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 ```
 
 
-## Mapping
+## Model
 
-The `mapping` hash links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
+The `model` hash links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
 
 <img src="https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/pub?w=710&h=357" alt="" />
 
-*Diagram illustrating how the mapping connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
+*Diagram illustrating how the model object maps the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
 {: style="text-align: center"}
 
 ### Measures
@@ -232,8 +235,8 @@ Measures are numerical and define the columns in the source data which contain f
 ```javascript
 "measures": {
   "measure-name": {
-    // REQUIRED: Name of source field
-    "source": "amount",
+    // REQUIRED: Name of the source field
+    "field": "amount",
     
     // REQUIRED: Any valid ISO 4217 currency code.
     "currency": "USD",
@@ -269,16 +272,16 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 ```javascript
 "dimensions": {
   "project-class": {
-    // REQUIRED: An attributes object that defines the attributes of the 
-    // dimension. Think of each attribute as a column on that dimension in 
-    // a database. An attribute MUST have `source` information - 
-    // i.e. where the data comes from for that property 
+    // REQUIRED: An attributes object that defines the attributes of 
+    // the dimension. Think of each attribute as a column on that 
+    // dimension in a database. An attribute MUST have either a 
+    // `field` OR a `constant` key.
     "attributes": {
       "project": {
         // REQUIRED:
         // EITHER: the field name where the value comes from for 
         // this property (see "Describing Sources" above);
-        "source": "proj",
+        "field": "proj",
         // OR: a single value that applies for all rows of the 
         // dataset.
         "constant": "Some Project",
@@ -296,7 +299,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
         "labelfor": "..."
       },
       "code": {
-        "source": "class_code"
+        "field": "class_code"
       }
     },
     
@@ -320,8 +323,6 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
     //   `classificationType` for greater expressiveness.
     // * "activity": names a specific programme or project under 
     //   which the money is spent
-    // * "fact": an attribute such as an ID or reference number 
-    //   attached to a transaction
     // * "location": the geographical location where money is spent
     // * "other": not one of the above
     "dimensionType": "classification",
@@ -376,7 +377,7 @@ All datasets MUST have at least one measure. Essentially this is requiring each 
 
 The following attributes SHOULD be included wherever possible:
 
-* `id`: A globally unique identifier for the budget item. This `id` attribute will usually be located on the default `fact` dimension.
+* `id`: A globally unique identifier for the budget item. This `id` attribute will usually be located on a dimension of type `other`.
 
 ## Special Dimensions
 
@@ -384,7 +385,7 @@ The following attributes SHOULD be included wherever possible:
 
 It is common for fiscal data to be classified in various ways. A classification is a labelling of a given item with a reference to standardized codesheet.
 
-Classifications will be represented in the mapping as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
+Classifications will be represented in the model as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
 
 Whenever we have a code attribute in a classification dimension, the licit values for that attribute consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gfsm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
@@ -394,20 +395,20 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within an attribute to reference another attribute that serves as the first attribute's parent.  Here is an example of its use:
+It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the model, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within an attribute to reference another attribute that serves as the first attribute's parent.  Here is an example of its use:
 
 ```
 "your-classification": {
   "attributes": {
     "code": {
       // this will be the precise code
-      "source": "..."
+      "field": "..."
     },
     "level1": {
-      "source": "..."
+      "field": "..."
     },
     "level2": "{
-      "source": "...",
+      "field": "...",
       "parent": "level1"
     }
   }
@@ -421,20 +422,20 @@ If you have multiple attributes that exist at the same level of a hierarchy (e.g
   "attributes": {
     "code": {
       // this will be the precise code
-      "source": "..."
+      "field": "..."
     },
     "level1_id": {
-      "source": "..."
+      "field": "..."
     },
     "level1_title": {
-      "source": "..."
+      "field": "..."
     },
     "level2_id": "{
-      "source": "...",
+      "field": "...",
       "parent": "level1_id"
     },
     "level2_title": "{
-      "source": "..."
+      "field": "..."
     }
   }
 }
@@ -448,7 +449,7 @@ This classification uses the United Nations [Classification of the Functions of 
 "cofog": {
   "attributes": {
     "code": {
-      "source": "..."
+      "field": "..."
     }
   }
 }
@@ -483,12 +484,12 @@ In terms of representation as a dimension, we use a `dimensionType` of "activity
     "id": {
       # The internal code identifier for the government program or project
 
-      "source": ...
+      "field": ...
     },
     "title": {
       # Name of the government program or project underwriting the budget item.
 
-      "source": ...
+      "field": ...
     }
   }
 }
@@ -571,8 +572,8 @@ Transactional expenditure data (direction `expenditure`, granularity `transactio
 | date | `datetime` | 1 | The date on which the transaction took place. |
 | supplier | `entity` | 2 | The recipient of the expenditure. |
 | contract | `activity` | 3 | The contract associated with the transaction. |
-| budgetLineItem | `fact` | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
-| invoiceID | `fact` | (3) | The invoice number given by the vendor or supplier. |
+| budgetLineItem | `other` | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
+| invoiceID | `other` | (3) | The invoice number given by the vendor or supplier. |
 | procurer | `entity` | (3) | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
 
 
