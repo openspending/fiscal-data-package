@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha8
-updated: 15 January 2016
+version: 0.3.0-alpha9
+updated: 20 January 2016
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha9`: mapping -> model
 - `0.3.0-alpha8`: remove `fact` as dimensionType
 - `0.3.0-alpha7`: dimension attribute sources -> fields
 - `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
@@ -133,7 +134,7 @@ The `datapackage.json` contains information in three key areas:
 
 * Package Metadata - title, author etc
 * Resources - describing data files
-* Mapping - mapping the source data to a "Logical" model
+* Model - mapping the source data to a "Logical" model
 
 We will detail each in turn.
 
@@ -200,8 +201,8 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   "resources": [ /* ... */ ],
 
-  // REQUIRED, see "Mapping"
-  "mapping": {
+  // REQUIRED, see "Model"
+  "model": {
 
     // REQUIRED: the measures object in logical model
     "measures": {
@@ -218,13 +219,13 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 ```
 
 
-## Mapping
+## Model
 
-The `mapping` hash links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
+The `model` hash links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
 
 <img src="https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/pub?w=710&h=357" alt="" />
 
-*Diagram illustrating how the mapping connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
+*Diagram illustrating how the model object maps the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
 {: style="text-align: center"}
 
 ### Measures
@@ -384,7 +385,7 @@ The following attributes SHOULD be included wherever possible:
 
 It is common for fiscal data to be classified in various ways. A classification is a labelling of a given item with a reference to standardized codesheet.
 
-Classifications will be represented in the mapping as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
+Classifications will be represented in the model as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
 
 Whenever we have a code attribute in a classification dimension, the licit values for that attribute consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gfsm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
@@ -394,7 +395,7 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within an attribute to reference another attribute that serves as the first attribute's parent.  Here is an example of its use:
+It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the model, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within an attribute to reference another attribute that serves as the first attribute's parent.  Here is an example of its use:
 
 ```
 "your-classification": {
