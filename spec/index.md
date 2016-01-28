@@ -1,7 +1,7 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha8
+version: 0.3.0-alpha9
 updated: 28 January 2016
 created: 14 March 2014
 author:
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha9`: remove 'ocdid' as recommended attribute for location dimension
 - `0.3.0-alpha8`: remove transaction identifier
 - `0.3.0-alpha7`: remove quality level guidance
 - `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
@@ -516,8 +517,7 @@ We RECOMMEND using a `location` dimension though attributes may also be applied 
 
 * `code`: The internal or local geographicCode id based for the geographical region
 * `title`: Name or title of the geographical region targeted by the budget item
-* `codeList`: the geo codelist from which the geocode is drawn
-* `ocdid`: The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region
+* `codeList`: the geo codelist from which the geocode is drawn 
 
 Note when applying these as attributes directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
 
