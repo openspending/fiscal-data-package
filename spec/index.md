@@ -395,7 +395,11 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within an attribute to reference another attribute that serves as the first attribute's parent.  Here is an example of its use:
+#### Hierarchical Classifications
+
+It is common for classifications to be hierarchical and have different levels. For example, a functional classification might include a top-level of "Healthcare" and a sub-level under "Healthcare" of "Hospitals".
+
+This hierarchical structure of the classification can be recorded in the mapping using the keyword `parent`.  The `parent` keyword is used within an attribute definition to reference another attribute in the same dimension that is the parent of the first attribute. Here is an example:
 
 ```
 "your-classification": {
@@ -415,31 +419,9 @@ It is common for classifications to be hierarchical and have different levels. I
 }
 ```
 
-If you have multiple attributes that exist at the same level of a hierarchy (e.g. an identifier for the level and its title), only use the "parent" key among the attributes that serve as the identifier for the level.
+Sometimes matters may be more complex. For example, there may be several attributes that describe a level e.g. "Hospital" may also have a code such as "01". In this case you only use the `parent` key on the attribute that acts as the unique code or identifier for a given level. For an example, as well as further information on handling hierarchical classifications see the ["Labels and Hierarchies" example][ex-hierarchies].
 
-```
-"your-classification": {
-  "attributes": {
-    "code": {
-      // this will be the precise code
-      "source": "..."
-    },
-    "level1_id": {
-      "source": "..."
-    },
-    "level1_title": {
-      "source": "..."
-    },
-    "level2_id": "{
-      "source": "...",
-      "parent": "level1_id"
-    },
-    "level2_title": "{
-      "source": "..."
-    }
-  }
-}
-```
+[ex-hierarchies]: /examples/labels-and-hierarchies/
 
 #### COFOG (Classifications of Functions of Government)
 
