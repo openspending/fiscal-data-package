@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha6
-updated: 7 December 2015
+version: 0.3.0-alpha7
+updated: 27 January 2016
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,7 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha7`: remove quality level guidance
 - `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
 - `0.3.0-alpha4`: reintroduce a lot of the content of data recommendations from v0.2
@@ -363,7 +364,7 @@ This section provides a standard framework for the "content" of Fiscal Data Pack
 
 Content requirements will necessarily vary across the different types of fiscal data. For example, the data describing high level budgets may be different from that describing day-to-day expenditures, and expenditure information may be different from revenue. Thus, our framework will distinguish different types of fiscal data.
 
-We also emphasize that what we provide is a framework rather than a strict standard. That is, we provide recommendations on what information should be provided rather than strict requirements. These recommendations are also categorised into "quality" levels. Each level requires more information be provided.
+We also emphasize that what we provide is a framework rather than a strict standard. That is, we provide recommendations on what information should be provided rather than strict requirements.
 
 Finally, our recommendations place requirements on the "logical" model not the physical model. Of course, the logical model data is sourced from the physical model so requirements on the logical model ultimately place requirements on the physical model. However, by defining our requirements on the logical model, we keep the flexibility in naming and structure of the raw, source data - for example, whilst a classification dimension with COFOG data should be named `cofog` and have an attribute called `code` your source CSV could have that COFOG data in a column called "COFOG-Code" or "Classification" or any other name.
 
@@ -529,7 +530,7 @@ Note when applying these as attributes directly on an object we suggest prefixin
 
 ## Suggested Dimensions for Different Types of Spending Data
 
-This section lists the suggested sets of dimensions that can usefully describe different types of spending data.  We also include quality levels for each dimension.  For example, if your aggregated expenditure data has a dimension named "cofog" described as above, it will have a quality level of "2".  Quality levels in parentheses are applied to dimensions which are desirable but not required to reach that quality level.
+This section lists the suggested sets of dimensions that can usefully describe different types of spending data.  
 
 ### Aggregated expenditure data
 
@@ -537,15 +538,15 @@ Aggregated expenditure data (direction `expenditure`, granularity `aggregated`) 
 
 Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual expenditure). For this reason there are attributes in aggregated data which are not applicable to transactional data, and vice versa.
 
-| Dimension | Type | Quality | Description|
-| ----- | -------- | ------- | ---------- |
-| cofog | `classification` | 2 | The COFOG functional classification for the budget item. |
-| gfsm  | `classification` | 2 | The GFSM 2014 economic classification for the budget item. |
-| chart-of-accounts | `classification` | 2 | Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
-| administrator | `entity` | 2 | The name of the government entity legally responsible for spending the budgeted amount. |
-| account | `entity` | 3 | The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
-| program | `activity` | 3 |  Name of the government program underwriting the budget item. |
-| procurer | `entity` | (3) | The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
+| Dimension | Type |  Description|
+| ----- | -------- |  ---------- |
+| cofog | `classification` |  The COFOG functional classification for the budget item. |
+| gfsm  | `classification` |  The GFSM 2014 economic classification for the budget item. |
+| chart-of-accounts | `classification` |  Human-readable name of the (non-COFOG) functional classification of the budget item (i.e. the socioeconomic objective or policy goal of the spending; e.g. "secondary education"), drawn from the publisher's chart of account. |
+| administrator | `entity` |  The name of the government entity legally responsible for spending the budgeted amount. |
+| account | `entity` |  The fund from which the budget item will be drawn. (This refers to a named revenue stream.) |
+| program | `activity` |   Name of the government program underwriting the budget item. |
+| procurer | `entity` |  The government entity acting as the procurer for the transaction, if different from the institution controlling the project. |
 
 ### Aggregated revenue data
 
@@ -553,28 +554,27 @@ Aggregated revenue data (direction `revenue`, granularity `aggregated`) describe
 
 Aggregated data is in many cases the proposed, approved or adjusted budget (but can also be an aggregated version of actual revenue). For this reason there are attributes in aggregated data which are not applicable to transactional data, and vice versa.
 
-| Dimension | Type | Quality | Description|
-| --------- | ---- | ------- |------------|
-| chart-of-accounts | `classification` | (2) | Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
-| gfsm | `classification` | 2 | The GFSM 2014 economic classification for the revenue item. |
-| account | `entity` | 3 | The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
-| recipient | `entity` | 2 | The recipient (if any) targetted by the revenue item. |
-| source | `location` | (3) | Geographical region from which the revenue item originates. |
+| Dimension | Type |  Description|
+| --------- | ---- | ------------|
+| chart-of-accounts | `classification` |  Name of the economic classification of the revenue item, drawn from the publisher's chart of account. |
+| gfsm | `classification` |  The GFSM 2014 economic classification for the revenue item. |
+| account | `entity` |  The fund into which the revenue item will be deposited. (This refers to a named revenue stream.) |
+| recipient | `entity` |  The recipient (if any) targetted by the revenue item. |
+| source | `location` |  Geographical region from which the revenue item originates. |
 
 ### Transactional expenditure data
 
 Transactional expenditure data (direction `expenditure`, granularity `transactional`) describes government expenditures at the level of individual transactions, exchanges of funds taking place at a specific time between two entities. 
 
-| Dimension | Type | Quality | Description|
-| --------- | ---- | ------- | ---------- |
-| administrator | `entity` | 2 | The government entity responsible for spending the amount. |
-| date | `datetime` | 1 | The date on which the transaction took place. |
-| supplier | `entity` | 2 | The recipient of the expenditure. |
-| contract | `activity` | 3 | The contract associated with the transaction. |
-| budgetLineItem | `fact` | (3) | The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
-| invoiceID | `fact` | (3) | The invoice number given by the vendor or supplier. |
-| procurer | `entity` | (3) | The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
-
+| Dimension | Type |  Description|
+| --------- | ---- |  ---------- |
+| administrator | `entity` |  The government entity responsible for spending the amount. |
+| date | `datetime` |  The date on which the transaction took place. |
+| supplier | `entity` |  The recipient of the expenditure. |
+| contract | `activity` |  The contract associated with the transaction. |
+| budgetLineItem | `other` |  The unique ID of budget line item (value of id column for budget line) authorizing the expenditure. The budget line can either come from an approved or adjusted budget, depending on if the transaction takes place after the related budget item has been adjusted or not. |
+| invoiceID | `other` |  The invoice number given by the vendor or supplier. |
+| procurer | `entity` |  The government entity acting as procurer for the transaction, if different from the institution controlling the project. |
 
 # Acknowledgements
 
