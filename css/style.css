@@ -7,6 +7,10 @@ table td, table th {
   padding: 3px;
 }
 
+table.meta td, table.meta th {
+  border: none;
+}
+
 table th {
   background: #333;
   color: white;
