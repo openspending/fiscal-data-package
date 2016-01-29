@@ -62,7 +62,7 @@
       }
     }
   ],
-  "mapping": {
+  "model": {
     "measures": {
       "amount": {        
         "source": "budget",
