@@ -1,8 +1,8 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0-alpha7
-updated: 27 January 2016
+version: 0.3.0-alpha9
+updated: 28 January 2016
 created: 14 March 2014
 author:
  - Tryggvi Björgvinsson (Open Knowledge)
@@ -28,6 +28,8 @@ explicit changes please fork the [git repo][repo] and submit a pull request.
 
 # Changelog
 
+- `0.3.0-alpha9`: (!) rename mapping to model. Remove 'ocdid' as recommended attribute for location dimension.
+- `0.3.0-alpha8`: remove transaction identifier
 - `0.3.0-alpha7`: remove quality level guidance
 - `0.3.0-alpha6`: dimension fields -> attributes, revert measures/dimensions/attributes to objects, add `parent` and `labelfor` keys on dimension attributes
 - `0.3.0-alpha5`: variety of improvements and corrections including #35, #37 etc
@@ -132,7 +134,7 @@ The `datapackage.json` contains information in three key areas:
 
 * Package Metadata - title, author etc
 * Resources - describing data files
-* Mapping - mapping the source data to a "Logical" model
+* Model and Mapping - describe a "logical model" and map the source data to that model
 
 We will detail each in turn.
 
@@ -199,8 +201,8 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   "resources": [ /* ... */ ],
 
-  // REQUIRED, see "Mapping"
-  "mapping": {
+  // REQUIRED, see "Model and Mapping"
+  "model": {
 
     // REQUIRED: the measures object in logical model
     "measures": {
@@ -217,14 +219,23 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 ```
 
 
-## Mapping
+## Model and Mapping
 
-The `mapping` hash links columns in the CSV files ("physical model") to pre-defined semantic concepts like transaction dates, amounts, classifications, administrative hierarchies and geographic locations ("logical model").
+The `model` hash is central to Fiscal Data Package and serves two purposes. It defines a "logical model" for the data and it maps columns in the CSV files ("physical model") to columns in the "logical model". 
 
 <img src="https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/pub?w=710&h=357" alt="" />
 
 *Diagram illustrating how the mapping connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
 {: style="text-align: center"}
+
+A logical model is a description of the underlying structure and concepts in the data. Concepts like dates, amounts, classifications, administrative hierarchies and geographic locations. Our approach to describing the logical model is based heavily on the terminology and approach of [OLAP (Online Analytical Processing)][olap].[^why-olap] In particular, we heavily use the OLAP concepts of:
+
+* Measures: these will be the monetary amounts in the fiscal data   
+* Dimensions: dimensions cover all items other than the measure and contain all the descriptive information such as dates, locations, entities receiving and spending money etc etc.
+
+As we will see, `measures` and `dimensions` are the two main properties of the `model` hash.
+
+[^why-olap]: We have chosen OLAP because OLAP is specfically designed for situations where there is one (or more) central numerical values and then various classifications of that data. Fiscal data has at its heart a single numeric concept: money. Hence the fit with OLAP.
 
 ### Measures
 
@@ -373,19 +384,13 @@ Finally, our recommendations place requirements on the "logical" model not the p
 
 All datasets MUST have at least one measure. Essentially this is requiring each dataset have at least one field / column which corresponds to an "amount" of money.
 
-## Recommended data (all categories)
-
-The following attributes SHOULD be included wherever possible:
-
-* `id`: A globally unique identifier for the budget item. This `id` attribute will usually be located on the default `fact` dimension.
-
 ## Special Dimensions
 
 ### Classifications
 
 It is common for fiscal data to be classified in various ways. A classification is a labelling of a given item with a reference to standardized codesheet.
 
-Classifications will be represented in the mapping as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
+Classifications will be represented in the model as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
 
 Whenever we have a code attribute in a classification dimension, the licit values for that attribute consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gfsm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
 
@@ -395,7 +400,11 @@ Classifications are of different types. The type of the classification `MAY` be 
 * `administrative`
 * `economic`
 
-It is common for classifications to be hierarchical and have different levels. If this is present in your data and you wish to record it in the mapping, we recommend adopting the following structure using the keyword `parent`.  In a hierarchical data structure, the `parent` keyword is used within an attribute to reference another attribute that serves as the first attribute's parent.  Here is an example of its use:
+#### Hierarchical Classifications
+
+It is common for classifications to be hierarchical and have different levels. For example, a functional classification might include a top-level of "Healthcare" and a sub-level under "Healthcare" of "Hospitals".
+
+This hierarchical structure of the classification can be recorded using the keyword `parent`.  The `parent` keyword is used within an attribute definition to reference another attribute in the same dimension that is the parent of the first attribute. Here is an example:
 
 ```
 "your-classification": {
@@ -415,31 +424,9 @@ It is common for classifications to be hierarchical and have different levels. I
 }
 ```
 
-If you have multiple attributes that exist at the same level of a hierarchy (e.g. an identifier for the level and its title), only use the "parent" key among the attributes that serve as the identifier for the level.
+Sometimes matters may be more complex. For example, there may be several attributes that describe a level e.g. "Hospital" may also have a code such as "01". In this case you only use the `parent` key on the attribute that acts as the unique code or identifier for a given level. For an example, as well as further information on handling hierarchical classifications see the ["Labels and Hierarchies" example][ex-hierarchies].
 
-```
-"your-classification": {
-  "attributes": {
-    "code": {
-      // this will be the precise code
-      "source": "..."
-    },
-    "level1_id": {
-      "source": "..."
-    },
-    "level1_title": {
-      "source": "..."
-    },
-    "level2_id": "{
-      "source": "...",
-      "parent": "level1_id"
-    },
-    "level2_title": "{
-      "source": "..."
-    }
-  }
-}
-```
+[ex-hierarchies]: /examples/labels-and-hierarchies/
 
 #### COFOG (Classifications of Functions of Government)
 
@@ -521,8 +508,7 @@ We RECOMMEND using a `location` dimension though attributes may also be applied 
 
 * `code`: The internal or local geographicCode id based for the geographical region
 * `title`: Name or title of the geographical region targeted by the budget item
-* `codeList`: the geo codelist from which the geocode is drawn
-* `ocdid`: The [Open Civic Data Division Identifier](http://docs.opencivicdata.org/en/latest/proposals/0002.html), if it exists, for the geographical region
+* `codeList`: the geo codelist from which the geocode is drawn 
 
 Note when applying these as attributes directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
 

@@ -36,7 +36,7 @@
       }
     }
   ],
-  "mapping": {
+  "model": {
     "measures": {
       "amount": {       
         "source": "amount",

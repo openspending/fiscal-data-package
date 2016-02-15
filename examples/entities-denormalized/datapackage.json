@@ -37,7 +37,7 @@
       }
     }
   ],
-  "mapping": {
+  "model": {
     "measures": {
       "amount": {
         "source": "expenditure",
