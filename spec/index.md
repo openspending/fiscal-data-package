@@ -198,6 +198,8 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   //   * That entry in the `resources` array `MUST` have a JSON 
   //     table schema describing the data file. 
   //     (see http://dataprotocols.org/json-table-schema/)
+  //    * Each entry must have a `name` attribute in order to be referenced
+  //      in the `model` section.
 
   "resources": [ /* ... */ ],
 
@@ -255,7 +257,7 @@ Measures are numerical and define the columns in the source data which contain f
     // to `1`.
     "factor": 1,
     
-    // OPTIONAL: Resource containing the source field. Defaults to 
+    // OPTIONAL: Resource (referenced by `name` attribute) containing the source field. Defaults to 
     // the first resource in the `resources` array.
     "resource": "budget-2014-au",
     
@@ -295,7 +297,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
         // dataset.
         "constant": "Some Project",
 
-        // OPTIONAL: the resource in which the field is located. 
+        // OPTIONAL: the resource (referenced by `name` attribute) in which the field is located. 
         // Defaults to the first resource in the `resources` array.
         "resource": "budget-2014-au"
         
