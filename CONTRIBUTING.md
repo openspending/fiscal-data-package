@@ -1,8 +1,11 @@
 # How to contribute
 
-Fiscal Data Package is a lightweight, descriptive data model that can be used to describe and compare a wide variety of fiscal data. It acts as a backbone to connect many of the applications in the OpenSpending technology stack, but is also an open specification that aims to support the variety of ways individuals work with fiscal data.  Therefore, we encourage feedback and contributions from all types of fiscal data producers, intermediaries (e.g. journalists and researchers), as well as consumers.
+The goal of this document is to lay out timelines and procedures for developing drafts of the Fiscal Data Package specification.
 
-Rufus Pollock of [Open Knowledge](https://okfn.org/) (@rgrp) is currently overseeing the development of the specification. 
+Fiscal Data Package is a lightweight, descriptive data model that can be used to describe and compare a wide variety of fiscal data.  Therefore, we encourage feedback and contributions from all types of fiscal data producers, intermediaries (e.g. journalists and researchers), as well as consumers.
+
+Rufus Pollock of [Open Knowledge International](https://okfn.org/) (@rgrp) is acting as the current "Czar" of the standard, providing high-level guidance and overseeing its development.  Dan Fowler, Developer Advocate [Open Knowledge International](https://okfn.org/) (@danfowler), is acting as the current "standards team", supporting the day-to-day progression of the specification, responding to comments, and ensuring adherence to the timelines and procedures described in this document.
+
 ## Getting Started
 
 * Sign up for a [GitHub account](https://github.com/signup/free) if you don't already have one
@@ -11,7 +14,7 @@ Rufus Pollock of [Open Knowledge](https://okfn.org/) (@rgrp) is currently overse
 
 ## Issues Types
 
-Upon receipt of a new issue, the standards team (@danfowler) will tag the issue as one of:
+Upon receipt of a new issue, the standards team will tag the issue as one of:
 
 * Discussion
 * Meta
@@ -47,7 +50,6 @@ And closed with justification provided.
 ## Proposals
 
 Once a concrete proposal has been submitted, a [Pull Request](https://help.github.com/articles/using-pull-requests/) directly addressing that proposal can be submitted.  A Pull Request is a concrete set of changes to the text that ready to merge into the existing text of the specification (https://github.com/openspending/fiscal-data-package/blob/master/spec/index.md)
-
 
 ## Versioning
 
