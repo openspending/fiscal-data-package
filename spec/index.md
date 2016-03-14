@@ -1,7 +1,7 @@
 ---
 layout: spec
 title: Specification - Fiscal Data Package
-version: 0.3.0
+version: 0.3.1
 updated: 14 March 2016
 created: 14 March 2014
 author:
@@ -160,13 +160,6 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
   // RECOMMENDED: other properties such as description, homepage, 
   // version, sources, author, contributors, keywords, as specified 
   // in dataprotocols.org/data-packages/
-
-  // RECOMMENDED: a valid 2-digit ISO country code (ISO 3166-1 
-  // alpha-2), or, an array of valid ISO codes (if this relates to
-  // multiple countries). This field is for listing the country of 
-  // countries associated to this data.  For example, if this the 
-  // budget for country then you would put that country's ISO code.
-  "countryCode": "au", // or [ "au", "nz" ]
 
   // RECOMMENDED: the "profile set" for this package. If the 
   // `profiles` key is present, it MUST be set to the following 
@@ -505,13 +498,25 @@ Whilst strictly not an entity, the concept of an "account" from which money is s
 
 ### Location
 
-There is a frequent desire to label items with location, usually by attaching geographic codes for a region or area. This allows the spending or revenue to  be analysed by region or area. This geographic information can be introduced directly by classifying the item with a code, or, more frequently indirectly by associating a geographic code to e.g. an entity. For example, by labelling a supplier with their location one can then associate a spend with that supplier as spending in that location.
+There is a frequent desire to label items with location, usually by attaching geographic codes for a region or area. This allows the spending or revenue to be analysed by region or area. This geographic information can be introduced directly by classifying the item with a code, or, more frequently indirectly by associating a geographic code to e.g. an entity. For example, by labelling a supplier with their location one can then associate a spend with that supplier as spending in that location.
 
 We RECOMMEND using a `location` dimension though attributes may also be applied directly onto another object (e.g. an entity). Here are attributes that `MAY` be applied either directly to an item or to an entity or other object associated to an item.
 
 * `code`: The internal or local geographicCode id based for the geographical region
 * `title`: Name or title of the geographical region targeted by the budget item
-* `codeList`: the geo codelist from which the geocode is drawn 
+* `codeList`: The geo codelist from which the geocode is drawn 
+* `countryCode`: A valid 2-digit ISO country code (ISO 3166-1 alpha-2). Note: if the entire dataset relates to one country, it is recommended to use the `constant` attribute to specify this.  For example:
+
+```
+"location": {
+  "dimensionType": "location",
+  "attributes": {
+    "countryCode": {
+      "constant": "GB"
+    }
+  }
+}
+```
 
 Note when applying these as attributes directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
 
