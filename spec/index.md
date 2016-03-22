@@ -512,8 +512,6 @@ We RECOMMEND using a `location` dimension though attributes may also be applied 
 * `title`: Name or title of the geographical region targeted by the budget item
 * `codeList`: the geo codelist from which the geocode is drawn 
 
-Note when applying these as attributes directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
-
 ----
 
 ## Suggested Dimensions for Different Types of Spending Data
