@@ -492,8 +492,6 @@ An entity is a distinct organization, government department, or individual that 
 
 * `title`: The title or name of the government entity legally responsible for spending the budgeted amount.
 * `id`: The internal code for the administrative entity.
-* `location`: Reference to a `location` dimension listing geographical region where administrative entity is located.
-* `locationCode`: code for geographical region where administrative entity is located.
 
 #### Accounts
 
@@ -504,9 +502,7 @@ Whilst strictly not an entity, the concept of an "account" from which money is s
 
 ### Location
 
-There is a frequent desire to label items with location, usually by attaching geographic codes for a region or area. This allows the spending or revenue to  be analysed by region or area. This geographic information can be introduced directly by classifying the item with a code, or, more frequently indirectly by associating a geographic code to e.g. an entity. For example, by labelling a supplier with their location one can then associate a spend with that supplier as spending in that location.
-
-We RECOMMEND using a `location` dimension though attributes may also be applied directly onto another object (e.g. an entity). Here are attributes that `MAY` be applied either directly to an item or to an entity or other object associated to an item.
+There is a frequent desire to categorize budget lines by location.  This allows spending or revenue to be analysed by region or area.  We RECOMMEND using a `location` dimension to model geographic information on a budget line.  Here are attributes that `MAY` be applied within a `location` dimension.
 
 * `code`: The internal or local geographicCode id based for the geographical region
 * `title`: Name or title of the geographical region targeted by the budget item
