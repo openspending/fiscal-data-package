@@ -593,6 +593,11 @@ All of these hierarchies give a picture of how the budget line fits into the big
 
 Categorizing and organizing the data is more about describing it from the bigger perspective than breaking it down into detailed components and the Fiscal Data Package specification tries to take that into account by including top level hierarchies and generalised classification systems but there is still a possibility to go into details by supplying a good description of every row in the budget data.
 
+### Other Budget Systems
+
+Every government develops its budget systems in accordance with its own needs.  As such, spending lines in many budgets cannot always be neatly categorized into the phase, direction, and classification options described above.  While we seek to provide a high degree of flexibility in describing different budget systems, we acknowledge there may be additional phases, directions, and classifications that cannot be directly modeled using the Fiscal Data Package standard.
+
+----
 
 
 [dp]: http://dataprotocols.org/data-packages/
