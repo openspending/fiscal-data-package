@@ -60,34 +60,12 @@ Fiscal Data Package specifies the *form* for fiscal data and offers a standardiz
 * Mapping the raw "physical" model, as represented by columns in the data files, to a standardized "logical" model based around basic fiscal concepts: amounts spent, suppliers, administrative and functional classifications etc
 * Progressive enhancement of data via a range of *recommended*, but not *required* metadata, in order to establish a clear path for data providers to enhance data quality, and to address new use cases going forward.
 
-Fiscal Data Package builds on the [Data Packages specifications][dp]. It defines a "profile" that adds some additional constraints.  It also extends the [Tabular Data Package][tdp] profile (`tabular`) which itself extends the `base` Data Package format.  Thus, any Fiscal Data Package is also a [Tabular Data Package][tdp], and is also a [Data Package][dp].
 
-# Form and Structure
+# Background
 
-A Fiscal Data Package contains revenue and/or expenditure data for one or more entities, over one or more financial periods. It has a simple structure:
+This proposal assumes some familiarity with fiscal data - e.g. budgets, spending etc - as this is the data we are structuring and describing.
 
-* Data files: one or more CSV files, which `SHOULD` be placed in a `data/` subdirectory.
-* Descriptor: there `MUST` be a single `datapackage.json` file, which describes the structure of the data files and provides additional metadata.
-
-The data files and descriptor are generally bundled together. For example:
-
-File  | Comment 
-------|-------
-`datapackage.json`            | Descriptor file
-`README.md`                   | Optional, extra files are ignored.
-`data/my-financial-data.csv`  | Actual data, referred to by descriptor.
-`data/my-list-of-entities-receiving-money.csv`              | Data that augment the spend data, linked by foreign key.
-`archive/my-original-data.xls` | Directory for original sources and "archival" material (optional)
-`scripts/scrape-and-clean-the-data.py `| Scripts used in preparing the data package (optional)
-
-## Data files
-
-Data files in a Fiscal Data Package `MUST`:
-
-* Be in CSV format.
-* Meet the requirements of [Tabular Data Package][tdp]: a header row, no blank rows, etc.
-
-Each row of each file describes some kind of movement of money, and may contain several amounts in different columns. With those basic constraints, several ways of arranging data are supported by this specification. We will focus on the following simple model:
+Often, this data takes the form of rows in a spreadsheet or database with each row describing some kind of expenditure or receipt of money. The data can get considerably more complex but keep this simple model in mind for what follows.
 
 ```
 +--------+------+------------+------------+
@@ -99,17 +77,69 @@ Each row of each file describes some kind of movement of money, and may contain 
 +-----
 ```
 
-*Note: you can store other files in your data package - for example, you may want to archive the original xls or data files you used. However, we do not consider these data for the purposes of this specification.*
+This proposal also builds on and reuses the [Data Package][dp] specifications. These are a family of simple, lightweight formats for publishing data. If you are unfamiliar with these, more information can be found in the Appendix.
 
-## Descriptor – `datapackage.json`
+# Form and Structure
 
-The `datapackage.json` describes:
+A Fiscal Data Package has a simple structure:
+
+* Data: the data `MUST` be stored in CSV files.
+* Descriptor: there must a descriptor in the form of a single `datapackage.json` file. This file describes both the data and the "package" as a whole (e.g. who created it, its license etc).
+
+Fiscal Data Package builds on the [Data Packages specifications][dp] by defining a "profile" that places some additional constraints on the metadata relevant to describing fiscal data.  A Fiscal Data Package also extends the [Tabular Data Package][tdp] profile (`tabular`) which itself extends the `base` Data Package format.  In this sense, a Fiscal Data Package is a [Tabular Data Package][tdp] which is, in turn, a [Data Package][dp]. We will spell out key implications of this as we proceed.
+
+## File structures
+
+Here are some examples of what a Fiscal Data Package looks like on disk. Usually, the `datapackage.json` and data files are bundled together, and collectively referred to as "the data package".
+
+A simple example of a Fiscal Data Package:
+
+File  | Comment 
+------|-------
+`datapackage.json`           | Descriptor file
+`data/my-financial-data.csv` | Data files, must be .csv. In `data/` by convention, but not required to be.
+
+A more complex example, with additional files:
+
+File  | Comment 
+------|-------
+`datapackage.json`            | Descriptor file
+`README.md`                   | Optional, extra files are ignored.
+`data/my-financial-data.csv`  | Actual data, referred to by descriptor.
+`archive/my-original-data.xls` | Directory for original sources and "archival" material (optional)
+`scripts/scrape-and-clean-the-data.py `| Scripts used in preparing the data package (optional)
+
+And, an example of a data package with normalized data could be:
+
+File  | Comment 
+------|-------
+`datapackage.json` | Defines foreign key references between the primary file and secondary data files.
+`data/my-financial-data.csv`                                | Actually contains spend data. 
+`data/my-list-of-entities-receiving-money.csv`              | Data that augmented the spend data, linked by foreign key.
+`data/my-list-of-projects-the-money-is-associated-with.csv` | additional augmenting data
+
+## Data files
+
+The data in your Data Package `MUST`:
+
+* Be in CSV format.
+* Have well-structured CSVs- no blank rows, columns etc. [Tabular Data Package][tdp] spells this out in detail.
+
+*Note: you can store other data files in your data package - for example, you may want to archive the original xls or data files you used. However, we do not consider these data for the purposes of this specification.*
+
+## The Descriptor - `datapackage.json`
+
+A Fiscal Data Package `MUST` contain a `datapackage.json` - it is the central file in an Fiscal Data Package.
+
+The `datapackage.json` contains information in three key areas:
 
 * Package Metadata - title, author etc
-* Resources - the name and type of each column of each data file
-* Model - links each column to semantic meanings defined within the Fiscal Data Package logical data model
+* Resources - describing data files
+* Model and Mapping - describe a "logical model" and map the source data to that model
 
-## Package Metadata
+We will detail each in turn.
+
+## General Package Metadata
 
 This follows [Data Package][dp] (DP). In particular, the following properties `MUST` be on the top-level descriptor:
 
@@ -174,7 +204,7 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   "resources": [ /* ... */ ],
 
-  // REQUIRED, see "Model"
+  // REQUIRED, see "Model and Mapping"
   "model": {
 
     // REQUIRED: the measures object in logical model
@@ -192,17 +222,13 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 ```
 
 
-## Resources
-
-All the requirements of [Tabular Data Package][tdp] apply.
-
-## Model
+## Model and Mapping
 
 The `model` hash is central to Fiscal Data Package and serves two purposes. It defines a "logical model" for the data and it maps columns in the CSV files ("physical model") to columns in the "logical model". 
 
 <img src="https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/pub?w=710&h=357" alt="" />
 
-*Diagram illustrating how the model connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
+*Diagram illustrating how the mapping connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
 {: style="text-align: center"}
 
 A logical model is a description of the underlying structure and concepts in the data. Concepts like dates, amounts, classifications, administrative hierarchies and geographic locations. Our approach to describing the logical model is based heavily on the terminology and approach of [OLAP (Online Analytical Processing)][olap].[^why-olap] In particular, we heavily use the OLAP concepts of:
@@ -547,7 +573,7 @@ Thanks to Vitor Baptista, Sarah Bird, Samidh Chakrabarti, Pierre Chrzanowski, An
 
 # Appendix
 
-## Budget Data
+## Budget data
 
 A budget is over a year-long process of planning, execution, and oversight of a government's expenditures and revenues. At multiple stages in the process, *quantitative data* is generated, data which specifies the sums of money spent or collected by the government. This data can represent either plans/projections or actual transactions.
 
@@ -557,13 +583,13 @@ By recognizing the following distinctions between data types, Fiscal Data Packag
 
 * Data can represent either *expenditures* or *revenues*.
 * Data can be either *aggregated* or *transactional*. An item of aggregated data represents a whole category of spending (e.g. spending on primary education). An item of transactional data represents a single transaction at some specific point in time.
-* Data can come from any phase in the budget cycle (proposal, approval, adjustment, execution). This includes three different types of planned / projected budget items (proposal, approval, adjustment) and one representing actual completed transactions (execution).
+* Data can come from any stage in the budget cycle (proposal, approval, adjustment, execution). This includes three different types of planned / projected budget items (proposal, approval, adjustment) and one representing actual completed transactions (execution).
 
-### Budget Hierarchy and Categorizations
+### Budget hierarchy and categorizations
 
 Budget data has various degrees of hierarchy, depending on the perspective. From a functional perspective it can use a functional classification. The functional classification can be set up as a few levels (a hierarchy). An economical classification is not compatible with the functional hierarchy and has a different hierarchy. Another possible hierarchy would be a program/project hierarchy where many projects are a part of a program.
 
-All of these hierarchies give a picture of how the budget line fits into the bigger picture, but none of them can give the whole picture. Budget data usually only includes general classification categories or the top few hierarchies. For example, a project can usually be broken down into tasks, but budget data usually would not go into so much detail. It might not even be divided into projects.
+All of these hierarchies give a picture of how the budget line fits into the bigger picture, but none of them can give the whole picture. Budget data usually only includes general classification categories or the top few hierarchies. For example a project can usually be broken down into tasks, but budget data usually would not go into so much detail. It might not even be divided into projects.
 
 Categorizing and organizing the data is more about describing it from the bigger perspective than breaking it down into detailed components and the Fiscal Data Package specification tries to take that into account by including top level hierarchies and generalised classification systems but there is still a possibility to go into details by supplying a good description of every row in the budget data.
 
