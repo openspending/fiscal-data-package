@@ -369,7 +369,7 @@ This section provides guidance, and certain requirements, on the naming of dimen
 Dimensions of type `classification` with these names are significant:
 
 * `"cofog"`: the United Nations [Classification of the Functions of Government][cofog]
-* `"gfsm"`: the[IMF Government Finance Statistics Manual (2014)][gfsm2014]. For expenditure classification, use Table 6.1. For revenue, use Table 5.1.
+* `"gfsm"`: the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For expenditure classification, use Table 6.1. For revenue, use Table 5.1.
 
 [gfsm2014]: http://www.imf.org/external/np/sta/gfsm/
 
@@ -389,7 +389,7 @@ A `dimensionType` of `activity` defines the program or project associated with e
   "dimensionType": "activity",
   "attributes": {
     // Attributes SHOULD be named as follows, if available:    
-    "id": { .. },    // The internal code identifier for the government program or project
+    "id": { ... },    // The internal code identifier for the government program or project
     "title": { ... } // Name of the government program or project underwriting the budget item.
   }
 }
@@ -405,9 +405,9 @@ A `dimensionType` of `entity` is describes a distinct organization, government d
 
   "attributes": {
     // Attributes SHOULD be named as follows, if available:
-    "title": {...},        // The title or name of the government entity legally responsible for spending the budgeted amount.
-    "id": {...},           // The internal code for the administrative entity.
-    "location": {...}      // Reference to a dimension of type `location` providing the geographical region where the administrative entity is located.
+    "title": { ... },        // The title or name of the government entity legally responsible for spending the budgeted amount.
+    "id": { ... },           // The internal code for the administrative entity.
+    "location": { ... }      // Reference to a dimension of type `location` providing the geographical region where the administrative entity is located.
   }
 }
 ```
@@ -428,9 +428,9 @@ A `dimensionType` of `location` defines the geographic region associated with an
   "dimensionType": "location",
   "attributes": {
     // Attributes SHOULD be named as follows, if available:
-    "code": {...},    // A code uniquely identifying the geographic region.
-    "title": {...},   // The title of the geographic region.
-    "codeList": {...} // The name of the standard or list which the codes belong to. No standard way to refer to them is given.
+    "code": { ... },    // A code uniquely identifying the geographic region.
+    "title": { ... },   // The title of the geographic region.
+    "codeList": { ... } // The name of the standard or list which the codes belong to. No standard way to refer to them is given.
   }
 }
 ```
