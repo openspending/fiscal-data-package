@@ -344,7 +344,7 @@ This section provides guidance, and certain requirements, on the naming of dimen
   //   Health > Hospital services > Nursing
   // * "economic": focused on the nature of the accounting, such 
   //   as Compensation > Wages and salaries > Wages and salaries in cash
-  "classificationType": "administrative"
+  "classificationType": "administrative",
 
   "attributes": {
     // REQUIRED: a "code" column containing unique identifiers from an official codesheet. If classifications are subject to change, a `version` attribute `SHOULD` be used. 
@@ -357,9 +357,10 @@ This section provides guidance, and certain requirements, on the naming of dimen
     "program": {
       "source": "PROGRAMME_NAME"
     },
-    "project": "{
+    "project": {
       "source": "PROJECT_NAME"
     }
+  }
 }
 ```
 
@@ -406,7 +407,7 @@ A `dimensionType` of `entity` is describes a distinct organization, government d
     // Attributes SHOULD be named as follows, if available:
     "title": {...},        // The title or name of the government entity legally responsible for spending the budgeted amount.
     "id": {...},           // The internal code for the administrative entity.
-    "location": {...},     // Reference to a dimension of type `location` providing the geographical region where the administrative entity is located.
+    "location": {...}      // Reference to a dimension of type `location` providing the geographical region where the administrative entity is located.
   }
 }
 ```
