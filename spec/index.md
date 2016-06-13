@@ -259,9 +259,8 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 ```javascript
 "dimensions": {
   "project-class": {
-    // REQUIRED: An attributes object that defines the attributes of the 
-    // dimension. Think of each attribute as a column on that dimension in 
-    // a database. Each attribute MUST have `source` information - 
+    // REQUIRED: An attributes object listing the one or more columns that make up
+    // the dimension. Each attribute MUST have `source` information - 
     // i.e. where the data comes from for that property 
     "attributes": {
       "project": {
@@ -286,7 +285,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
         "labelfor": "..."
       },
 
-      // Other attributes may be REQUIRED, depending on the dimensionType. See the "Dimension types" section.
+      // Other attributes may be required, depending on the dimensionType. See the "Dimension types" section.
       "code": {
         "source": "class_code"
       }
@@ -347,12 +346,14 @@ This section provides guidance, and certain requirements, on the naming of dimen
   "classificationType": "administrative",
 
   "attributes": {
-    // REQUIRED: a "code" column containing unique identifiers from an official codesheet. If classifications are subject to change, a `version` attribute `SHOULD` be used. 
+    // REQUIRED: a "code" attribute, referencing a column whose values are unique identifiers from the relevant codesheet (see "Known classification schemes").
     "code": {
       "source": "PROJECT_CODE",
       // To define a hierarchical classification, the "parent" attribute refers to the attribute "above" it in the hierarchy.
       // Set it on the `code` field, not a title field. See the ["Labels and Hierarchies" example][/examples/labels-and-hierarchies/].
       "parent": "PROGRAMME_NAME"
+      // Optional: If classifications are subject to change, a `version` attribute `SHOULD` be used. 
+      // "version": "1.3"
     },
     "program": {
       "source": "PROGRAMME_NAME"
@@ -361,6 +362,7 @@ This section provides guidance, and certain requirements, on the naming of dimen
       "source": "PROJECT_NAME"
     }
   }
+  // (primary key and other properties are omitted in this section)
 }
 ```
 
