@@ -5,10 +5,12 @@ version: 0.3.0
 updated: 28 January 2016
 created: 14 March 2014
 author:
- - Tryggvi Björgvinsson (Open Knowledge)
- - Rufus Pollock (Open Knowledge)
- - Paul Walsh (Open Knowledge)
+ - Tryggvi Björgvinsson (Open Knowledge International)
+ - Rufus Pollock (Open Knowledge International)
+ - Paul Walsh (Open Knowledge Internationala)
  - Steve Bennett (Open Knowledge Australia)
+ - Adam Kariv (Open Knowledge International)
+ - Dan Fowler (Open Knowledge International)
 summary: Fiscal Data Package is a lightweight and user-oriented format for publishing and consuming fiscal data. Fiscal data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
 ---
 
@@ -502,7 +504,19 @@ Transactional expenditure data (direction `expenditure`, granularity `transactio
 
 # Acknowledgements
 
-Thanks to Vitor Baptista, Sarah Bird, Samidh Chakrabarti, Pierre Chrzanowski, Andrew Clarke, Velichka Dimitrova, Friedrich Lindenberg, James McKinney, Rufus Pollock, Paolo de Renzio, Martin Tisne and Paul Walsh.
+Thanks to the following people for being involved in discussion around the specification, or piloting with the specification:
+
+- Vitor Baptista
+- Sarah Bird
+- Anders Pedersen
+- Samidh Chakrabarti
+- Pierre Chrzanowski
+- Andrew Clarke
+- Velichka Dimitrova
+- Friedrich Lindenberg
+- James McKinney
+- Paolo de Renzio
+- Martin Tisne
 
 ----
 
