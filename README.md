@@ -11,9 +11,7 @@ for those wanting to use the data (such as researchers and journalists).
 
 ## Get started
 
-Read the [specification](http://specs.frictionlessdata.io/fiscal-data-package/)
-
-The spec contains a full RFC-style specification for the Fiscal Data Package format.
+Read the full RFC-style [specification](http://specs.frictionlessdata.io/fiscal-data-package/) for the Fiscal Data Package format.
 
 ## Additional Materials
 
