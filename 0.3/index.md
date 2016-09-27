@@ -5,13 +5,11 @@ version: 0.3.0
 updated: 28 January 2016
 created: 14 March 2014
 author:
- - Tryggvi Björgvinsson (Open Knowledge International)
- - Rufus Pollock (Open Knowledge International)
- - Paul Walsh (Open Knowledge Internationala)
- - Steve Bennett (Open Knowledge Australia)
- - Adam Kariv (Open Knowledge International)
- - Dan Fowler (Open Knowledge International)
+ - Tryggvi Björgvinsson (Open Knowledge)
+ - Rufus Pollock (Open Knowledge)
+ - Paul Walsh (Open Knowledge)
 summary: Fiscal Data Package is a lightweight and user-oriented format for publishing and consuming fiscal data. Fiscal data packages are made of simple and universal components. They can be produced from ordinary spreadsheet software and used in any environment.
+redirect_from: /fiscal-data-package/spec/0.3/
 ---
 
 <div class="alert alert-info" markdown="block">
@@ -63,34 +61,12 @@ Fiscal Data Package specifies the *form* for fiscal data and offers a standardiz
 * Mapping the raw "physical" model, as represented by columns in the data files, to a standardized "logical" model based around basic fiscal concepts: amounts spent, suppliers, administrative and functional classifications etc
 * Progressive enhancement of data via a range of *recommended*, but not *required* metadata, in order to establish a clear path for data providers to enhance data quality, and to address new use cases going forward.
 
-Fiscal Data Package builds on the [Data Packages specifications][dp]. It defines a "profile" that adds some additional constraints.  It also extends the [Tabular Data Package][tdp] profile (`tabular`) which itself extends the `base` Data Package format.  Thus, any Fiscal Data Package is also a [Tabular Data Package][tdp], and is also a [Data Package][dp].
 
-# Form and Structure
+# Background
 
-A Fiscal Data Package contains revenue and/or expenditure data for one or more entities, over one or more financial periods. It has a simple structure:
+This proposal assumes some familiarity with fiscal data - e.g. budgets, spending etc - as this is the data we are structuring and describing.
 
-* Data files: one or more CSV files, which `SHOULD` be placed in a `data/` subdirectory.
-* Descriptor: there `MUST` be a single `datapackage.json` file, which describes the structure of the data files and provides additional metadata.
-
-The data files and descriptor are generally bundled together. For example:
-
-File  | Comment 
-------|-------
-`datapackage.json`            | Descriptor file
-`README.md`                   | Optional, extra files are ignored.
-`data/my-financial-data.csv`  | Actual data, referred to by descriptor.
-`data/my-list-of-entities-receiving-money.csv`              | Data that augment the spend data, linked by foreign key.
-`archive/my-original-data.xls` | Directory for original sources and "archival" material (optional)
-`scripts/scrape-and-clean-the-data.py `| Scripts used in preparing the data package (optional)
-
-## Data files
-
-Data files in a Fiscal Data Package `MUST`:
-
-* Be in CSV format.
-* Meet the requirements of [Tabular Data Package][tdp]: a header row, no blank rows, etc.
-
-Each row of each file describes some kind of movement of money, and may contain several amounts in different columns. With those basic constraints, several ways of arranging data are supported by this specification. We will focus on the following simple model:
+Often, this data takes the form of rows in a spreadsheet or database with each row describing some kind of expenditure or receipt of money. The data can get considerably more complex but keep this simple model in mind for what follows.
 
 ```
 +--------+------+------------+------------+
@@ -102,17 +78,69 @@ Each row of each file describes some kind of movement of money, and may contain 
 +-----
 ```
 
-*Note: you can store other files in your data package - for example, you may want to archive the original xls or data files you used. However, we do not consider these data for the purposes of this specification.*
+This proposal also builds on and reuses the [Data Package][dp] specifications. These are a family of simple, lightweight formats for publishing data. If you are unfamiliar with these, more information can be found in the Appendix.
 
-## Descriptor – `datapackage.json`
+# Form and Structure
 
-The `datapackage.json` describes:
+A Fiscal Data Package has a simple structure:
+
+* Data: the data `MUST` be stored in CSV files.
+* Descriptor: there must a descriptor in the form of a single `datapackage.json` file. This file describes both the data and the "package" as a whole (e.g. who created it, its license etc).
+
+Fiscal Data Package builds on the [Data Packages specifications][dp] by defining a "profile" that places some additional constraints on the metadata relevant to describing fiscal data.  A Fiscal Data Package also extends the [Tabular Data Package][tdp] profile (`tabular`) which itself extends the `base` Data Package format.  In this sense, a Fiscal Data Package is a [Tabular Data Package][tdp] which is, in turn, a [Data Package][dp]. We will spell out key implications of this as we proceed.
+
+## File structures
+
+Here are some examples of what a Fiscal Data Package looks like on disk. Usually, the `datapackage.json` and data files are bundled together, and collectively referred to as "the data package".
+
+A simple example of a Fiscal Data Package:
+
+File  | Comment 
+------|-------
+`datapackage.json`           | Descriptor file
+`data/my-financial-data.csv` | Data files, must be .csv. In `data/` by convention, but not required to be.
+
+A more complex example, with additional files:
+
+File  | Comment 
+------|-------
+`datapackage.json`            | Descriptor file
+`README.md`                   | Optional, extra files are ignored.
+`data/my-financial-data.csv`  | Actual data, referred to by descriptor.
+`archive/my-original-data.xls` | Directory for original sources and "archival" material (optional)
+`scripts/scrape-and-clean-the-data.py `| Scripts used in preparing the data package (optional)
+
+And, an example of a data package with normalized data could be:
+
+File  | Comment 
+------|-------
+`datapackage.json` | Defines foreign key references between the primary file and secondary data files.
+`data/my-financial-data.csv`                                | Actually contains spend data. 
+`data/my-list-of-entities-receiving-money.csv`              | Data that augmented the spend data, linked by foreign key.
+`data/my-list-of-projects-the-money-is-associated-with.csv` | additional augmenting data
+
+## Data files
+
+The data in your Data Package `MUST`:
+
+* Be in CSV format.
+* Have well-structured CSVs- no blank rows, columns etc. [Tabular Data Package][tdp] spells this out in detail.
+
+*Note: you can store other data files in your data package - for example, you may want to archive the original xls or data files you used. However, we do not consider these data for the purposes of this specification.*
+
+## The Descriptor - `datapackage.json`
+
+A Fiscal Data Package `MUST` contain a `datapackage.json` - it is the central file in an Fiscal Data Package.
+
+The `datapackage.json` contains information in three key areas:
 
 * Package Metadata - title, author etc
-* Resources - the name and type of each column of each data file
-* Model - links each column to semantic meanings defined within the Fiscal Data Package logical data model
+* Resources - describing data files
+* Model and Mapping - describe a "logical model" and map the source data to that model
 
-## Package Metadata
+We will detail each in turn.
+
+## General Package Metadata
 
 This follows [Data Package][dp] (DP). In particular, the following properties `MUST` be on the top-level descriptor:
 
@@ -177,7 +205,7 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 
   "resources": [ /* ... */ ],
 
-  // REQUIRED, see "Model"
+  // REQUIRED, see "Model and Mapping"
   "model": {
 
     // REQUIRED: the measures object in logical model
@@ -195,17 +223,13 @@ This follows [Data Package][dp] (DP). In particular, the following properties `M
 ```
 
 
-## Resources
-
-All the requirements of [Tabular Data Package][tdp] apply.
-
-## Model
+## Model and Mapping
 
 The `model` hash is central to Fiscal Data Package and serves two purposes. It defines a "logical model" for the data and it maps columns in the CSV files ("physical model") to columns in the "logical model". 
 
 <img src="https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/pub?w=710&h=357" alt="" />
 
-*Diagram illustrating how the model connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
+*Diagram illustrating how the mapping connects the "physical" model (raw CSV files) to the "logical", conceptual, model. The conceptual model is heavily oriented around OLAP.  ([Source on Gdocs](https://docs.google.com/drawings/d/1krRsqOdV_r9VEjzDSliLgmTGcbLhnvd6IH-YDE8BEAY/edit))*
 {: style="text-align: center"}
 
 A logical model is a description of the underlying structure and concepts in the data. Concepts like dates, amounts, classifications, administrative hierarchies and geographic locations. Our approach to describing the logical model is based heavily on the terminology and approach of [OLAP (Online Analytical Processing)][olap].[^why-olap] In particular, we heavily use the OLAP concepts of:
@@ -261,8 +285,9 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 ```javascript
 "dimensions": {
   "project-class": {
-    // REQUIRED: An attributes object listing the one or more columns that make up
-    // the dimension. Each attribute MUST have `source` information - 
+    // REQUIRED: An attributes object that defines the attributes of the 
+    // dimension. Think of each attribute as a column on that dimension in 
+    // a database. An attribute MUST have `source` information - 
     // i.e. where the data comes from for that property 
     "attributes": {
       "project": {
@@ -286,8 +311,6 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
         // pointing to "project_code"
         "labelfor": "..."
       },
-
-      // Other attributes may be required, depending on the dimensionType. See the "Dimension types" section.
       "code": {
         "source": "class_code"
       }
@@ -317,7 +340,20 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
     //   attached to a transaction
     // * "location": the geographical location where money is spent
     // * "other": not one of the above
-    "dimensionType": "classification"
+    "dimensionType": "classification",
+
+    // RECOMMENDED (if using dimensionType="classification"). The 
+    // basis on which transactions are being classified, one of 
+    // these values:
+    //
+    // * "administrative": an organisational structure, such as 
+    //   Portfolio > Department > Branch
+    // * "functional": the purpose of the spending, such as 
+    //   Health > Hospital services > Nursing
+    // * "economic": focused on the nature of the accounting, such 
+    //   as Compensation > Wages and salaries > Wages and salaries 
+    //   in cash
+    "classificationType": "administrative"
 
     // OPTIONAL: Other properties allowed.
 
@@ -326,123 +362,7 @@ Each dimension is represented by a key in the `dimensions` object. The object ha
 }
 ```
 
-
-# Dimension types
-
-This section provides guidance, and certain requirements, on the naming of dimension attributes. For example, if you have a column representing the name of an organisation, it should be modelled as a `title` attribute on an dimension with `dimensionType` of `entity`.
-
-## Classification
-
-```javascript
-"spending-classification": {
-  "dimensionType": "classification",
-
-  // RECOMMENDED: The basis on which transactions are being classified, one of these values:
-  //
-  // * "administrative": an organisational structure, such as 
-  //   Portfolio > Department > Branch
-  // * "functional": the purpose of the spending, such as 
-  //   Health > Hospital services > Nursing
-  // * "economic": focused on the nature of the accounting, such 
-  //   as Compensation > Wages and salaries > Wages and salaries in cash
-  "classificationType": "administrative",
-
-  "attributes": {
-    // REQUIRED: a "code" attribute, referencing a column whose values are unique identifiers from the relevant codesheet (see "Known classification schemes").
-    "code": {
-      "source": "PROJECT_CODE",
-      // To define a hierarchical classification, the "parent" attribute refers to the attribute "above" it in the hierarchy.
-      // Set it on the `code` field, not a title field. See the ["Labels and Hierarchies" example][/examples/labels-and-hierarchies/].
-      "parent": "PROGRAMME_NAME"
-      // Optional: If classifications are subject to change, a `version` attribute `SHOULD` be used. 
-      // "version": "1.3"
-    },
-    "program": {
-      "source": "PROGRAMME_NAME"
-    },
-    "project": {
-      "source": "PROJECT_NAME"
-    }
-  }
-  // (primary key and other properties are omitted in this section)
-}
-```
-
-### Known classification schemes
-
-Dimensions of type `classification` with these names are significant:
-
-* `"cofog"`: the United Nations [Classification of the Functions of Government][cofog]
-* `"gfsm"`: the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For expenditure classification, use Table 6.1. For revenue, use Table 5.1.
-
-[gfsm2014]: http://www.imf.org/external/np/sta/gfsm/
-
-### Chart of Accounts
-
-To describe an "economic" classification for an item using the publisher's chart of accounts, use these attributes:
-
-* `code`:  The internal code identifier for the economic classification.
-* `title`:  Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts.
-
-## Activity
-
-A `dimensionType` of `activity` defines the program or project associated with expenditure or revenue. When these terms are not used interchangably, the distinction is generally that "programs" (a sets of goal-oriented activities) contain "projects" (specific sets of tasks with a defined budget and schedule).
-
-```javascript
-"program-or-project-name": {
-  "dimensionType": "activity",
-  "attributes": {
-    // Attributes SHOULD be named as follows, if available:    
-    "id": { ... },    // The internal code identifier for the government program or project
-    "title": { ... } // Name of the government program or project underwriting the budget item.
-  }
-}
-```
-
-## Entity
-
-A `dimensionType` of `entity` is describes a distinct organization, government department, or individual that is spending or receiving a given amount.
-
-```javascript
-"program-or-project-name": {
-  "dimensionType": "entity",
-
-  "attributes": {
-    // Attributes SHOULD be named as follows, if available:
-    "title": { ... },        // The title or name of the government entity legally responsible for spending the budgeted amount.
-    "id": { ... },           // The internal code for the administrative entity.
-    "location": { ... }      // Reference to a dimension of type `location` providing the geographical region where the administrative entity is located.
-  }
-}
-```
-
-### Accounts as entities
-
-Although an "account" through which money is spent or received is not strictly an "entity", it can be treated as one for analysis as follows:
-
-* `title`: The fund into which the revenue item will be deposited. (This refers to a named revenue stream.)
-* `id`: The internal code identifier for the fund.
-
-## Location
-
-A `dimensionType` of `location` defines the geographic region associated with an item of expenditure or revenue, enabling spatial analysis.
-
-```javascript
-"projectlocation": {
-  "dimensionType": "location",
-  "attributes": {
-    // Attributes SHOULD be named as follows, if available:
-    "code": { ... },    // A code uniquely identifying the geographic region.
-    "title": { ... },   // The title of the geographic region.
-    "codeList": { ... } // The name of the standard or list which the codes belong to. No standard way to refer to them is given.
-  }
-}
-```
-
-(An alternative option is to add `geoCode`, `geoTitle` and/or `geoCodeList` attributes directly to another dimension.)
-
-----
-# Examples
+## Examples
 
 {% assign sorted_pages = site.pages | sort:"order" %}
 {% for page in sorted_pages %}
@@ -451,10 +371,154 @@ A `dimensionType` of `location` defines the geographic region associated with an
   {% endif %}
 {% endfor %}
 
+# Content
+
+This section provides a standard framework for the "content" of Fiscal Data Packages. The previous section has been about the form both for the data (e.g. that it is CSV) and for the metadata (the information in the datapackage.json). This section is about the "content", that is the kind of actual data a Package contains. In particular, it sets out guidelines for what information, exactly, is present. For example, that government budget information is classified according to a standard classification codesheet like the [UN's COFOG][cofog].
+
+[cofog]: http://data.okfn.org/data/core/cofog/
+
+Content requirements will necessarily vary across the different types of fiscal data. For example, the data describing high level budgets may be different from that describing day-to-day expenditures, and expenditure information may be different from revenue. Thus, our framework will distinguish different types of fiscal data.
+
+We also emphasize that what we provide is a framework rather than a strict standard. That is, we provide recommendations on what information should be provided rather than strict requirements.
+
+Finally, our recommendations place requirements on the "logical" model not the physical model. Of course, the logical model data is sourced from the physical model so requirements on the logical model ultimately place requirements on the physical model. However, by defining our requirements on the logical model, we keep the flexibility in naming and structure of the raw, source data - for example, whilst a classification dimension with COFOG data should be named `cofog` and have an attribute called `code` your source CSV could have that COFOG data in a column called "COFOG-Code" or "Classification" or any other name.
+
+
+## Required data (all categories)
+
+All datasets MUST have at least one measure. Essentially this is requiring each dataset have at least one field / column which corresponds to an "amount" of money.
+
+## Special Dimensions
+
+### Classifications
+
+It is common for fiscal data to be classified in various ways. A classification is a labelling of a given item with a reference to standardized codesheet.
+
+Classifications will be represented in the model as a dimension. Each classification dimension `MUST` have a `code` attribute whose value will correspond to the classification code in the official codesheet. Sometimes classifications can change and we recommend utilizing a `version` attribute if there is a need to indicate the version of a classification.
+
+Whenever we have a code attribute in a classification dimension, the licit values for that attribute consist of the numerical codes from the appropriate codesheet, with hierarchical levels separated by periods. `1.1.4.1.3` is a licit value for a dimension named `gfsm`, for example, corresponding to the code for "Turnover and other general taxes on goods and services".
+
+Classifications are of different types. The type of the classification `MAY` be indicated using the `classificationType` attribute on the dimension. Values are:
+
+* `functional`
+* `administrative`
+* `economic`
+
+#### Hierarchical Classifications
+
+It is common for classifications to be hierarchical and have different levels. For example, a functional classification might include a top-level of "Healthcare" and a sub-level under "Healthcare" of "Hospitals".
+
+This hierarchical structure of the classification can be recorded using the keyword `parent`.  The `parent` keyword is used within an attribute definition to reference another attribute in the same dimension that is the parent of the first attribute. Here is an example:
+
+```
+"your-classification": {
+  "attributes": {
+    "code": {
+      // this will be the precise code
+      "source": "..."
+    },
+    "level1": {
+      "source": "..."
+    },
+    "level2": "{
+      "source": "...",
+      "parent": "level1"
+    }
+  }
+}
+```
+
+Sometimes matters may be more complex. For example, there may be several attributes that describe a level e.g. "Hospital" may also have a code such as "01". In this case you only use the `parent` key on the attribute that acts as the unique code or identifier for a given level. For an example, as well as further information on handling hierarchical classifications see the ["Labels and Hierarchies" example][ex-hierarchies].
+
+[ex-hierarchies]: /examples/labels-and-hierarchies/
+
+#### COFOG (Classifications of Functions of Government)
+
+This classification uses the United Nations [Classification of the Functions of Government][cofog]. Here is the simplest example as a dimension:
+
+```
+"cofog": {
+  "attributes": {
+    "code": {
+      "source": "..."
+    }
+  }
+}
+```
+
+#### IMF GFSM
+
+GFSM is the [IMF Government Finance Statistics Manual (2014)][gfsm2014]. For expenditure classification, use Table 6.1. For revenue, use Table 5.1.
+
+[gfsm2014]: http://www.imf.org/external/np/sta/gfsm/
+
+#### Chart of Accounts
+
+It is common for both revenue and expenditure that there is some general "economic" classification for the item using the publisher's chart of accounts. Relevant attributes for this dimension:
+
+* `code`:  The internal code identifier for the economic classification.
+* `title`:  Human-readable name of the economic classification of the budget item (i.e. the type of expenditure, e.g. purchases of goods, personnel expenses, etc.), drawn from the publisher's chart of accounts.
+
+### Programs and Projects
+
+Expenditures are frequently associated with a program or project. Often these terms are used interchangeably. There is a rough distinction:
+
+* Program: A program is a set of goal-oriented activities, such as projects, that has been reified by the government and made the responsibility of some ministry. A program can, e.g. be a government commitment to reducing unemployment.
+* Project: A project is an indivisible activity with a dedicated budget and fixed schedule. A project can be a part of a bigger program and can include multiple smaller tasks. A project in an unemployment reduction program can e.g. be increased education opportunities for adults.
+
+In terms of representation as a dimension, we use a `dimensionType` of "activity".  The structure is as follows:
+
+```
+"program-or-project-name": {
+  "dimensionType": "activity",
+  "attributes": {
+    "id": {
+      # The internal code identifier for the government program or project
+
+      "source": ...
+    },
+    "title": {
+      # Name of the government program or project underwriting the budget item.
+
+      "source": ...
+    }
+  }
+}
+```
+
+### Entities
+
+An entity is a distinct organization, government department, or individual that is spending or receiving a given amount.  Entities will be represented by dimensions.
+
+#### Administrators
+
+* `title`: The title or name of the government entity legally responsible for spending the budgeted amount.
+* `id`: The internal code for the administrative entity.
+* `location`: Reference to a `location` dimension listing geographical region where administrative entity is located.
+* `locationCode`: code for geographical region where administrative entity is located.
+
+#### Accounts
+
+Whilst strictly not an entity, the concept of an "account" from which money is spent or into which money is deposited is common and closely resembles an "entity" in terms of functionality within fiscal analysis (e.g. tracing the movement of money between different pots). Recommended attributes on an account dimension are:
+
+* `title`: The fund into which the revenue item will be deposited. (This refers to a named revenue stream.)
+* `id`: The internal code identifier for the fund.
+
+### Location
+
+There is a frequent desire to label items with location, usually by attaching geographic codes for a region or area. This allows the spending or revenue to  be analysed by region or area. This geographic information can be introduced directly by classifying the item with a code, or, more frequently indirectly by associating a geographic code to e.g. an entity. For example, by labelling a supplier with their location one can then associate a spend with that supplier as spending in that location.
+
+We RECOMMEND using a `location` dimension though attributes may also be applied directly onto another object (e.g. an entity). Here are attributes that `MAY` be applied either directly to an item or to an entity or other object associated to an item.
+
+* `code`: The internal or local geographicCode id based for the geographical region
+* `title`: Name or title of the geographical region targeted by the budget item
+* `codeList`: the geo codelist from which the geocode is drawn 
+
+Note when applying these as attributes directly on an object we suggest prefixing each value with `geo` so you would have `geoCode` rather than `code` etc.
 
 ----
 
-## Which dimension type?
+## Suggested Dimensions for Different Types of Spending Data
 
 This section lists the suggested sets of dimensions that can usefully describe different types of spending data.  
 
@@ -504,25 +568,13 @@ Transactional expenditure data (direction `expenditure`, granularity `transactio
 
 # Acknowledgements
 
-Thanks to the following people for being involved in discussion around the specification, or piloting with the specification:
-
-- Vitor Baptista
-- Sarah Bird
-- Anders Pedersen
-- Samidh Chakrabarti
-- Pierre Chrzanowski
-- Andrew Clarke
-- Velichka Dimitrova
-- Friedrich Lindenberg
-- James McKinney
-- Paolo de Renzio
-- Martin Tisne
+Thanks to Vitor Baptista, Sarah Bird, Samidh Chakrabarti, Pierre Chrzanowski, Andrew Clarke, Velichka Dimitrova, Friedrich Lindenberg, James McKinney, Rufus Pollock, Paolo de Renzio, Martin Tisne and Paul Walsh.
 
 ----
 
 # Appendix
 
-## Budget Data
+## Budget data
 
 A budget is over a year-long process of planning, execution, and oversight of a government's expenditures and revenues. At multiple stages in the process, *quantitative data* is generated, data which specifies the sums of money spent or collected by the government. This data can represent either plans/projections or actual transactions.
 
@@ -532,13 +584,13 @@ By recognizing the following distinctions between data types, Fiscal Data Packag
 
 * Data can represent either *expenditures* or *revenues*.
 * Data can be either *aggregated* or *transactional*. An item of aggregated data represents a whole category of spending (e.g. spending on primary education). An item of transactional data represents a single transaction at some specific point in time.
-* Data can come from any phase in the budget cycle (proposal, approval, adjustment, execution). This includes three different types of planned / projected budget items (proposal, approval, adjustment) and one representing actual completed transactions (execution).
+* Data can come from any stage in the budget cycle (proposal, approval, adjustment, execution). This includes three different types of planned / projected budget items (proposal, approval, adjustment) and one representing actual completed transactions (execution).
 
-### Budget Hierarchy and Categorizations
+### Budget hierarchy and categorizations
 
 Budget data has various degrees of hierarchy, depending on the perspective. From a functional perspective it can use a functional classification. The functional classification can be set up as a few levels (a hierarchy). An economical classification is not compatible with the functional hierarchy and has a different hierarchy. Another possible hierarchy would be a program/project hierarchy where many projects are a part of a program.
 
-All of these hierarchies give a picture of how the budget line fits into the bigger picture, but none of them can give the whole picture. Budget data usually only includes general classification categories or the top few hierarchies. For example, a project can usually be broken down into tasks, but budget data usually would not go into so much detail. It might not even be divided into projects.
+All of these hierarchies give a picture of how the budget line fits into the bigger picture, but none of them can give the whole picture. Budget data usually only includes general classification categories or the top few hierarchies. For example a project can usually be broken down into tasks, but budget data usually would not go into so much detail. It might not even be divided into projects.
 
 Categorizing and organizing the data is more about describing it from the bigger perspective than breaking it down into detailed components and the Fiscal Data Package specification tries to take that into account by including top level hierarchies and generalised classification systems but there is still a possibility to go into details by supplying a good description of every row in the budget data.
 
