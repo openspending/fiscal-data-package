@@ -18,7 +18,7 @@ or suggestions please file them in the [issue tracker][issues]. If you have
 explicit changes please fork the [git repo][repo] and submit a pull request.
 </div>
 
-[issues]: https://github.com/openspending/budget-data-package/issues
+[issues]: https://github.com/frictionlessdata/specs/issues
 [repo]: https://github.com/openspending/budget-data-package/issues
 
 # Table of Contents
